@@ -64,6 +64,9 @@ export function HomeSection() {
           >
             Capturing the important moments on film.
           </motion.span>
+          <span className="sr-only">
+            Juostinė fotografija, juostine fotografija, analoginė fotografija, vestuvių fotografija, Vilnius
+          </span>
         </div>
 
         <motion.div
@@ -75,7 +78,7 @@ export function HomeSection() {
           <div className="flex flex-col items-center gap-2 text-stone-400">
             <span className="text-sm">Based in Vilnius, Lithuania</span>
             <img
-              src={new URL('../../images/vilnius.png', import.meta.url).href}
+              src={new URL('../../images/logos/vilnius.png', import.meta.url).href}
               alt="Vilnius"
               className="h-5 w-5 object-contain"
             />

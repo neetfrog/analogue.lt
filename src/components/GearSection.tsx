@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
-import { X, Check, Link2 } from 'lucide-react'
+import { X, Check, Link2, Camera, Aperture, Grid, Package } from 'lucide-react'
 import { gearItems, type GearItem } from '../data/content'
 
 type MotionVariants = Variants
@@ -11,7 +11,12 @@ type GearSectionProps = {
   initialGearId?: string | null
 }
 
-const categories = ['All', 'Cameras', 'Lenses', 'Accessories']
+const categories = [
+  { value: 'All', label: 'All', icon: Grid },
+  { value: 'cameras', label: 'Cameras', icon: Camera },
+  { value: 'lenses', label: 'Lenses', icon: Aperture },
+  { value: 'accessories', label: 'Accessories', icon: Package }
+]
 
 const slugify = (value: string) =>
   value
@@ -137,20 +142,24 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
           </motion.div>
 
           <motion.div variants={fadeInUp} className="flex flex-wrap items-center justify-center gap-3 mb-10">
-            {categories.map((category) => (
-              <button
-                key={category}
-                type="button"
-                onClick={() => setSelectedCategory(category)}
-                className={`rounded-full border px-4 py-2 text-sm transition ${
-                  selectedCategory === category
-                    ? 'bg-stone-900 text-white border-stone-900'
-                    : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-100'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
+            {categories.map((category) => {
+              const Icon = category.icon
+              return (
+                <button
+                  key={category.value}
+                  type="button"
+                  onClick={() => setSelectedCategory(category.value)}
+                  className={`rounded-full border px-4 py-2 text-sm transition flex items-center gap-2 ${
+                    selectedCategory === category.value
+                      ? 'bg-stone-900 text-white border-stone-900'
+                      : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-100'
+                  }`}
+                >
+                  <Icon className="h-4 w-4" aria-hidden="true" />
+                  {category.label}
+                </button>
+              )
+            })}
           </motion.div>
 
           <motion.div variants={fadeInUp} className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
