@@ -63,7 +63,7 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
               transition={{ duration: 1.8, delay: 0.15 }}
               className="text-stone-500 text-lg font-light mt-4"
             >
-              A short edit of recent wedding work.
+              A short edit of recent wedding work
             </motion.p>
           </motion.div>
 
