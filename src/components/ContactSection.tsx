@@ -20,6 +20,7 @@ type ContactSectionProps = {
   setBookingForm: Dispatch<SetStateAction<BookingForm>>
   handleBookingSubmit: (e: FormEvent) => void
   formSubmitted: boolean
+  instagramActive: boolean
 }
 
 export function ContactSection({
@@ -28,6 +29,7 @@ export function ContactSection({
   setBookingForm,
   handleBookingSubmit,
   formSubmitted,
+  instagramActive,
 }: ContactSectionProps) {
   return (
     <section className="w-full min-h-full flex flex-col items-center px-6 pt-24 py-12 relative">
@@ -129,7 +131,7 @@ export function ContactSection({
         </motion.form>
 
         <motion.div variants={fadeInUp} className="mx-auto w-full max-w-4xl">
-          <InstagramEmbed account={instagramAccount} />
+          <InstagramEmbed account={instagramAccount} active={instagramActive} />
         </motion.div>
 
         <motion.div variants={fadeInUp} className="flex flex-col items-center gap-6">

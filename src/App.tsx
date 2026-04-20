@@ -1,16 +1,18 @@
 ﻿import { useState, useEffect, useRef, type FormEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { sections } from './data/content'
+import { sections, instagramAccount } from './data/content'
 import { HomeSection } from './components/HomeSection'
 import { PortfolioSection } from './components/PortfolioSection'
 import { GearSection } from './components/GearSection'
 import { ContactSection, type BookingForm } from './components/ContactSection'
+import { InstagramEmbed } from './components/InstagramEmbed'
 
 function App() {
   const [activeSection, setActiveSection] = useState(0)
   const [navVisible, setNavVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [showBlackOverlay, setShowBlackOverlay] = useState(true)
+  const [instagramActive, setInstagramActive] = useState(false)
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
   const [bookingForm, setBookingForm] = useState<BookingForm>({
     name: '',
@@ -35,6 +37,12 @@ function App() {
       document.body.appendChild(script)
     }
   }, [])
+
+  useEffect(() => {
+    if (activeSection === 3) {
+      setInstagramActive(true)
+    }
+  }, [activeSection])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -136,21 +144,26 @@ function App() {
     <div className="w-full min-h-screen bg-stone-50 text-stone-900 antialiased">
       <nav className={`fixed top-0 left-0 w-full z-50 px-6 py-4 flex flex-wrap items-center justify-center gap-6 mix-blend-difference text-white transition-transform duration-300 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="flex flex-wrap items-center justify-center gap-6 text-base md:text-lg font-medium tracking-wide">
-          {sections.map((section, i) => (
-            <button
-              key={section.id}
-              onClick={() => scrollToSection(i)}
-              className={`relative transition-all duration-300 ${activeSection === i ? 'font-semibold' : 'opacity-70 hover:opacity-100'}`}
-            >
-              {section.label}
-              {activeSection === i && (
-                <motion.div
-                  layoutId="underline"
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-white"
-                />
-              )}
-            </button>
-          ))}
+          {sections.map((section, i) => {
+            const isActive = activeSection === i
+            const textAccent = i === 0 ? 'text-amber-300' : 'text-sky-300'
+            const underlineAccent = i === 0 ? 'bg-amber-300' : 'bg-sky-300'
+
+            return (
+              <button
+                key={section.id}
+                onClick={() => scrollToSection(i)}
+                className={`relative transition-all duration-300 ${isActive ? `font-semibold ${textAccent}` : 'opacity-70 hover:opacity-100'}`}
+              >
+                {section.label}
+                {isActive && (
+                  <motion.div
+                    className={`absolute -bottom-1 left-0 right-0 h-0.5 ${underlineAccent}`}
+                  />
+                )}
+              </button>
+            )
+          })}
         </div>
       </nav>
 
@@ -166,7 +179,10 @@ function App() {
         )}
       </AnimatePresence>
 
-      <div className="w-full">
+      <div className="w-full relative">
+        <div className="pointer-events-none absolute inset-0 -z-10 opacity-0">
+          <InstagramEmbed account={instagramAccount} active={false} preload />
+        </div>
         <AnimatePresence mode="wait">
           <motion.div
             key={activeSection}
@@ -186,6 +202,7 @@ function App() {
                 setBookingForm={setBookingForm}
                 handleBookingSubmit={handleBookingSubmit}
                 formSubmitted={formSubmitted}
+                instagramActive={instagramActive}
               />
             )}
           </motion.div>

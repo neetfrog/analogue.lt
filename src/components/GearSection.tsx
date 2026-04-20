@@ -122,7 +122,7 @@ export function GearSection({ fadeInUp, staggerContainer }: GearSectionProps) {
       <AnimatePresence>
         {selectedGear && (
           <motion.div
-            className="fixed inset-0 z-50 overflow-y-auto bg-black/60 p-3 sm:p-4"
+            className="fixed inset-0 z-50 overflow-x-hidden overflow-y-auto bg-black/60 p-3 sm:p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -130,7 +130,7 @@ export function GearSection({ fadeInUp, staggerContainer }: GearSectionProps) {
           >
             <div className="flex min-h-full items-center justify-center py-6">
               <motion.div
-                className="w-full max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl max-h-[calc(100vh-3rem)]"
+                className="w-full max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl max-h-[calc(100vh-3rem)] min-w-0"
                 initial={{ y: 20, opacity: 0, scale: 0.98 }}
                 animate={{ y: 0, opacity: 1, scale: 1 }}
                 exit={{ y: 20, opacity: 0, scale: 0.98 }}
@@ -167,8 +167,8 @@ export function GearSection({ fadeInUp, staggerContainer }: GearSectionProps) {
                     </button>
                   </div>
                 </div>
-                <div className="grid gap-6 px-6 py-6 lg:grid-cols-[1.2fr_0.8fr] max-h-[calc(100vh-12rem)] overflow-auto">
-                  <div className="space-y-4">
+                <div className="grid gap-6 px-6 py-6 lg:grid-cols-[1.2fr_0.8fr] max-h-[calc(100vh-12rem)] overflow-y-auto overflow-x-hidden min-w-0">
+                  <div className="space-y-4 min-w-0">
                     <div className="aspect-square overflow-hidden rounded-3xl bg-stone-100">
                       <img src={activeImage || selectedGear.image} alt={selectedGear.name} className="w-full h-full object-cover" />
                     </div>
@@ -186,7 +186,7 @@ export function GearSection({ fadeInUp, staggerContainer }: GearSectionProps) {
                     </div>
                   </div>
 
-                  <div className="space-y-5">
+                  <div className="space-y-5 min-w-0">
                     <div>
                       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-600 mb-3">About this item</p>
                       <p className="text-stone-600 leading-relaxed">{selectedGear.details}</p>
