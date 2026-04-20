@@ -59,41 +59,65 @@ const placeholderImage =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900'%3E%3Crect width='1200' height='900' fill='%23e7e5e4'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23938b86' font-family='Inter, sans-serif' font-size='56'%3EPlaceholder%20Image%3C/text%3E%3C/svg%3E"
 
 const gearItems = [
-  { 
-    id: 1, 
-    name: 'Leica M6', 
-    price: '$2,800', 
+  {
+    id: 1,
+    name: 'Leica M6',
+    price: '$2,800',
     condition: 'Excellent',
     description: 'Classic rangefinder, fully working condition',
     sold: false,
-    image: 'https://loremflickr.com/600/600/camera?lock=1'
+    image: 'https://loremflickr.com/600/600/camera?lock=1',
+    details: 'This Leica M6 is a beautifully maintained 35mm film rangefinder with a crisp optical viewfinder and dependable mechanical shutter.',
+    specs: ['35mm film', 'Leica M-mount', 'Manual focus', 'Battery powered light meter'],
+    moreImages: [
+      'https://loremflickr.com/600/600/camera?lock=5',
+      'https://loremflickr.com/600/600/camera?lock=6'
+    ]
   },
-  { 
-    id: 2, 
-    name: 'Canon AE-1', 
-    price: '$350', 
+  {
+    id: 2,
+    name: 'Canon AE-1',
+    price: '$350',
     condition: 'Mint',
     description: 'Perfect for beginners, includes 50mm f/1.8',
     sold: true,
-    image: 'https://loremflickr.com/600/600/camera?lock=2'
+    image: 'https://loremflickr.com/600/600/camera?lock=2',
+    details: 'A legendary beginner SLR with classic Canon styling and a smooth shutter. Great for film students and first-time shooters.',
+    specs: ['FD mount', '1.8 50mm lens included', 'Shutter speeds 1-1/1000s', 'Built-in meter'],
+    moreImages: [
+      'https://loremflickr.com/600/600/camera?lock=7',
+      'https://loremflickr.com/600/600/camera?lock=8'
+    ]
   },
-  { 
-    id: 3, 
-    name: 'Contax T2', 
-    price: '$1,200', 
+  {
+    id: 3,
+    name: 'Contax T2',
+    price: '$1,200',
     condition: 'Good',
     description: 'Legendary point and shoot, minor scratches',
     sold: false,
-    image: 'https://loremflickr.com/600/600/camera?lock=3'
+    image: 'https://loremflickr.com/600/600/camera?lock=3',
+    details: 'A cult favorite compact with Zeiss optics, titanium body, and reliable autofocus. Ideal for street and travel photography.',
+    specs: ['Carl Zeiss 38mm f/2.8', 'Autofocus', 'Point-and-shoot', 'Titanium body'],
+    moreImages: [
+      'https://loremflickr.com/600/600/camera?lock=9',
+      'https://loremflickr.com/600/600/camera?lock=10'
+    ]
   },
-  { 
-    id: 4, 
-    name: 'Nikon F3', 
-    price: '$450', 
+  {
+    id: 4,
+    name: 'Nikon F3',
+    price: '$450',
     condition: 'Excellent',
     description: 'Professional SLR, body only',
     sold: false,
-    image: 'https://loremflickr.com/600/600/camera?lock=4'
+    image: 'https://loremflickr.com/600/600/camera?lock=4',
+    details: 'A rugged pro-grade Nikon with full manual control. This body is a classic workhorse for film photographers.',
+    specs: ['Nikon F mount', 'Mechanical shutter', 'Full manual', 'Built to last'],
+    moreImages: [
+      'https://loremflickr.com/600/600/camera?lock=11',
+      'https://loremflickr.com/600/600/camera?lock=12'
+    ]
   },
 ]
 
@@ -104,6 +128,8 @@ const instagramAccount = 'nefas.jpg'
 function App() {
   const [activeSection, setActiveSection] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [navVisible, setNavVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
   const [bookingForm, setBookingForm] = useState({
     name: '',
     email: '',
@@ -124,11 +150,23 @@ function App() {
       }
     }
 
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      if (currentScrollY > lastScrollY + 10 && currentScrollY > 80) {
+        setNavVisible(false)
+      } else if (currentScrollY < lastScrollY - 10 || currentScrollY <= 80) {
+        setNavVisible(true)
+      }
+      setLastScrollY(currentScrollY)
+    }
+
     window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('scroll', handleScroll)
     }
-  }, [])
+  }, [lastScrollY])
 
   const scrollToSection = (index: number) => {
     setActiveSection(index)
@@ -160,7 +198,7 @@ function App() {
   return (
     <div className="w-full min-h-screen overflow-auto bg-stone-50 text-stone-900 antialiased">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex items-center justify-center mix-blend-difference text-white">
+      <nav className={`fixed top-0 left-0 w-full z-50 px-6 py-4 flex items-center justify-center mix-blend-difference text-white transition-transform duration-300 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8 text-sm">
           {sections.map((section, i) => (
@@ -480,6 +518,8 @@ function PortfolioSection({ fadeInUp, staggerContainer }: any) {
 }
 
 function GearSection({ fadeInUp, staggerContainer }: any) {
+  const [selectedGear, setSelectedGear] = useState<typeof gearItems[number] | null>(null)
+
   return (
     <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 pt-24 relative overflow-y-auto">
       <div className="max-w-7xl mx-auto w-full">
@@ -533,20 +573,87 @@ function GearSection({ fadeInUp, staggerContainer }: any) {
                 <p className="text-xs text-stone-500 mb-3 uppercase tracking-wider">{item.condition}</p>
                 <p className="text-stone-600 text-sm leading-relaxed">{item.description}</p>
                 <button
-                  disabled={item.sold}
-                  className={`mt-4 w-full py-3 rounded-xl font-medium text-sm transition-all ${
-                    item.sold
-                      ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
-                      : 'bg-stone-900 text-white hover:bg-stone-800'
-                  }`}
+                  type="button"
+                  onClick={() => setSelectedGear(item)}
+                  className="mt-4 w-full py-3 rounded-xl font-medium text-sm bg-stone-900 text-white hover:bg-stone-800 transition-all"
                 >
-                  {item.sold ? 'Unavailable' : 'Inquire'}
+                  Details
                 </button>
               </motion.div>
             ))}
           </motion.div>
         </motion.div>
       </div>
+
+      <AnimatePresence>
+        {selectedGear && (
+          <motion.div
+            className="fixed inset-0 z-50 overflow-y-auto bg-black/50 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedGear(null)}
+          >
+            <div className="flex min-h-full items-start justify-center py-8">
+              <motion.div
+                className="w-full max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl max-h-[calc(100vh-4rem)]"
+                initial={{ y: 20, opacity: 0, scale: 0.98 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                exit={{ y: 20, opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.2 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+              <div className="flex items-center justify-between gap-4 border-b border-stone-200 px-6 py-4">
+                <div>
+                  <h3 className="text-2xl font-semibold">{selectedGear.name}</h3>
+                  <p className="text-sm text-stone-500">{selectedGear.price} · {selectedGear.condition}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedGear(null)}
+                  className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-700 hover:bg-stone-200 transition"
+                >
+                  Close
+                </button>
+              </div>
+              <div className="grid gap-6 px-6 py-6 lg:grid-cols-[1.2fr_0.8fr] max-h-[calc(100vh-12rem)] overflow-auto">
+                <div className="space-y-4">
+                  <div className="aspect-square overflow-hidden rounded-3xl bg-stone-100">
+                    <img src={selectedGear.image} alt={selectedGear.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    {selectedGear.moreImages.map((src, index) => (
+                      <div key={index} className="aspect-square overflow-hidden rounded-3xl bg-stone-100">
+                        <img src={src} alt={`${selectedGear.name} detail ${index + 1}`} className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-5">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-600 mb-3">About this item</p>
+                    <p className="text-stone-600 leading-relaxed">{selectedGear.details}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-stone-600 mb-3">Tech Specs</p>
+                    <ul className="space-y-2 text-sm text-stone-600">
+                      {selectedGear.specs.map((spec, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <span className="mt-1 h-1.5 w-1.5 rounded-full bg-stone-900" />
+                          {spec}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
