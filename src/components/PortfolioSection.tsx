@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import { Film, X } from 'lucide-react'
 import { weddingImages } from '../data/content'
@@ -12,6 +12,28 @@ type PortfolioSectionProps = {
 
 export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectionProps) {
   const [activeImage, setActiveImage] = useState<string | null>(null)
+  const [zoomed, setZoomed] = useState(false)
+  const lastTapRef = useRef<number>(0)
+
+  const handleImageOpen = (image: string) => {
+    setActiveImage(image)
+    setZoomed(false)
+  }
+
+  const handleImageDoubleClick = () => {
+    setZoomed((prev) => !prev)
+  }
+
+  const handleImageTouchEnd = (event: React.TouchEvent<HTMLImageElement>) => {
+    const now = Date.now()
+    if (now - lastTapRef.current < 300) {
+      event.preventDefault()
+      setZoomed((prev) => !prev)
+      lastTapRef.current = 0
+    } else {
+      lastTapRef.current = now
+    }
+  }
 
   return (
     <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 pt-24 relative">
@@ -36,7 +58,7 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
                 <motion.button
                   type="button"
                   key={item.id}
-                  onClick={() => setActiveImage(item.image)}
+                  onClick={() => handleImageOpen(item.image)}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
@@ -84,10 +106,17 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
               src={activeImage}
               alt="Enlarged portfolio"
               initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              animate={{ scale: zoomed ? 2 : 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              drag={zoomed}
+              dragMomentum={false}
+              dragElastic={0.1}
               className="max-h-[90vh] max-w-full rounded-3xl object-contain shadow-2xl"
+              style={{ transformOrigin: 'center center' }}
               onClick={(e) => e.stopPropagation()}
+              onDoubleClick={handleImageDoubleClick}
+              onTouchEnd={handleImageTouchEnd}
             />
           </motion.div>
         )}

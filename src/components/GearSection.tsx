@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
-import { X, Check, Clipboard } from 'lucide-react'
+import { X, Check, Link2 } from 'lucide-react'
 import { gearItems, type GearItem } from '../data/content'
 
 type MotionVariants = Variants
@@ -8,25 +8,55 @@ type MotionVariants = Variants
 type GearSectionProps = {
   fadeInUp: MotionVariants
   staggerContainer: MotionVariants
+  initialGearId?: string | null
 }
 
 const categories = ['All', 'Cameras', 'Lenses', 'Accessories']
 
-export function GearSection({ fadeInUp, staggerContainer }: GearSectionProps) {
+export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedGear, setSelectedGear] = useState<GearItem | null>(null)
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [copiedLink, setCopiedLink] = useState(false)
+  const [zoomed, setZoomed] = useState(false)
+  const lastTapRef = useRef<number>(0)
 
   useEffect(() => {
     if (selectedGear) {
       setActiveImage(selectedGear.image)
       setCopiedLink(false)
+      setZoomed(false)
     } else {
       setActiveImage(null)
       setCopiedLink(false)
+      setZoomed(false)
     }
   }, [selectedGear])
+
+  useEffect(() => {
+    if (!selectedGear && initialGearId) {
+      const id = Number(initialGearId)
+      const matchedGear = gearItems.find((item) => item.id === id)
+      if (matchedGear) {
+        setSelectedGear(matchedGear)
+      }
+    }
+  }, [initialGearId, selectedGear])
+
+  const handleMainImageDoubleClick = () => {
+    setZoomed((prev) => !prev)
+  }
+
+  const handleMainImageTouchEnd = (event: TouchEvent<HTMLImageElement>) => {
+    const now = Date.now()
+    if (now - lastTapRef.current < 300) {
+      event.preventDefault()
+      setZoomed((prev) => !prev)
+      lastTapRef.current = 0
+    } else {
+      lastTapRef.current = now
+    }
+  }
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -162,7 +192,7 @@ export function GearSection({ fadeInUp, staggerContainer }: GearSectionProps) {
                       className="rounded-full bg-stone-100 p-3 text-stone-700 hover:bg-stone-200 transition"
                       aria-label={copiedLink ? 'Link copied' : 'Copy link'}
                     >
-                      {copiedLink ? <Check size={16} /> : <Clipboard size={16} />}
+                      {copiedLink ? <Check size={16} /> : <Link2 size={16} />}
                     </button>
                     <button
                       type="button"
@@ -177,7 +207,20 @@ export function GearSection({ fadeInUp, staggerContainer }: GearSectionProps) {
                 <div className="grid gap-6 px-6 py-6 lg:grid-cols-[1.2fr_0.8fr] max-h-[calc(100vh-12rem)] overflow-y-auto overflow-x-hidden min-w-0">
                   <div className="space-y-4 min-w-0">
                     <div className="aspect-square overflow-hidden rounded-3xl bg-stone-100">
-                      <img src={activeImage || selectedGear.image} alt={selectedGear.name} className="w-full h-full object-cover" />
+                      <motion.img
+                        src={activeImage || selectedGear.image}
+                        alt={selectedGear.name}
+                        initial={false}
+                        animate={{ scale: zoomed ? 1.8 : 1 }}
+                        transition={{ duration: 0.3 }}
+                        drag={zoomed}
+                        dragMomentum={false}
+                        dragElastic={0.1}
+                        className="w-full h-full object-cover"
+                        style={{ transformOrigin: 'center center' }}
+                        onDoubleClick={handleMainImageDoubleClick}
+                        onTouchEnd={handleMainImageTouchEnd}
+                      />
                     </div>
                     <div className="flex gap-3 overflow-x-auto pb-1">
                       {[selectedGear.image, ...selectedGear.moreImages].map((src, index) => (

@@ -13,6 +13,7 @@ function App() {
   const [lastScrollY, setLastScrollY] = useState(0)
   const [showBlackOverlay, setShowBlackOverlay] = useState(true)
   const [instagramActive, setInstagramActive] = useState(false)
+  const [initialGearId, setInitialGearId] = useState<string | null>(null)
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
   const [bookingForm, setBookingForm] = useState<BookingForm>({
     name: '',
@@ -43,6 +44,21 @@ function App() {
       setInstagramActive(true)
     }
   }, [activeSection])
+
+  useEffect(() => {
+    const applyHash = () => {
+      const hash = window.location.hash.replace('#', '')
+      const match = hash.match(/^item-(\d+)$/)
+      if (match) {
+        setActiveSection(2)
+        setInitialGearId(match[1])
+      }
+    }
+
+    applyHash()
+    window.addEventListener('hashchange', applyHash)
+    return () => window.removeEventListener('hashchange', applyHash)
+  }, [])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -140,20 +156,23 @@ function App() {
     }
   }
 
+  const isHomeSection = activeSection === 0
+  const navTextColor = isHomeSection ? 'text-white' : 'text-stone-900'
+  const navBgClass = isHomeSection ? '' : 'bg-white/95 shadow-sm backdrop-blur-sm'
+  const underlineColor = isHomeSection ? 'bg-white' : 'bg-stone-900'
+
   return (
     <div className="w-full min-h-screen bg-stone-50 text-stone-900 antialiased">
-      <nav className={`fixed top-0 left-0 w-full z-50 px-6 py-4 flex flex-wrap items-center justify-center gap-6 mix-blend-difference text-white transition-transform duration-300 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="flex flex-wrap items-center justify-center gap-6 text-base md:text-lg font-medium tracking-wide">
+      <nav className={`fixed top-0 left-0 w-full z-50 px-6 py-4 flex flex-wrap items-center justify-center gap-6 ${navBgClass} transition-transform duration-300 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+        <div className={`flex flex-wrap items-center justify-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor}`}>
           {sections.map((section, i) => {
             const isActive = activeSection === i
-            const textAccent = i === 0 ? 'text-amber-300' : 'text-sky-300'
-            const underlineAccent = i === 0 ? 'bg-amber-300' : 'bg-sky-300'
 
             return (
               <button
                 key={section.id}
                 onClick={() => scrollToSection(i)}
-                className={`relative transition-all duration-300 ${isActive ? `font-semibold ${textAccent}` : 'opacity-70 hover:opacity-100'}`}
+                className={`relative transition-colors duration-300 ${isActive ? `font-semibold opacity-100 ${navTextColor}` : `opacity-70 hover:opacity-100 ${navTextColor}`}`}
               >
                 {section.label}
                 {isActive && (
@@ -163,7 +182,7 @@ function App() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 4 }}
                     transition={{ duration: 0.25, ease: 'easeOut' }}
-                    className={`absolute -bottom-1 left-0 right-0 h-0.5 ${underlineAccent}`}
+                    className={`absolute -bottom-1 left-0 right-0 h-0.5 ${underlineColor}`}
                   />
                 )}
               </button>
@@ -199,7 +218,7 @@ function App() {
           >
             {activeSection === 0 && <HomeSection />}
             {activeSection === 1 && <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} />}
-            {activeSection === 2 && <GearSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} />}
+            {activeSection === 2 && <GearSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} initialGearId={initialGearId} />}
             {activeSection === 3 && (
               <ContactSection
                 fadeInUp={fadeInUp}
