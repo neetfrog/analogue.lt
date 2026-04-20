@@ -310,15 +310,16 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                   <div className="space-y-4 min-w-0">
                     <div ref={imageWrapperRef} className="relative aspect-square overflow-hidden rounded-3xl bg-stone-100">
                       <motion.img
+                        key={zoomed ? 'zoomed' : 'default'}
                         src={activeImage || selectedGear.image}
                         alt={selectedGear.name}
-                        initial={false}
-                        animate={{ scale: zoomed ? 1.8 : 1 }}
+                        initial={{ scale: 1, x: 0, y: 0 }}
+                        animate={{ scale: zoomed ? 1.8 : 1, x: 0, y: 0 }}
                         transition={{ duration: 0.3 }}
                         drag={zoomed}
                         dragMomentum={false}
-                        dragElastic={0.15}
-                        dragConstraints={imageWrapperRef}
+                        dragElastic={0.3}
+                        dragConstraints={{ left: -220, right: 220, top: -220, bottom: 220 }}
                         className="w-full h-full object-cover"
                         style={{ transformOrigin: 'center center' }}
                         loading="lazy"
