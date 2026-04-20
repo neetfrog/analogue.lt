@@ -23,10 +23,10 @@ export function HomeSection() {
             src={homeSlides[currentSlide]}
             alt={`Slide ${currentSlide + 1}`}
             className="absolute inset-0 w-full h-full object-cover opacity-80"
-            initial={{ opacity: 0, scale: 1.03 }}
+            initial={{ opacity: 0, scale: 1.01 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.97 }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ opacity: 0, scale: 0.99 }}
+            transition={{ duration: 1.6, ease: 'easeOut' }}
           />
         </AnimatePresence>
         <div className="absolute inset-0 bg-black/50" />
