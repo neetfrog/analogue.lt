@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, type TouchEvent } from 'react'
-import { AnimatePresence, motion, type Variants } from 'framer-motion'
-import { X } from 'lucide-react'
+import { motion, type Variants } from 'framer-motion'
 import { weddingImages } from '../data/content'
+import { ImageLightbox } from './ImageLightbox'
 
 type MotionVariants = Variants
 
@@ -99,48 +99,16 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
         </motion.div>
       </div>
 
-      <AnimatePresence>
-        {activeImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
-            onClick={() => setActiveImage(null)}
-          >
-            <button
-              type="button"
-              className="absolute top-6 right-6 z-10 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"
-              onClick={(e) => {
-                e.stopPropagation()
-                setActiveImage(null)
-              }}
-              aria-label="Close portfolio preview"
-            >
-              <X size={20} />
-            </button>
-            <motion.img
-              key={activeImage}
-              src={activeImage}
-              alt="Enlarged portfolio"
-              loading="lazy"
-              decoding="async"
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: zoomed ? 2 : 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              drag={zoomed}
-              dragMomentum={false}
-              dragElastic={0.1}
-              className="max-h-[90vh] max-w-full rounded-3xl object-contain shadow-2xl"
-              style={{ transformOrigin: 'center center' }}
-              onClick={(e) => e.stopPropagation()}
-              onDoubleClick={handleImageDoubleClick}
-              onTouchEnd={handleImageTouchEnd}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {activeImage && (
+        <ImageLightbox
+          image={activeImage}
+          alt="Enlarged portfolio"
+          zoomed={zoomed}
+          onClose={() => setActiveImage(null)}
+          onToggleZoom={handleImageDoubleClick}
+          onTouchEnd={handleImageTouchEnd}
+        />
+      )}
     </section>
   )
 }

@@ -1,6 +1,6 @@
 import { type FormEvent } from 'react'
 import { motion, type Variants } from 'framer-motion'
-import { Calendar, Check, Heart } from 'lucide-react'
+import { Check, Heart } from 'lucide-react'
 import { InstagramEmbed } from './InstagramEmbed'
 import { instagramAccount } from '../data/content'
 
@@ -22,6 +22,39 @@ type ContactSectionProps = {
   formSubmitted: boolean
   instagramActive: boolean
 }
+
+type BookingField = {
+  name: keyof BookingForm
+  label: string
+  type?: string
+  placeholder?: string
+  required?: boolean
+  optional?: boolean
+  helpText?: string
+  textarea?: boolean
+}
+
+const bookingFields: BookingField[] = [
+  { name: 'name', label: 'Your Name', type: 'text', placeholder: 'Jane & John', required: true },
+  { name: 'email', label: 'Email', type: 'email', placeholder: 'hello@example.com', required: true },
+  {
+    name: 'date',
+    label: 'Preferred Date',
+    type: 'date',
+    optional: true,
+    helpText: 'Leave blank if you just want to message first.'
+  },
+  { name: 'location', label: 'Location', type: 'text', placeholder: 'New York, NY' },
+  {
+    name: 'message',
+    label: 'Tell me about your vision',
+    textarea: true,
+    placeholder: "Your story, your style, anything you'd like me to know..."
+  }
+]
+
+const sharedInputClassName =
+  'w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-100 outline-none transition-all'
 
 export function ContactSection({
   fadeInUp,
@@ -55,62 +88,33 @@ export function ContactSection({
           className="mx-auto w-full max-w-2xl overflow-hidden bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-stone-100"
         >
           <div className="space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-stone-700 mb-2">Your Name</label>
-              <input
-                type="text"
-                required
-                value={bookingForm.name}
-                onChange={(e) => onBookingFormChange('name', e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
-                placeholder="Jane & John"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-stone-700 mb-2">Email</label>
-              <input
-                type="email"
-                required
-                value={bookingForm.email}
-                onChange={(e) => onBookingFormChange('email', e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
-                placeholder="hello@example.com"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-stone-700 mb-2">Preferred Date <span className="text-stone-400 text-xs">(optional)</span></label>
-              <input
-                type="date"
-                value={bookingForm.date}
-                onChange={(e) => onBookingFormChange('date', e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
-              />
-              <p className="text-stone-400 text-xs mt-2">Leave blank if you just want to message first.</p>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-stone-700 mb-2">Location</label>
-              <input
-                type="text"
-                value={bookingForm.location}
-                onChange={(e) => onBookingFormChange('location', e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
-                placeholder="New York, NY"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-stone-700 mb-2">Tell me about your vision</label>
-              <textarea
-                rows={4}
-                value={bookingForm.message}
-                onChange={(e) => onBookingFormChange('message', e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-100 outline-none transition-all resize-none"
-                placeholder="Your story, your style, anything you'd like me to know..."
-              />
-            </div>
+            {bookingFields.map((field) => (
+              <div key={field.name}>
+                <label className="block text-sm font-medium text-stone-700 mb-2">
+                  {field.label}
+                  {field.optional ? <span className="text-stone-400 text-xs"> (optional)</span> : null}
+                </label>
+                {field.textarea ? (
+                  <textarea
+                    rows={4}
+                    value={bookingForm[field.name]}
+                    onChange={(e) => onBookingFormChange(field.name, e.target.value)}
+                    className={`${sharedInputClassName} resize-none`}
+                    placeholder={field.placeholder}
+                  />
+                ) : (
+                  <input
+                    type={field.type ?? 'text'}
+                    required={field.required}
+                    value={bookingForm[field.name]}
+                    onChange={(e) => onBookingFormChange(field.name, e.target.value)}
+                    className={sharedInputClassName}
+                    placeholder={field.placeholder}
+                  />
+                )}
+                {field.helpText ? <p className="text-stone-400 text-xs mt-2">{field.helpText}</p> : null}
+              </div>
+            ))}
 
             <button
               type="submit"

@@ -1,10 +1,11 @@
-﻿import { useState, useEffect, useRef, useReducer, type FormEvent } from 'react'
+﻿import { useState, useEffect, useRef, useReducer, type FormEvent, type ReactNode } from 'react'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
-import { sections, instagramAccount, gearItems } from './data/content'
+import { gearItems } from './data/content'
 import { HomeSection } from './components/HomeSection'
 import { PortfolioSection } from './components/PortfolioSection'
 import { GearSection } from './components/GearSection'
 import { ContactSection, type BookingForm } from './components/ContactSection'
+import { slugify } from './utils/slugify'
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 60 },
@@ -19,13 +20,11 @@ const staggerContainer: Variants = {
   }
 }
 
-const sectionIndexById = new Map(sections.map((section, index) => [section.id, index]))
-
-const slugify = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
+type SectionItem = {
+  id: string
+  label: string
+  render: () => ReactNode
+}
 
 const findGearIdBySlug = (slug: string) => {
   const normalized = slug.toLowerCase()
@@ -65,6 +64,45 @@ function App() {
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [bookingForm, dispatchBookingForm] = useReducer(bookingFormReducer, initialBookingForm)
+
+  const handleBookingSubmit = (e: FormEvent) => {
+    e.preventDefault()
+    setFormSubmitted(true)
+    setTimeout(() => {
+      setFormSubmitted(false)
+      dispatchBookingForm({ type: 'reset' })
+    }, 3000)
+  }
+
+  const sectionItems: SectionItem[] = [
+    { id: 'home', label: 'Home', render: () => <HomeSection /> },
+    {
+      id: 'portfolio',
+      label: 'Portfolio',
+      render: () => <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} />
+    },
+    {
+      id: 'gear',
+      label: 'Gear',
+      render: () => <GearSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} initialGearId={initialGearId} />
+    },
+    {
+      id: 'contact',
+      label: 'Contact',
+      render: () => (
+        <ContactSection
+          fadeInUp={fadeInUp}
+          bookingForm={bookingForm}
+          onBookingFormChange={(field, value) => dispatchBookingForm({ type: 'field', field, value })}
+          handleBookingSubmit={handleBookingSubmit}
+          formSubmitted={formSubmitted}
+          instagramActive={instagramActive}
+        />
+      )
+    }
+  ]
+
+  const sectionIndexById = new Map(sectionItems.map((section, index) => [section.id, index]))
 
   useEffect(() => {
     const handleScroll = () => {
@@ -118,7 +156,7 @@ function App() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-        setActiveSection((prev) => Math.min(sections.length - 1, prev + 1))
+        setActiveSection((prev) => Math.min(sectionItems.length - 1, prev + 1))
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
         setActiveSection((prev) => Math.max(0, prev - 1))
       }
@@ -140,7 +178,7 @@ function App() {
 
       if (isHorizontalSwipe) {
         if (dx < 0) {
-          setActiveSection((prev) => Math.min(sections.length - 1, prev + 1))
+          setActiveSection((prev) => Math.min(sectionItems.length - 1, prev + 1))
         } else {
           setActiveSection((prev) => Math.max(0, prev - 1))
         }
@@ -179,19 +217,10 @@ function App() {
 
   const scrollToSection = (index: number) => {
     setActiveSection(index)
-    const sectionId = sections[index]?.id
+    const sectionId = sectionItems[index]?.id
     if (sectionId) {
       window.history.pushState(null, '', `#${sectionId}`)
     }
-  }
-
-  const handleBookingSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    setFormSubmitted(true)
-    setTimeout(() => {
-      setFormSubmitted(false)
-      dispatchBookingForm({ type: 'reset' })
-    }, 3000)
   }
 
   const isHomeSection = activeSection === 0
@@ -207,7 +236,7 @@ function App() {
         className={`fixed top-0 left-0 w-full z-50 px-6 py-4 flex flex-wrap items-center justify-center gap-6 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}
       >
         <div className={`flex flex-wrap items-center justify-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor}`}>
-          {sections.map((section, i) => {
+          {sectionItems.map((section, i) => {
             const isActive = activeSection === i
 
             return (
@@ -257,19 +286,7 @@ function App() {
             transition={{ duration: 0.4 }}
             className="w-full"
           >
-            {activeSection === 0 && <HomeSection />}
-            {activeSection === 1 && <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} />}
-            {activeSection === 2 && <GearSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} initialGearId={initialGearId} />}
-            {activeSection === 3 && (
-              <ContactSection
-                fadeInUp={fadeInUp}
-                bookingForm={bookingForm}
-                onBookingFormChange={(field, value) => dispatchBookingForm({ type: 'field', field, value })}
-                handleBookingSubmit={handleBookingSubmit}
-                formSubmitted={formSubmitted}
-                instagramActive={instagramActive}
-              />
-            )}
+            {sectionItems[activeSection]?.render()}
           </motion.div>
         </AnimatePresence>
       </div>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import { X, Check, Link2, Camera, Aperture, Grid, Package } from 'lucide-react'
 import { gearItems, type GearItem } from '../data/content'
+import { slugify } from '../utils/slugify'
 
 type MotionVariants = Variants
 
@@ -31,12 +32,6 @@ const manufacturerLogoMap: Record<string, { src: string; alt: string }> = {
   'Zeiss Ikon': { src: new URL('../../images/logos/manufacturers/zeissIkon.png', import.meta.url).href, alt: 'Zeiss Ikon' },
   'Zeiss Jena': { src: new URL('../../images/logos/manufacturers/zeissJena.png', import.meta.url).href, alt: 'Zeiss Jena' }
 }
-
-const slugify = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
 
 type SpecRule = {
   test: RegExp | ((value: string) => boolean)
