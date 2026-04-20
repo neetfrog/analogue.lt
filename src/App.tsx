@@ -114,13 +114,6 @@ function App() {
   const [formSubmitted, setFormSubmitted] = useState(false)
 
   useEffect(() => {
-    const handleScroll = (e: WheelEvent) => {
-      e.preventDefault()
-      const direction = e.deltaY > 0 ? 1 : -1
-      const newIndex = Math.max(0, Math.min(sections.length - 1, activeSection + direction))
-      setActiveSection(newIndex)
-    }
-
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
         setActiveSection(prev => Math.min(sections.length - 1, prev + 1))
@@ -131,13 +124,11 @@ function App() {
       }
     }
 
-    window.addEventListener('wheel', handleScroll, { passive: false })
     window.addEventListener('keydown', handleKeyDown)
     return () => {
-      window.removeEventListener('wheel', handleScroll)
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [activeSection])
+  }, [])
 
   const scrollToSection = (index: number) => {
     setActiveSection(index)
@@ -167,17 +158,9 @@ function App() {
   }
 
   return (
-    <div className="w-full min-h-screen overflow-auto bg-stone-50 text-stone-900 antialiased">
+    <div className="w-full min-h-screen overflow-auto bg-stone-50 text-stone-900 antialiased pt-24">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center mix-blend-difference text-white">
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="text-xl font-semibold tracking-tight"
-        >
-          analogue.lt
-        </motion.div>
-        
+      <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex items-center justify-center mix-blend-difference text-white">
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8 text-sm">
           {sections.map((section, i) => (
@@ -199,7 +182,7 @@ function App() {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden"
+          className="md:hidden absolute right-6"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -298,7 +281,7 @@ function HomeSection({ fadeInUp }: any) {
   return (
     <section className="w-full min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           <motion.img
             key={homeSlides[currentSlide]}
             src={homeSlides[currentSlide]}
