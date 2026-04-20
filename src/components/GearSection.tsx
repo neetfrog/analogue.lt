@@ -48,7 +48,7 @@ export function GearSection({ fadeInUp, staggerContainer }: GearSectionProps) {
     : gearItems.filter((item) => item.category === selectedCategory.toLowerCase())
 
   return (
-    <section className="w-full min-h-screen flex flex-col px-6 md:px-12 lg:px-24 py-16 pt-24 relative overflow-y-auto">
+    <section className="w-full min-h-screen flex flex-col px-6 md:px-12 lg:px-24 py-16 pt-24 relative">
       <div className="max-w-7xl mx-auto w-full">
         <motion.div variants={staggerContainer} initial="hidden" animate="visible">
           <motion.div variants={fadeInUp} className="text-center mb-12">

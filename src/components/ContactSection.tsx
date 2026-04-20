@@ -30,7 +30,7 @@ export function ContactSection({
   formSubmitted,
 }: ContactSectionProps) {
   return (
-    <section className="w-full min-h-full flex flex-col items-center px-6 pt-24 py-12 relative overflow-y-auto">
+    <section className="w-full min-h-full flex flex-col items-center px-6 pt-24 py-12 relative">
       <div className="max-w-4xl mx-auto w-full space-y-12">
         <motion.div variants={fadeInUp} initial="hidden" animate="visible" className="text-center">
           <p className="text-amber-600 text-xs tracking-[0.3em] uppercase mb-3 font-medium">Connect</p>

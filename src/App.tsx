@@ -84,7 +84,7 @@ function App() {
   }
 
   return (
-    <div className="w-full min-h-screen overflow-auto bg-stone-50 text-stone-900 antialiased">
+    <div className="w-full min-h-screen bg-stone-50 text-stone-900 antialiased">
       <nav className={`fixed top-0 left-0 w-full z-50 px-6 py-4 flex items-center justify-center mix-blend-difference text-white transition-transform duration-300 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="hidden md:flex items-center gap-8 text-sm">
           {sections.map((section, i) => (
