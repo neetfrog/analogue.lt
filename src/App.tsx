@@ -158,7 +158,7 @@ function App() {
   }
 
   return (
-    <div className="w-full min-h-screen overflow-auto bg-stone-50 text-stone-900 antialiased pt-24">
+    <div className="w-full min-h-screen overflow-auto bg-stone-50 text-stone-900 antialiased">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex items-center justify-center mix-blend-difference text-white">
         {/* Desktop Nav */}
@@ -359,7 +359,7 @@ function HomeSection({ fadeInUp }: any) {
 
 function WeddingsSection({ fadeInUp, staggerContainer }: any) {
   return (
-    <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 relative">
+    <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 pt-24 relative">
       <div className="max-w-7xl mx-auto w-full">
         <motion.div 
           variants={staggerContainer}
@@ -451,7 +451,7 @@ function WeddingsSection({ fadeInUp, staggerContainer }: any) {
 
 function PortfolioSection({ fadeInUp, staggerContainer }: any) {
   return (
-    <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 relative">
+    <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 pt-24 relative">
       <div className="max-w-7xl mx-auto w-full">
         <motion.div 
           variants={staggerContainer}
@@ -481,7 +481,7 @@ function PortfolioSection({ fadeInUp, staggerContainer }: any) {
 
 function GearSection({ fadeInUp, staggerContainer }: any) {
   return (
-    <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 relative overflow-y-auto">
+    <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 pt-24 relative overflow-y-auto">
       <div className="max-w-7xl mx-auto w-full">
         <motion.div 
           variants={staggerContainer}
@@ -553,8 +553,10 @@ function GearSection({ fadeInUp, staggerContainer }: any) {
 
 
 function ContactSection({ fadeInUp, bookingForm, setBookingForm, handleBookingSubmit, formSubmitted }: any) {
+  const [formOpen, setFormOpen] = useState(false)
+
   return (
-    <section className="w-full min-h-full flex flex-col items-center px-6 py-12 relative overflow-y-auto">
+    <section className="w-full min-h-full flex flex-col items-center px-6 pt-24 py-12 relative overflow-y-auto">
       <div className="max-w-4xl mx-auto w-full space-y-12">
         <motion.div 
           variants={fadeInUp}
@@ -573,11 +575,26 @@ function ContactSection({ fadeInUp, bookingForm, setBookingForm, handleBookingSu
           </p>
         </motion.div>
 
-        <motion.form
-          variants={fadeInUp}
-          onSubmit={handleBookingSubmit}
-          className="mx-auto w-full max-w-2xl bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-stone-100"
-        >
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={() => setFormOpen((prev) => !prev)}
+            className="inline-flex items-center rounded-full border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 transition"
+          >
+            {formOpen ? 'Hide reservation form' : 'Show reservation form'}
+          </button>
+        </div>
+
+        <AnimatePresence initial={false}>
+          {formOpen && (
+            <motion.form
+              onSubmit={handleBookingSubmit}
+              initial={{ opacity: 0, y: -10, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: 'auto' }}
+              exit={{ opacity: 0, y: -10, height: 0 }}
+              transition={{ duration: 0.25 }}
+              className="mx-auto w-full max-w-2xl overflow-hidden bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-stone-100"
+            >
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-14 h-14 bg-amber-100 rounded-full mx-auto mb-5">
               <Calendar className="text-amber-600" size={28} />
@@ -667,6 +684,8 @@ function ContactSection({ fadeInUp, bookingForm, setBookingForm, handleBookingSu
             </button>
           </div>
         </motion.form>
+          )}
+        </AnimatePresence>
 
         <motion.div 
           variants={fadeInUp}
