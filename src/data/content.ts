@@ -34,9 +34,9 @@ export const weddingImages = [
 ]
 
 export const homeSlides = [
-  new URL('../images/1.jpg', import.meta.url).href,
-  new URL('../images/2.jpg', import.meta.url).href,
-  new URL('../images/3.jpg', import.meta.url).href,
+  new URL('../../images/1.jpg', import.meta.url).href,
+  new URL('../../images/2.jpg', import.meta.url).href,
+  new URL('../../images/3.jpg', import.meta.url).href,
 ]
 
 export const instagramAccount = 'nefas.jpg'
