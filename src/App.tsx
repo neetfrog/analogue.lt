@@ -1,6 +1,5 @@
 ﻿import { useState, useEffect, type FormEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Menu, X } from 'lucide-react'
 import { sections } from './data/content'
 import { HomeSection } from './components/HomeSection'
 import { PortfolioSection } from './components/PortfolioSection'
@@ -9,7 +8,6 @@ import { ContactSection, type BookingForm } from './components/ContactSection'
 
 function App() {
   const [activeSection, setActiveSection] = useState(0)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [navVisible, setNavVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [showBlackOverlay, setShowBlackOverlay] = useState(true)
@@ -33,8 +31,6 @@ function App() {
         setActiveSection((prev) => Math.min(sections.length - 1, prev + 1))
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
         setActiveSection((prev) => Math.max(0, prev - 1))
-      } else if (e.key === 'Escape') {
-        setMenuOpen(false)
       }
     }
 
@@ -58,7 +54,6 @@ function App() {
 
   const scrollToSection = (index: number) => {
     setActiveSection(index)
-    setMenuOpen(false)
   }
 
   const handleBookingSubmit = (e: FormEvent) => {
@@ -85,13 +80,13 @@ function App() {
 
   return (
     <div className="w-full min-h-screen bg-stone-50 text-stone-900 antialiased">
-      <nav className={`fixed top-0 left-0 w-full z-50 px-6 py-4 flex items-center justify-center mix-blend-difference text-white transition-transform duration-300 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="hidden md:flex items-center gap-8 text-sm">
+      <nav className={`fixed top-0 left-0 w-full z-50 px-6 py-4 flex flex-wrap items-center justify-center gap-6 mix-blend-difference text-white transition-transform duration-300 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+        <div className="flex flex-wrap items-center justify-center gap-6 text-base md:text-lg font-medium tracking-wide">
           {sections.map((section, i) => (
             <button
               key={section.id}
               onClick={() => scrollToSection(i)}
-              className={`relative transition-all duration-300 ${activeSection === i ? 'font-semibold' : 'opacity-60 hover:opacity-100'}`}
+              className={`relative transition-all duration-300 ${activeSection === i ? 'font-semibold' : 'opacity-70 hover:opacity-100'}`}
             >
               {section.label}
               {activeSection === i && (
@@ -103,35 +98,7 @@ function App() {
             </button>
           ))}
         </div>
-
-        <button className="md:hidden absolute right-6" onClick={() => setMenuOpen(!menuOpen)}>
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
       </nav>
-
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-stone-900 text-white flex flex-col items-center justify-center gap-8"
-          >
-            {sections.map((section, i) => (
-              <motion.button
-                key={section.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                onClick={() => scrollToSection(i)}
-                className="text-3xl font-light"
-              >
-                {section.label}
-              </motion.button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <AnimatePresence>
         {showBlackOverlay && (

@@ -69,21 +69,11 @@ export function HomeSection() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 2.3 }}
-          className="flex items-center justify-center gap-6"
+          className="flex items-center justify-center"
         >
           <div className="flex items-center gap-2 text-stone-400">
-            <Film size={18} />
-            <span className="text-sm">Film Only</span>
-          </div>
-          <div className="w-px h-4 bg-stone-300" />
-          <div className="flex items-center gap-2 text-stone-400">
             <Heart size={18} />
-            <span className="text-sm">Based in NYC</span>
-          </div>
-          <div className="w-px h-4 bg-stone-300" />
-          <div className="flex items-center gap-2 text-stone-400">
-            <Sparkles size={18} />
-            <span className="text-sm">Worldwide</span>
+            <span className="text-sm">Based in Vilnius</span>
           </div>
         </motion.div>
       </div>
