@@ -38,6 +38,103 @@ const slugify = (value: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '')
 
+type SpecRule = {
+  test: RegExp | ((value: string) => boolean)
+  format: (value: string) => string
+  weight: number
+}
+
+const specRules: SpecRule[] = [
+  {
+    test: /^\d+mm focal length$/i,
+    format: (value) => `Focal length: ${value.replace(/ focal length$/i, '')}`,
+    weight: 0
+  },
+  {
+    test: /^f\/(\d|\d\.\d) maximum aperture$/i,
+    format: (value) => `Aperture: ${value.replace(/ maximum aperture$/i, '')}`,
+    weight: 1
+  },
+  {
+    test: /(mount|lens mount|screw mount|slr mount)$/i,
+    format: (value) => `Mount: ${value.replace(/ lens mount$/i, '').replace(/ screw mount$/i, '').replace(/ slr mount$/i, '').replace(/ mount$/i, '').trim()}`,
+    weight: 2
+  },
+  {
+    test: /^(35mm film|120 film)$/i,
+    format: (value) => `Film type: ${value}`,
+    weight: 0
+  },
+  {
+    test: /^(6x\d+cm|medium format)$/i,
+    format: (value) => `Format: ${value}`,
+    weight: 0
+  },
+  {
+    test: /^manual focus$/i,
+    format: () => 'Focus: Manual',
+    weight: 3
+  },
+  {
+    test: /^fully working$/i,
+    format: () => 'Condition: Fully working',
+    weight: 3
+  },
+  {
+    test: /^(tlr|viewfinder \/ rangefinder)$/i,
+    format: (value) => `Type: ${value}`,
+    weight: 3
+  },
+  {
+    test: /optical design/i,
+    format: (value) => `Optical design: ${value.replace(/ optical design/i, '').trim()}`,
+    weight: 3
+  },
+  {
+    test: /multicoated optics/i,
+    format: () => 'Optics: Multicoated',
+    weight: 3
+  },
+  {
+    test: /ultra-wide prime/i,
+    format: () => 'Type: Ultra-wide prime',
+    weight: 3
+  },
+  {
+    test: /classic east german optics/i,
+    format: () => 'Optics: Classic East German',
+    weight: 3
+  },
+  {
+    test: /^solagon .* lens$/i,
+    format: (value) => `Lens: ${value}`,
+    weight: 3
+  }
+]
+
+const findSpecRule = (value: string) =>
+  specRules.find((rule) =>
+    typeof rule.test === 'function' ? rule.test(value) : rule.test.test(value)
+  )
+
+const formatSpec = (spec: string) => {
+  const value = spec.trim()
+  const rule = findSpecRule(value)
+  return rule ? rule.format(value) : value
+}
+
+const getSpecWeight = (spec: string) => {
+  const value = spec.trim()
+  const rule = findSpecRule(value)
+  return rule ? rule.weight : 4
+}
+
+const sortSpecs = (specs: string[]) =>
+  [...specs].sort((a, b) => {
+    const weight = getSpecWeight(a) - getSpecWeight(b)
+    return weight || a.localeCompare(b)
+  })
+
 export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedGear, setSelectedGear] = useState<GearItem | null>(null)
@@ -364,10 +461,10 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                     <div>
                       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-stone-600 mb-3">Tech Specs</p>
                       <ul className="space-y-2 text-sm text-stone-600">
-                        {selectedGear.specs.map((spec, index) => (
+                        {sortSpecs(selectedGear.specs).map((spec, index) => (
                           <li key={index} className="flex items-start gap-2">
                             <span className="mt-1 h-1.5 w-1.5 rounded-full bg-stone-900" />
-                            {spec}
+                            {formatSpec(spec)}
                           </li>
                         ))}
                       </ul>
