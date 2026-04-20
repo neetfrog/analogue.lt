@@ -154,12 +154,12 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
           </motion.div>
 
           <motion.div variants={fadeInUp} className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {filteredGearItems.map((item) => (
+            {filteredGearItems.map((item, index) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: item.id * 0.1 }}
+                transition={{ delay: index * 0.03 }}
                 className={`group relative bg-white rounded-2xl p-6 border transition-all duration-300 ${
                   item.sold
                     ? 'border-stone-200 opacity-60'
