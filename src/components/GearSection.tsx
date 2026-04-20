@@ -54,7 +54,14 @@ export function GearSection({ fadeInUp, staggerContainer }: GearSectionProps) {
           <motion.div variants={fadeInUp} className="text-center mb-12">
             <p className="text-amber-600 text-sm tracking-[0.2em] uppercase mb-4 font-medium">For Sale</p>
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4">Camera Gear</h2>
-            <p className="text-stone-500 text-lg font-light">Well-loved equipment looking for new homes</p>
+            <motion.p
+              initial={{ clipPath: 'inset(0 100% 0 0)' }}
+              animate={{ clipPath: 'inset(0 0% 0 0)' }}
+              transition={{ duration: 1.8, delay: 0.15 }}
+              className="text-stone-500 text-lg font-light"
+            >
+              Well-loved equipment looking for new homes
+            </motion.p>
           </motion.div>
 
           <motion.div variants={fadeInUp} className="flex flex-wrap items-center justify-center gap-3 mb-10">

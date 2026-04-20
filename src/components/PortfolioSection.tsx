@@ -20,6 +20,14 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
           <motion.div variants={fadeInUp} className="text-center mb-12">
             <p className="text-amber-600 text-sm tracking-[0.2em] uppercase mb-4 font-medium">Selected Work</p>
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">Portfolio</h2>
+            <motion.p
+              initial={{ clipPath: 'inset(0 100% 0 0)' }}
+              animate={{ clipPath: 'inset(0 0% 0 0)' }}
+              transition={{ duration: 1.8, delay: 0.15 }}
+              className="text-stone-500 text-lg font-light mt-4"
+            >
+              A short edit of recent wedding work.
+            </motion.p>
           </motion.div>
 
           <motion.div variants={fadeInUp} className="grid gap-10">

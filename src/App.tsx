@@ -57,7 +57,7 @@ function App() {
       const currentScrollY = window.scrollY
       if (currentScrollY > lastScrollY + 10 && currentScrollY > 80) {
         setNavVisible(false)
-      } else if (currentScrollY < lastScrollY - 10 || currentScrollY <= 80) {
+      } else if (currentScrollY <= 20) {
         setNavVisible(true)
       }
       setLastScrollY(currentScrollY)
