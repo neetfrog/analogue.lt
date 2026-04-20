@@ -163,7 +163,7 @@ function App() {
   useEffect(() => {
     const originalOverflow = document.body.style.overflow
     if (activeSection === 0) {
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflowY = 'scroll'
     } else {
       document.body.style.overflow = originalOverflow
     }
@@ -196,14 +196,15 @@ function App() {
 
   const isHomeSection = activeSection === 0
   const navTextColor = isHomeSection ? 'text-white' : 'text-stone-900'
-  const navBgClass = isHomeSection ? '' : 'bg-stone-50/95 backdrop-blur-sm'
   const underlineColor = isHomeSection ? 'bg-white' : 'bg-stone-900'
 
   return (
     <div className="w-full min-h-screen bg-stone-50 text-stone-900 antialiased">
-      <nav
+      <motion.nav
         aria-label="Main navigation"
-        className={`fixed top-0 left-0 w-full z-50 px-6 py-4 flex flex-wrap items-center justify-center gap-6 ${navBgClass} transition-transform duration-300 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}
+        animate={{ backgroundColor: 'transparent' }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        className={`fixed top-0 left-0 w-full z-50 px-6 py-4 flex flex-wrap items-center justify-center gap-6 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}
       >
         <div className={`flex flex-wrap items-center justify-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor}`}>
           {sections.map((section, i) => {
@@ -233,7 +234,7 @@ function App() {
             )
           })}
         </div>
-      </nav>
+      </motion.nav>
 
       <AnimatePresence>
         {showBlackOverlay && (
