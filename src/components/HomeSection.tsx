@@ -18,9 +18,11 @@ export function HomeSection() {
       <div className="absolute inset-0 overflow-hidden">
         <AnimatePresence>
           <motion.img
-            key={homeSlides[currentSlide]}
-            src={homeSlides[currentSlide]}
-            alt={`Slide ${currentSlide + 1}`}
+            key={homeSlides[currentSlide].src}
+            src={homeSlides[currentSlide].src}
+            alt={homeSlides[currentSlide].alt}
+            loading="eager"
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover opacity-80"
             initial={{ opacity: 0, scale: 1.01 }}
             animate={{ opacity: 1, scale: 1 }}

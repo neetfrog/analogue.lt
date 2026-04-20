@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useInstagramScript } from '../hooks/useInstagramScript'
 
 type InstagramEmbedProps = {
   account: string
@@ -7,57 +7,14 @@ type InstagramEmbedProps = {
 }
 
 export function InstagramEmbed({ account, active, preload = false }: InstagramEmbedProps) {
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [hasError, setHasError] = useState(false)
+  const { isLoaded, hasError } = useInstagramScript(active, preload)
   const shouldRenderEmbed = active || preload
   const wrapperClass = active
     ? 'mb-12 flex flex-col items-center w-full'
     : 'w-full h-0 overflow-hidden opacity-0 pointer-events-none'
 
-  useEffect(() => {
-    if (!active && !preload) {
-      return
-    }
-
-    const scriptSrc = 'https://www.instagram.com/embed.js'
-    let attempts = 0
-
-    const handleProcess = () => {
-      const instgrm = (window as any).instgrm
-      if (instgrm && instgrm.Embeds && typeof instgrm.Embeds.process === 'function') {
-        instgrm.Embeds.process()
-        setIsLoaded(true)
-      }
-    }
-
-    const existingScript = document.querySelector(`script[src="${scriptSrc}"]`)
-    if (!existingScript) {
-      const script = document.createElement('script')
-      script.async = true
-      script.src = scriptSrc
-      script.onload = () => {
-        handleProcess()
-      }
-      script.onerror = () => setHasError(true)
-      document.body.appendChild(script)
-    } else {
-      handleProcess()
-    }
-
-    const retryInterval = window.setInterval(() => {
-      attempts += 1
-      if (attempts > 12 || isLoaded) {
-        window.clearInterval(retryInterval)
-        return
-      }
-      handleProcess()
-    }, 500)
-
-    return () => window.clearInterval(retryInterval)
-  }, [account, active, preload])
-
   return (
-    <div className={wrapperClass} aria-hidden={!active}>
+    <div className={wrapperClass} aria-hidden={!active} aria-busy={active && !isLoaded}>
       {shouldRenderEmbed && (
         <blockquote
           key={account}

@@ -33,9 +33,18 @@ export const weddingImages = [
 ]
 
 export const homeSlides = [
-  new URL('../../images/1.jpg', import.meta.url).href,
-  new URL('../../images/2.jpg', import.meta.url).href,
-  new URL('../../images/3.jpg', import.meta.url).href,
+  {
+    src: new URL('../../images/slideshow/1.jpg', import.meta.url).href,
+    alt: 'Couple walking through a sunlit meadow'
+  },
+  {
+    src: new URL('../../images/slideshow/2.jpg', import.meta.url).href,
+    alt: 'Wedding portrait on a moody city street'
+  },
+  {
+    src: new URL('../../images/slideshow/3.jpg', import.meta.url).href,
+    alt: 'Bride and groom sharing a quiet moment'
+  }
 ]
 
 export const instagramAccount = 'nefas.jpg'

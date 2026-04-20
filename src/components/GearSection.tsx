@@ -19,6 +19,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [copiedLink, setCopiedLink] = useState(false)
   const [zoomed, setZoomed] = useState(false)
+  const [hasAppliedInitialGear, setHasAppliedInitialGear] = useState(false)
   const lastTapRef = useRef<number>(0)
 
   useEffect(() => {
@@ -34,14 +35,15 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
   }, [selectedGear])
 
   useEffect(() => {
-    if (!selectedGear && initialGearId) {
+    if (!selectedGear && initialGearId && !hasAppliedInitialGear) {
       const id = Number(initialGearId)
       const matchedGear = gearItems.find((item) => item.id === id)
       if (matchedGear) {
         setSelectedGear(matchedGear)
+        setHasAppliedInitialGear(true)
       }
     }
-  }, [initialGearId, selectedGear])
+  }, [initialGearId, selectedGear, hasAppliedInitialGear])
 
   const handleMainImageDoubleClick = () => {
     setZoomed((prev) => !prev)
@@ -124,12 +126,20 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                     : 'border-stone-200 hover:border-amber-400 hover:shadow-lg'
                 }`}
               >
-                <div
-                  className="aspect-square bg-stone-100 rounded-xl mb-4 overflow-hidden cursor-pointer"
+                <button
+                  type="button"
                   onClick={() => setSelectedGear(item)}
+                  aria-label={`Open details for ${item.name}`}
+                  className="aspect-square bg-stone-100 rounded-xl mb-4 overflow-hidden focus:outline-none"
                 >
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                </div>
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover"
+                  />
+                </button>
                 <h3 className="text-xl font-semibold mb-1">{item.name}</h3>
                 <div className="flex items-center gap-3 mb-2">
                   <p className={`font-bold text-2xl ${item.sold ? 'text-stone-400 line-through' : 'text-amber-600'}`}>
@@ -218,6 +228,8 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                         dragElastic={0.1}
                         className="w-full h-full object-cover"
                         style={{ transformOrigin: 'center center' }}
+                        loading="lazy"
+                        decoding="async"
                         onDoubleClick={handleMainImageDoubleClick}
                         onTouchEnd={handleMainImageTouchEnd}
                       />
@@ -229,8 +241,9 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                           type="button"
                           onClick={() => setActiveImage(src)}
                           className={`w-20 h-20 min-w-[5rem] overflow-hidden rounded-3xl bg-stone-100 focus:outline-none ${activeImage === src ? 'ring-2 ring-amber-400' : ''}`}
+                          aria-label={`View ${selectedGear.name} image ${index + 1}`}
                         >
-                          <img src={src} alt={`${selectedGear.name} detail ${index + 1}`} className="w-full h-full object-cover" />
+                          <img src={src} alt={`${selectedGear.name} detail ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </button>
                       ))}
                     </div>

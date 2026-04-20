@@ -1,6 +1,6 @@
-import { useState, useRef, type TouchEvent } from 'react'
+import { useState, useRef, useEffect, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
-import { Film, X } from 'lucide-react'
+import { X } from 'lucide-react'
 import { weddingImages } from '../data/content'
 
 type MotionVariants = Variants
@@ -24,7 +24,7 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
     setZoomed((prev) => !prev)
   }
 
-  const handleImageTouchEnd = (event: React.TouchEvent<HTMLImageElement>) => {
+  const handleImageTouchEnd = (event: TouchEvent<HTMLImageElement>) => {
     const now = Date.now()
     if (now - lastTapRef.current < 300) {
       event.preventDefault()
@@ -34,6 +34,21 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
       lastTapRef.current = now
     }
   }
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && activeImage) {
+        setActiveImage(null)
+      }
+    }
+
+    if (!activeImage) {
+      return
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [activeImage])
 
   return (
     <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 pt-24 relative">
@@ -59,6 +74,7 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
                   type="button"
                   key={item.id}
                   onClick={() => handleImageOpen(item.image)}
+                  aria-label={`Open ${item.title}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
@@ -67,6 +83,8 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
                   <img
                     src={item.image}
                     alt={item.title}
+                    loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/70 to-transparent" />
@@ -74,7 +92,6 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
                     <p className="font-semibold">{item.title}</p>
                     <p className="text-sm opacity-80">{item.location}</p>
                   </div>
-                  <Film className="absolute top-4 right-4 text-white/80" size={18} />
                 </motion.button>
               ))}
             </div>
@@ -98,6 +115,7 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
                 e.stopPropagation()
                 setActiveImage(null)
               }}
+              aria-label="Close portfolio preview"
             >
               <X size={20} />
             </button>
@@ -105,6 +123,8 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
               key={activeImage}
               src={activeImage}
               alt="Enlarged portfolio"
+              loading="lazy"
+              decoding="async"
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: zoomed ? 2 : 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}

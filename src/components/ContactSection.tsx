@@ -1,4 +1,4 @@
-import { type Dispatch, type FormEvent, type SetStateAction } from 'react'
+import { type FormEvent } from 'react'
 import { motion, type Variants } from 'framer-motion'
 import { Calendar, Check, Heart } from 'lucide-react'
 import { InstagramEmbed } from './InstagramEmbed'
@@ -17,7 +17,7 @@ type MotionVariants = Variants
 type ContactSectionProps = {
   fadeInUp: MotionVariants
   bookingForm: BookingForm
-  setBookingForm: Dispatch<SetStateAction<BookingForm>>
+  onBookingFormChange: (field: keyof BookingForm, value: string) => void
   handleBookingSubmit: (e: FormEvent) => void
   formSubmitted: boolean
   instagramActive: boolean
@@ -26,7 +26,7 @@ type ContactSectionProps = {
 export function ContactSection({
   fadeInUp,
   bookingForm,
-  setBookingForm,
+  onBookingFormChange,
   handleBookingSubmit,
   formSubmitted,
   instagramActive,
@@ -70,7 +70,7 @@ export function ContactSection({
                 type="text"
                 required
                 value={bookingForm.name}
-                onChange={(e) => setBookingForm({ ...bookingForm, name: e.target.value })}
+                onChange={(e) => onBookingFormChange('name', e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
                 placeholder="Jane & John"
               />
@@ -82,7 +82,7 @@ export function ContactSection({
                 type="email"
                 required
                 value={bookingForm.email}
-                onChange={(e) => setBookingForm({ ...bookingForm, email: e.target.value })}
+                onChange={(e) => onBookingFormChange('email', e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
                 placeholder="hello@example.com"
               />
@@ -93,7 +93,7 @@ export function ContactSection({
               <input
                 type="date"
                 value={bookingForm.date}
-                onChange={(e) => setBookingForm({ ...bookingForm, date: e.target.value })}
+                onChange={(e) => onBookingFormChange('date', e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
               />
               <p className="text-stone-400 text-xs mt-2">Leave blank if you just want to message first.</p>
@@ -104,7 +104,7 @@ export function ContactSection({
               <input
                 type="text"
                 value={bookingForm.location}
-                onChange={(e) => setBookingForm({ ...bookingForm, location: e.target.value })}
+                onChange={(e) => onBookingFormChange('location', e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
                 placeholder="New York, NY"
               />
@@ -115,7 +115,7 @@ export function ContactSection({
               <textarea
                 rows={4}
                 value={bookingForm.message}
-                onChange={(e) => setBookingForm({ ...bookingForm, message: e.target.value })}
+                onChange={(e) => onBookingFormChange('message', e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-100 outline-none transition-all resize-none"
                 placeholder="Your story, your style, anything you'd like me to know..."
               />
@@ -154,7 +154,7 @@ export function ContactSection({
               rel="noreferrer"
               className="transition text-stone-400 hover:text-stone-900"
             >
-              Made with love & film
+              crafted with love
             </a>
           </div>
         </motion.div>
