@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Menu, X } from 'lucide-react'
 import { sections } from './data/content'
 import { HomeSection } from './components/HomeSection'
-import { WeddingsSection } from './components/WeddingsSection'
 import { PortfolioSection } from './components/PortfolioSection'
 import { GearSection } from './components/GearSection'
 import { ContactSection, type BookingForm } from './components/ContactSection'
@@ -13,6 +12,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [navVisible, setNavVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
+  const [showBlackOverlay, setShowBlackOverlay] = useState(true)
   const [bookingForm, setBookingForm] = useState<BookingForm>({
     name: '',
     email: '',
@@ -21,6 +21,11 @@ function App() {
     message: ''
   })
   const [formSubmitted, setFormSubmitted] = useState(false)
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setShowBlackOverlay(false), 50)
+    return () => window.clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -128,6 +133,18 @@ function App() {
         )}
       </AnimatePresence>
 
+      <AnimatePresence>
+        {showBlackOverlay && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            className="fixed inset-0 z-[200] bg-black"
+          />
+        )}
+      </AnimatePresence>
+
       <div className="w-full">
         <AnimatePresence mode="wait">
           <motion.div
@@ -138,11 +155,10 @@ function App() {
             transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="w-full"
           >
-            {activeSection === 0 && <HomeSection fadeInUp={fadeInUp} />}
-            {activeSection === 1 && <WeddingsSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} />}
-            {activeSection === 2 && <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} />}
-            {activeSection === 3 && <GearSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} />}
-            {activeSection === 4 && (
+            {activeSection === 0 && <HomeSection />}
+            {activeSection === 1 && <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} />}
+            {activeSection === 2 && <GearSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} />}
+            {activeSection === 3 && (
               <ContactSection
                 fadeInUp={fadeInUp}
                 bookingForm={bookingForm}

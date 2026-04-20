@@ -3,13 +3,7 @@ import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import { Film, Heart, Sparkles } from 'lucide-react'
 import { homeSlides } from '../data/content'
 
-type MotionVariants = Variants
-
-type HomeSectionProps = {
-  fadeInUp: MotionVariants
-}
-
-export function HomeSection({ fadeInUp }: HomeSectionProps) {
+export function HomeSection() {
   const [currentSlide, setCurrentSlide] = useState(0)
 
   useEffect(() => {
@@ -28,14 +22,14 @@ export function HomeSection({ fadeInUp }: HomeSectionProps) {
             key={homeSlides[currentSlide]}
             src={homeSlides[currentSlide]}
             alt={`Slide ${currentSlide + 1}`}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover opacity-80"
             initial={{ opacity: 0, scale: 1.03 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.97 }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           />
         </AnimatePresence>
-        <div className="absolute inset-0 bg-black/35" />
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
       <motion.div
@@ -50,34 +44,31 @@ export function HomeSection({ fadeInUp }: HomeSectionProps) {
       />
 
       <div className="relative z-10 max-w-5xl mx-auto text-center">
-        <motion.div variants={fadeInUp} initial="hidden" animate="visible">
-          <p className="text-amber-600 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
-            Fine Art Photography
+        <div>
+          <p className="text-amber-200 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
+            Files are temporary. Film is forever.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.h1
-          variants={fadeInUp}
-          initial="hidden"
-          animate="visible"
-          className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none mb-6"
-        >
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none mb-6 text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
           analogue.lt
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          variants={fadeInUp}
-          initial="hidden"
-          animate="visible"
-          className="text-lg md:text-xl text-stone-500 max-w-lg mx-auto mb-12 font-light leading-relaxed"
-        >
-          Capturing love stories on film — timeless, authentic, forever.
-        </motion.p>
+        <div className="text-lg md:text-xl text-stone-100/80 max-w-lg mx-auto mb-12 font-light leading-relaxed">
+          <motion.span
+            initial={{ clipPath: 'inset(0 100% 0 0)' }}
+            animate={{ clipPath: 'inset(0 0% 0 0)' }}
+            transition={{ duration: 2, ease: [0.25, 0.1, 0.25, 1], delay: 0.15 }}
+            className="inline-block overflow-hidden whitespace-nowrap align-middle"
+          >
+            Capturing love stories on film — timeless, authentic, forever.
+          </motion.span>
+        </div>
 
         <motion.div
-          variants={fadeInUp}
-          initial="hidden"
-          animate="visible"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 2.3 }}
           className="flex items-center justify-center gap-6"
         >
           <div className="flex items-center gap-2 text-stone-400">

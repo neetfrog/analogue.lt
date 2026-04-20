@@ -1,6 +1,6 @@
 import { motion, type Variants } from 'framer-motion'
-import { InstagramEmbed } from './InstagramEmbed'
-import { instagramAccount } from '../data/content'
+import { Film } from 'lucide-react'
+import { weddingImages } from '../data/content'
 
 type MotionVariants = Variants
 
@@ -19,10 +19,28 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">Portfolio</h2>
           </motion.div>
 
-          <motion.div variants={fadeInUp} className="mt-8">
-            <InstagramEmbed account={instagramAccount} />
-            <p className="text-center text-sm text-stone-500 mt-6">
-              Live Instagram feed from @{instagramAccount}. Refresh the page if it takes a moment to load.
+          <motion.div variants={fadeInUp} className="grid gap-10">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {weddingImages.map((item, i) => (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="relative overflow-hidden rounded-3xl bg-stone-200 aspect-[4/5]"
+                >
+                  <img src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-900/70 to-transparent" />
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <p className="font-semibold">{item.title}</p>
+                    <p className="text-sm opacity-80">{item.location}</p>
+                  </div>
+                  <Film className="absolute top-4 right-4 text-white/80" size={18} />
+                </motion.div>
+              ))}
+            </div>
+            <p className="text-center text-sm text-stone-500">
+              Wedding work now sits inside the portfolio section as part of the selected gallery.
             </p>
           </motion.div>
         </motion.div>
