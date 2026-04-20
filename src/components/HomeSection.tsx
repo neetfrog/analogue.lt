@@ -47,7 +47,7 @@ export function HomeSection() {
       <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center justify-center text-center">
         <div>
           <p className="text-amber-200 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
-            Timeless, authentic, forever.
+            Timeless. Authentic. Forever.
           </p>
         </div>
 
@@ -62,7 +62,7 @@ export function HomeSection() {
             transition={{ duration: 2, delay: 0.15 }}
             className="inline-block overflow-hidden align-middle"
           >
-            Capturing the important moments on film.
+            Preserving your most meaningful moments on film.
           </motion.span>
           <span className="sr-only">
             Juostinė fotografija, juostine fotografija, analoginė fotografija, vestuvių fotografija, Vilnius
