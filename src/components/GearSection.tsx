@@ -26,6 +26,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
   const [copiedLink, setCopiedLink] = useState(false)
   const [zoomed, setZoomed] = useState(false)
   const [hasAppliedInitialGear, setHasAppliedInitialGear] = useState(false)
+  const imageWrapperRef = useRef<HTMLDivElement | null>(null)
   const lastTapRef = useRef<number>(0)
 
   useEffect(() => {
@@ -37,6 +38,23 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
       setActiveImage(null)
       setCopiedLink(false)
       setZoomed(false)
+    }
+  }, [selectedGear])
+
+  useEffect(() => {
+    if (selectedGear) {
+      const url = new URL(window.location.href)
+      url.hash = slugify(selectedGear.name)
+      window.history.replaceState(null, '', url.toString())
+    } else {
+      const url = new URL(window.location.href)
+      const hash = url.hash.replace('#', '')
+      const sectionIds = ['home', 'portfolio', 'gear', 'contact']
+
+      if (hash && !sectionIds.includes(hash)) {
+        url.hash = 'gear'
+        window.history.replaceState(null, '', url.toString())
+      }
     }
   }, [selectedGear])
 
@@ -84,6 +102,10 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
   const filteredGearItems = selectedCategory === 'All'
     ? gearItems
     : gearItems.filter((item) => item.category === selectedCategory.toLowerCase())
+
+  const selectedImages = selectedGear
+    ? Array.from(new Set([selectedGear.image, ...(selectedGear.moreImages ?? [])]))
+    : []
 
   return (
     <section className="w-full min-h-screen flex flex-col px-6 md:px-12 lg:px-24 py-16 pt-24 relative">
@@ -200,7 +222,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                       type="button"
                       onClick={() => {
                         const url = new URL(window.location.href)
-                        url.hash = `item-${selectedGear.id}-${slugify(selectedGear.name)}`
+                        url.hash = slugify(selectedGear.name)
                         navigator.clipboard.writeText(url.toString())
                           .then(() => setCopiedLink(true))
                           .catch(() => setCopiedLink(false))
@@ -222,7 +244,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                 </div>
                 <div className="grid gap-6 px-6 py-6 lg:grid-cols-[1.2fr_0.8fr] max-h-[calc(100vh-12rem)] overflow-y-auto overflow-x-hidden min-w-0">
                   <div className="space-y-4 min-w-0">
-                    <div className="aspect-square overflow-hidden rounded-3xl bg-stone-100">
+                    <div ref={imageWrapperRef} className="relative aspect-square overflow-hidden rounded-3xl bg-stone-100">
                       <motion.img
                         src={activeImage || selectedGear.image}
                         alt={selectedGear.name}
@@ -231,7 +253,8 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                         transition={{ duration: 0.3 }}
                         drag={zoomed}
                         dragMomentum={false}
-                        dragElastic={0.1}
+                        dragElastic={0.15}
+                        dragConstraints={imageWrapperRef}
                         className="w-full h-full object-cover"
                         style={{ transformOrigin: 'center center' }}
                         loading="lazy"
@@ -241,7 +264,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                       />
                     </div>
                     <div className="flex gap-3 overflow-x-auto pb-1">
-                      {[selectedGear.image, ...selectedGear.moreImages].map((src, index) => (
+                      {selectedImages.map((src, index) => (
                         <button
                           key={index}
                           type="button"
@@ -272,22 +295,36 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                         ))}
                       </ul>
                     </div>
-                    {selectedGear.vintedUrl && !selectedGear.sold && (
-                      <a
-                        href={selectedGear.vintedUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex w-full items-center justify-center rounded-2xl bg-sky-600 px-5 py-3 text-white hover:bg-sky-500 transition font-sans"
-                        aria-label={`Open Vinted listing for ${selectedGear.name}`}
-                        title={`Open Vinted listing for ${selectedGear.name}`}
-                      >
-                        <img
-                          src="/images/Vinted/Vinted_idaca39J_H_0.svg"
-                          alt="Vinted logo"
-                          className="h-6 w-auto object-contain filter brightness-0 invert"
-                        />
-                      </a>
-                    )}
+                    <div className="flex flex-col gap-3">
+                      {selectedGear.vintedUrl && !selectedGear.sold && (
+                        <a
+                          href={selectedGear.vintedUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex w-full items-center justify-center rounded-2xl bg-sky-600 px-5 py-3 text-white hover:bg-sky-500 transition font-sans"
+                          aria-label={`Open Vinted listing for ${selectedGear.name}`}
+                          title={`Open Vinted listing for ${selectedGear.name}`}
+                        >
+                          <img
+                            src="/images/Vinted/Vinted_idaca39J_H_0.svg"
+                            alt="Vinted logo"
+                            className="h-6 w-auto object-contain filter brightness-0 invert"
+                          />
+                        </a>
+                      )}
+                      {selectedGear.wikiUrl && (
+                        <a
+                          href={selectedGear.wikiUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex w-full items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-sm font-medium text-white hover:bg-stone-800 transition font-sans"
+                          aria-label={`Open Wikipedia article for ${selectedGear.name}`}
+                          title={`Open Wikipedia article for ${selectedGear.name}`}
+                        >
+                          Wikipedia
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </motion.div>

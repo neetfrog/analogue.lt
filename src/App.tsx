@@ -1,6 +1,6 @@
 ﻿import { useState, useEffect, useRef, useReducer, type FormEvent } from 'react'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
-import { sections, instagramAccount } from './data/content'
+import { sections, instagramAccount, gearItems } from './data/content'
 import { HomeSection } from './components/HomeSection'
 import { PortfolioSection } from './components/PortfolioSection'
 import { GearSection } from './components/GearSection'
@@ -20,6 +20,18 @@ const staggerContainer: Variants = {
 }
 
 const sectionIndexById = new Map(sections.map((section, index) => [section.id, index]))
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+
+const findGearIdBySlug = (slug: string) => {
+  const normalized = slug.toLowerCase()
+  const match = gearItems.find((item) => slugify(item.name) === normalized)
+  return match?.id ?? null
+}
 
 const initialBookingForm: BookingForm = {
   name: '',
@@ -72,17 +84,23 @@ function App() {
   useEffect(() => {
     const applyHash = () => {
       const hash = window.location.hash.replace('#', '')
-      const match = hash.match(/^item-(\d+)(?:-[a-z0-9-]+)?$/)
-
-      if (match) {
-        setActiveSection(sectionIndexById.get('gear') ?? 2)
-        setInitialGearId(match[1])
-        return
-      }
-
       const sectionIndex = sectionIndexById.get(hash)
       if (typeof sectionIndex === 'number') {
         setActiveSection(sectionIndex)
+        return
+      }
+
+      const gearId = findGearIdBySlug(hash)
+      if (gearId) {
+        setActiveSection(sectionIndexById.get('gear') ?? 2)
+        setInitialGearId(String(gearId))
+        return
+      }
+
+      const legacyMatch = hash.match(/^item-(\d+)(?:-[a-z0-9-]+)?$/)
+      if (legacyMatch) {
+        setActiveSection(sectionIndexById.get('gear') ?? 2)
+        setInitialGearId(legacyMatch[1])
       }
     }
 
