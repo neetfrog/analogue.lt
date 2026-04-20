@@ -208,9 +208,15 @@ export function GearSection({ fadeInUp, staggerContainer }: GearSectionProps) {
                         href={selectedGear.vintedUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex w-full items-center justify-center rounded-2xl bg-amber-500 px-5 py-3 text-sm font-semibold text-white hover:bg-amber-400 transition"
+                        className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-sky-600 px-5 py-3 text-sm font-semibold text-white hover:bg-sky-500 transition"
+                        aria-label="Buy on Vinted"
                       >
-                        Buy on Vinted
+                        <span>Buy on</span>
+                        <img
+                          src="/images/Vinted/Vinted_idaca39J_H_0.svg"
+                          alt="Vinted logo"
+                          className="h-6 w-auto object-contain filter brightness-0 invert"
+                        />
                       </a>
                     )}
                   </div>
