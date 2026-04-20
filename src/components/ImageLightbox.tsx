@@ -34,27 +34,30 @@ export function ImageLightbox({ image, alt, zoomed, onClose, onToggleZoom, onTou
           <X size={20} />
         </button>
 
-        <motion.img
-          src={image}
-          alt={alt}
-          loading="lazy"
-          decoding="async"
-          initial={{ scale: 0.95, opacity: 0 }}
-          animate={{ scale: zoomed ? 2 : 1, opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
-          drag={zoomed}
-          dragMomentum={false}
-          dragElastic={0.1}
-          className="max-h-[90vh] max-w-full rounded-3xl object-contain shadow-2xl"
-          style={{ transformOrigin: 'center center' }}
-          onClick={(event) => event.stopPropagation()}
-          onDoubleClick={(event) => {
-            event.stopPropagation()
-            onToggleZoom()
-          }}
-          onTouchEnd={onTouchEnd}
-        />
+        <div className="relative max-h-[90vh] max-w-full overflow-hidden rounded-3xl">
+          <motion.img
+            key={zoomed ? 'zoomed' : 'default'}
+            src={image}
+            alt={alt}
+            loading="lazy"
+            decoding="async"
+            initial={{ scale: 1, x: 0, y: 0 }}
+            animate={{ scale: zoomed ? 1.8 : 1, x: 0, y: 0 }}
+            transition={{ duration: 0.25 }}
+            drag={zoomed}
+            dragMomentum={false}
+            dragElastic={0.3}
+            dragConstraints={{ left: -220, right: 220, top: -220, bottom: 220 }}
+            className="max-h-[90vh] w-full rounded-3xl object-contain shadow-2xl"
+            style={{ transformOrigin: 'center center' }}
+            onClick={(event) => event.stopPropagation()}
+            onDoubleClick={(event) => {
+              event.stopPropagation()
+              onToggleZoom()
+            }}
+            onTouchEnd={onTouchEnd}
+          />
+        </div>
       </motion.div>
     </AnimatePresence>
   )
