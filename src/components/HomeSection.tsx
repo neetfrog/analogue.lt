@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Heart } from 'lucide-react'
 import { homeSlides } from '../data/content'
 
 export function HomeSection() {
@@ -71,9 +70,13 @@ export function HomeSection() {
           transition={{ duration: 0.6, delay: 2.3 }}
           className="flex items-center justify-center"
         >
-          <div className="flex items-center gap-2 text-stone-400">
-            <Heart size={18} />
+          <div className="flex flex-col items-center gap-2 text-stone-400">
             <span className="text-sm">Based in Vilnius, Lithuania</span>
+            <img
+              src={new URL('../../images/vilnius.png', import.meta.url).href}
+              alt="Vilnius"
+              className="h-5 w-5 object-contain"
+            />
           </div>
         </motion.div>
       </div>
