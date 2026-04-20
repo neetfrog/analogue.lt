@@ -131,13 +131,23 @@ export function ContactSection({
         </motion.form>
 
         <motion.div variants={fadeInUp} className="mx-auto w-full max-w-4xl">
+          <div className="text-center mb-6">
+            <p className="text-stone-500 text-sm uppercase tracking-[0.3em] mb-2">My Instagram Feed</p>
+          </div>
           <InstagramEmbed account={instagramAccount} active={instagramActive} />
         </motion.div>
 
         <motion.div variants={fadeInUp} className="flex flex-col items-center gap-6">
           <div className="flex items-center gap-2 text-stone-400 text-sm mt-4">
             <Heart size={16} />
-            <span>Made with love & film</span>
+            <a
+              href="https://nefas.tv"
+              target="_blank"
+              rel="noreferrer"
+              className="transition text-stone-400 hover:text-stone-900"
+            >
+              Made with love & film
+            </a>
           </div>
         </motion.div>
       </div>
