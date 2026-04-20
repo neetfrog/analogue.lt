@@ -11,6 +11,7 @@ import {
   Film,
   Calendar,
   Check,
+  Clipboard,
   Camera as InstagramIcon
 } from 'lucide-react'
 
@@ -618,6 +619,21 @@ function GearSection({ fadeInUp, staggerContainer }: any) {
     }
   }, [selectedGear])
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedGear) {
+        setSelectedGear(null)
+      }
+    }
+
+    if (selectedGear) {
+      window.addEventListener('keydown', handleKeyDown)
+      return () => window.removeEventListener('keydown', handleKeyDown)
+    }
+
+    return undefined
+  }, [selectedGear])
+
   const filteredGearItems = selectedCategory === 'All'
     ? gearItems
     : gearItems.filter((item) => item.category === selectedCategory.toLowerCase())
@@ -675,7 +691,10 @@ function GearSection({ fadeInUp, staggerContainer }: any) {
                     : 'border-stone-200 hover:border-amber-400 hover:shadow-lg'
                 }`}
               >
-                <div className="aspect-square bg-stone-100 rounded-xl mb-4 overflow-hidden">
+                <div
+                  className="aspect-square bg-stone-100 rounded-xl mb-4 overflow-hidden cursor-pointer"
+                  onClick={() => setSelectedGear(item)}
+                >
                   <img
                     src={item.image}
                     alt={item.name}
@@ -743,9 +762,10 @@ function GearSection({ fadeInUp, staggerContainer }: any) {
                           .catch(() => setCopiedLink(false))
                       }
                     }}
-                    className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-700 hover:bg-stone-200 transition"
+                    className="rounded-full bg-stone-100 p-3 text-stone-700 hover:bg-stone-200 transition"
+                    aria-label={copiedLink ? 'Link copied' : 'Copy link'}
                   >
-                    {copiedLink ? 'Link copied' : 'Copy link'}
+                    {copiedLink ? <Check size={16} /> : <Clipboard size={16} />}
                   </button>
                   <button
                     type="button"
