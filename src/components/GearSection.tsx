@@ -18,6 +18,20 @@ const categories = [
   { value: 'accessories', label: 'Accessories', icon: Package }
 ]
 
+const manufacturerLogoMap: Record<string, { src: string; alt: string }> = {
+  Agfa: { src: new URL('../../images/logos/manufacturers/agfa.png', import.meta.url).href, alt: 'Agfa' },
+  Canon: { src: new URL('../../images/logos/manufacturers/canon.png', import.meta.url).href, alt: 'Canon' },
+  Exakta: { src: new URL('../../images/logos/manufacturers/exakta.png', import.meta.url).href, alt: 'Exakta' },
+  FED: { src: new URL('../../images/logos/manufacturers/fed.png', import.meta.url).href, alt: 'FED' },
+  GOMZ: { src: new URL('../../images/logos/manufacturers/gomz.png', import.meta.url).href, alt: 'GOMZ' },
+  KMZ: { src: new URL('../../images/logos/manufacturers/kmz.png', import.meta.url).href, alt: 'KMZ' },
+  Pentacon: { src: new URL('../../images/logos/manufacturers/pentacon.png', import.meta.url).href, alt: 'Pentacon' },
+  Vivitar: { src: new URL('../../images/logos/manufacturers/vivitar.png', import.meta.url).href, alt: 'Vivitar' },
+  Yashica: { src: new URL('../../images/logos/manufacturers/yashica.png', import.meta.url).href, alt: 'Yashica' },
+  'Zeiss Ikon': { src: new URL('../../images/logos/manufacturers/zeissIkon.png', import.meta.url).href, alt: 'Zeiss Ikon' },
+  'Zeiss Jena': { src: new URL('../../images/logos/manufacturers/zeissJena.png', import.meta.url).href, alt: 'Zeiss Jena' }
+}
+
 const slugify = (value: string) =>
   value
     .toLowerCase()
@@ -189,6 +203,15 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                     className="w-full h-full object-cover"
                   />
                 </button>
+                {item.manufacturer && manufacturerLogoMap[item.manufacturer] ? (
+                  <div className="mb-4 flex items-center justify-center">
+                    <img
+                      src={manufacturerLogoMap[item.manufacturer].src}
+                      alt={manufacturerLogoMap[item.manufacturer].alt}
+                      className="h-10 w-auto object-contain opacity-90"
+                    />
+                  </div>
+                ) : null}
                 <h3 className="text-xl font-semibold mb-1">{item.name}</h3>
                 <div className="flex items-center gap-3 mb-2">
                   <p className={`font-bold text-2xl ${item.sold ? 'text-stone-400 line-through' : 'text-amber-600'}`}>
@@ -246,6 +269,15 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
               >
                 <div className="flex items-center justify-between gap-4 border-b border-stone-200 px-6 py-4">
                   <div>
+                    {selectedGear.manufacturer && manufacturerLogoMap[selectedGear.manufacturer] ? (
+                      <div className="mb-3 flex items-center justify-start">
+                        <img
+                          src={manufacturerLogoMap[selectedGear.manufacturer].src}
+                          alt={manufacturerLogoMap[selectedGear.manufacturer].alt}
+                          className="h-8 w-auto object-contain opacity-90"
+                        />
+                      </div>
+                    ) : null}
                     <h3 className="text-2xl font-semibold">{selectedGear.name}</h3>
                     <p className="text-sm text-stone-500">{selectedGear.price} · {selectedGear.condition}</p>
                   </div>
