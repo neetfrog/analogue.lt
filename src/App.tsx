@@ -64,6 +64,7 @@ const gearItems = [
     name: 'Leica M6',
     price: '$2,800',
     condition: 'Excellent',
+    category: 'cameras',
     description: 'Classic rangefinder, fully working condition',
     sold: false,
     image: 'https://loremflickr.com/600/600/camera?lock=1',
@@ -71,7 +72,9 @@ const gearItems = [
     specs: ['35mm film', 'Leica M-mount', 'Manual focus', 'Battery powered light meter'],
     moreImages: [
       'https://loremflickr.com/600/600/camera?lock=5',
-      'https://loremflickr.com/600/600/camera?lock=6'
+      'https://loremflickr.com/600/600/camera?lock=6',
+      'https://loremflickr.com/600/600/camera?lock=25',
+      'https://loremflickr.com/600/600/camera?lock=26'
     ]
   },
   {
@@ -79,6 +82,7 @@ const gearItems = [
     name: 'Canon AE-1',
     price: '$350',
     condition: 'Mint',
+    category: 'cameras',
     description: 'Perfect for beginners, includes 50mm f/1.8',
     sold: true,
     image: 'https://loremflickr.com/600/600/camera?lock=2',
@@ -86,7 +90,9 @@ const gearItems = [
     specs: ['FD mount', '1.8 50mm lens included', 'Shutter speeds 1-1/1000s', 'Built-in meter'],
     moreImages: [
       'https://loremflickr.com/600/600/camera?lock=7',
-      'https://loremflickr.com/600/600/camera?lock=8'
+      'https://loremflickr.com/600/600/camera?lock=8',
+      'https://loremflickr.com/600/600/camera?lock=27',
+      'https://loremflickr.com/600/600/camera?lock=28'
     ]
   },
   {
@@ -94,6 +100,7 @@ const gearItems = [
     name: 'Contax T2',
     price: '$1,200',
     condition: 'Good',
+    category: 'cameras',
     description: 'Legendary point and shoot, minor scratches',
     sold: false,
     image: 'https://loremflickr.com/600/600/camera?lock=3',
@@ -101,7 +108,9 @@ const gearItems = [
     specs: ['Carl Zeiss 38mm f/2.8', 'Autofocus', 'Point-and-shoot', 'Titanium body'],
     moreImages: [
       'https://loremflickr.com/600/600/camera?lock=9',
-      'https://loremflickr.com/600/600/camera?lock=10'
+      'https://loremflickr.com/600/600/camera?lock=10',
+      'https://loremflickr.com/600/600/camera?lock=29',
+      'https://loremflickr.com/600/600/camera?lock=30'
     ]
   },
   {
@@ -109,6 +118,7 @@ const gearItems = [
     name: 'Nikon F3',
     price: '$450',
     condition: 'Excellent',
+    category: 'cameras',
     description: 'Professional SLR, body only',
     sold: false,
     image: 'https://loremflickr.com/600/600/camera?lock=4',
@@ -116,7 +126,81 @@ const gearItems = [
     specs: ['Nikon F mount', 'Mechanical shutter', 'Full manual', 'Built to last'],
     moreImages: [
       'https://loremflickr.com/600/600/camera?lock=11',
-      'https://loremflickr.com/600/600/camera?lock=12'
+      'https://loremflickr.com/600/600/camera?lock=12',
+      'https://loremflickr.com/600/600/camera?lock=31',
+      'https://loremflickr.com/600/600/camera?lock=32'
+    ]
+  },
+  {
+    id: 5,
+    name: 'Leica 50mm f/2 Summicron',
+    price: '$950',
+    condition: 'Excellent',
+    category: 'lenses',
+    description: 'Sharp Leica prime lens for portraits and low light.',
+    sold: false,
+    image: 'https://loremflickr.com/600/600/lens?lock=13',
+    details: 'A beautiful 50mm summicron prime with crisp rendering and smooth bokeh. Works perfectly on Leica M bodies and adapted rangefinders.',
+    specs: ['Leica M mount', '50mm focal length', 'f/2 max aperture', 'Manual focus'],
+    moreImages: [
+      'https://loremflickr.com/600/600/lens?lock=14',
+      'https://loremflickr.com/600/600/lens?lock=15',
+      'https://loremflickr.com/600/600/lens?lock=25',
+      'https://loremflickr.com/600/600/lens?lock=26'
+    ]
+  },
+  {
+    id: 6,
+    name: 'Nikon 85mm f/1.8',
+    price: '$420',
+    condition: 'Very Good',
+    category: 'lenses',
+    description: 'Fast short telephoto lens with sharp optics.',
+    sold: false,
+    image: 'https://loremflickr.com/600/600/lens?lock=16',
+    details: 'A versatile portrait lens with excellent sharpness and subject separation. Includes Nikon F mount and clean glass.',
+    specs: ['Nikon F mount', '85mm focal length', 'f/1.8 max aperture', 'Autofocus'],
+    moreImages: [
+      'https://loremflickr.com/600/600/lens?lock=17',
+      'https://loremflickr.com/600/600/lens?lock=18',
+      'https://loremflickr.com/600/600/lens?lock=27',
+      'https://loremflickr.com/600/600/lens?lock=28'
+    ]
+  },
+  {
+    id: 7,
+    name: 'Profoto B10 Plus',
+    price: '$1,100',
+    condition: 'Good',
+    category: 'accessories',
+    description: 'Portable studio light with excellent color quality.',
+    sold: false,
+    image: 'https://loremflickr.com/600/600/lighting?lock=19',
+    details: 'A compact battery-powered flash head ideal for on-location shoots. Includes mount and fresh battery for immediate use.',
+    specs: ['Battery powered', 'High output', 'TTL compatible', 'Portable lighting'],
+    moreImages: [
+      'https://loremflickr.com/600/600/lighting?lock=20',
+      'https://loremflickr.com/600/600/lighting?lock=21',
+      'https://loremflickr.com/600/600/lighting?lock=25',
+      'https://loremflickr.com/600/600/lighting?lock=26'
+    ]
+  },
+  {
+    id: 8,
+    name: 'Peak Design Travel Tripod',
+    price: '$350',
+    condition: 'Excellent',
+    category: 'accessories',
+    description: 'Compact travel tripod with fast setup.',
+    sold: false,
+    image: 'https://loremflickr.com/600/600/tripod?lock=22',
+    details: 'A lightweight, sturdy travel tripod designed for mirrorless and DSLR cameras. Packs down small and holds reliable weight.',
+    specs: ['Carbon fiber', 'Quick release', 'Compact fold', 'Load capacity 20lb'],
+    moreImages: [
+      'https://loremflickr.com/600/600/tripod?lock=23',
+      'https://loremflickr.com/600/600/tripod?lock=24',
+      'https://loremflickr.com/600/600/tripod?lock=25',
+      'https://loremflickr.com/600/600/tripod?lock=26'
     ]
   },
 ]
@@ -518,10 +602,28 @@ function PortfolioSection({ fadeInUp, staggerContainer }: any) {
 }
 
 function GearSection({ fadeInUp, staggerContainer }: any) {
+  const categories = ['All', 'Cameras', 'Lenses', 'Accessories']
+  const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedGear, setSelectedGear] = useState<typeof gearItems[number] | null>(null)
+  const [activeImage, setActiveImage] = useState<string | null>(null)
+  const [copiedLink, setCopiedLink] = useState(false)
+
+  useEffect(() => {
+    if (selectedGear) {
+      setActiveImage(selectedGear.image)
+      setCopiedLink(false)
+    } else {
+      setActiveImage(null)
+      setCopiedLink(false)
+    }
+  }, [selectedGear])
+
+  const filteredGearItems = selectedCategory === 'All'
+    ? gearItems
+    : gearItems.filter((item) => item.category === selectedCategory.toLowerCase())
 
   return (
-    <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 pt-24 relative overflow-y-auto">
+    <section className="w-full min-h-screen flex flex-col px-6 md:px-12 lg:px-24 py-16 pt-24 relative overflow-y-auto">
       <div className="max-w-7xl mx-auto w-full">
         <motion.div 
           variants={staggerContainer}
@@ -540,11 +642,28 @@ function GearSection({ fadeInUp, staggerContainer }: any) {
             </p>
           </motion.div>
 
+          <motion.div variants={fadeInUp} className="flex flex-wrap items-center justify-center gap-3 mb-10">
+            {categories.map((category) => (
+              <button
+                key={category}
+                type="button"
+                onClick={() => setSelectedCategory(category)}
+                className={`rounded-full border px-4 py-2 text-sm transition ${
+                  selectedCategory === category
+                    ? 'bg-stone-900 text-white border-stone-900'
+                    : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-100'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </motion.div>
+
           <motion.div 
             variants={fadeInUp}
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-4"
           >
-            {gearItems.map((item) => (
+            {filteredGearItems.map((item) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -556,11 +675,6 @@ function GearSection({ fadeInUp, staggerContainer }: any) {
                     : 'border-stone-200 hover:border-amber-400 hover:shadow-lg'
                 }`}
               >
-                {item.sold && (
-                  <div className="absolute -top-2 -right-2 bg-stone-800 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                    Sold
-                  </div>
-                )}
                 <div className="aspect-square bg-stone-100 rounded-xl mb-4 overflow-hidden">
                   <img
                     src={item.image}
@@ -569,7 +683,16 @@ function GearSection({ fadeInUp, staggerContainer }: any) {
                   />
                 </div>
                 <h3 className="text-xl font-semibold mb-1">{item.name}</h3>
-                <p className="text-amber-600 font-bold text-2xl mb-2">{item.price}</p>
+                <div className="flex items-center gap-3 mb-2">
+                  <p className={`font-bold text-2xl ${item.sold ? 'text-stone-400 line-through' : 'text-amber-600'}`}>
+                    {item.price}
+                  </p>
+                  {item.sold && (
+                    <span className="rounded-full bg-stone-900 px-2 py-1 text-[0.65rem] uppercase tracking-[0.25em] text-white">
+                      Sold
+                    </span>
+                  )}
+                </div>
                 <p className="text-xs text-stone-500 mb-3 uppercase tracking-wider">{item.condition}</p>
                 <p className="text-stone-600 text-sm leading-relaxed">{item.description}</p>
                 <button
@@ -608,24 +731,47 @@ function GearSection({ fadeInUp, staggerContainer }: any) {
                   <h3 className="text-2xl font-semibold">{selectedGear.name}</h3>
                   <p className="text-sm text-stone-500">{selectedGear.price} · {selectedGear.condition}</p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setSelectedGear(null)}
-                  className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-700 hover:bg-stone-200 transition"
-                >
-                  Close
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (selectedGear) {
+                        const url = new URL(window.location.href)
+                        url.hash = `item-${selectedGear.id}`
+                        navigator.clipboard.writeText(url.toString())
+                          .then(() => setCopiedLink(true))
+                          .catch(() => setCopiedLink(false))
+                      }
+                    }}
+                    className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-700 hover:bg-stone-200 transition"
+                  >
+                    {copiedLink ? 'Link copied' : 'Copy link'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedGear(null)}
+                    className="rounded-full bg-stone-100 p-3 text-stone-700 hover:bg-stone-200 transition"
+                    aria-label="Close details"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
               </div>
               <div className="grid gap-6 px-6 py-6 lg:grid-cols-[1.2fr_0.8fr] max-h-[calc(100vh-12rem)] overflow-auto">
                 <div className="space-y-4">
                   <div className="aspect-square overflow-hidden rounded-3xl bg-stone-100">
-                    <img src={selectedGear.image} alt={selectedGear.name} className="w-full h-full object-cover" />
+                    <img src={activeImage || selectedGear.image} alt={selectedGear.name} className="w-full h-full object-cover" />
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    {selectedGear.moreImages.map((src, index) => (
-                      <div key={index} className="aspect-square overflow-hidden rounded-3xl bg-stone-100">
+                  <div className="flex gap-3 overflow-x-auto pb-1">
+                    {[selectedGear.image, ...selectedGear.moreImages].map((src, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        onClick={() => setActiveImage(src)}
+                        className={`w-20 h-20 min-w-[5rem] overflow-hidden rounded-3xl bg-stone-100 focus:outline-none ${activeImage === src ? 'ring-2 ring-amber-400' : ''}`}
+                      >
                         <img src={src} alt={`${selectedGear.name} detail ${index + 1}`} className="w-full h-full object-cover" />
-                      </div>
+                      </button>
                     ))}
                   </div>
                 </div>
