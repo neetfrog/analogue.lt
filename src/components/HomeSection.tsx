@@ -61,7 +61,9 @@ export function HomeSection() {
             transition={{ duration: 2, ease: [0.25, 0.1, 0.25, 1], delay: 0.15 }}
             className="inline-block overflow-hidden align-middle"
           >
-            Capturing the important moments on film — timeless, authentic, forever.
+            Capturing the important moments on film.
+            <br />
+            Timeless, authentic, forever.
           </motion.span>
         </div>
 
