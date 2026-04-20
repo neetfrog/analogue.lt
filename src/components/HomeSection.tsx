@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { AnimatePresence, motion, type Variants } from 'framer-motion'
-import { Film, Heart, Sparkles } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Heart } from 'lucide-react'
 import { homeSlides } from '../data/content'
 
 export function HomeSection() {
@@ -15,7 +15,7 @@ export function HomeSection() {
   }, [])
 
   return (
-    <section className="w-full min-h-screen flex items-center justify-center px-6 relative overflow-hidden text-center">
+    <section className="w-full h-screen min-h-screen flex items-center justify-center px-6 relative overflow-hidden text-center">
       <div className="absolute inset-0 overflow-hidden">
         <AnimatePresence>
           <motion.img
@@ -26,7 +26,7 @@ export function HomeSection() {
             initial={{ opacity: 0, scale: 1.01 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.99 }}
-            transition={{ duration: 1.6, ease: 'easeOut' }}
+            transition={{ duration: 1.6 }}
           />
         </AnimatePresence>
         <div className="absolute inset-0 bg-black/50" />
@@ -58,7 +58,7 @@ export function HomeSection() {
           <motion.span
             initial={{ clipPath: 'inset(0 100% 0 0)' }}
             animate={{ clipPath: 'inset(0 0% 0 0)' }}
-            transition={{ duration: 2, ease: [0.25, 0.1, 0.25, 1], delay: 0.15 }}
+            transition={{ duration: 2, delay: 0.15 }}
             className="inline-block overflow-hidden align-middle"
           >
             Capturing the important moments on film.
@@ -68,7 +68,7 @@ export function HomeSection() {
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 2.3 }}
+          transition={{ duration: 0.6, delay: 2.3 }}
           className="flex items-center justify-center"
         >
           <div className="flex items-center gap-2 text-stone-400">

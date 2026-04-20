@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, type FormEvent } from 'react'
+﻿import { useState, useEffect, useRef, type FormEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { sections } from './data/content'
 import { HomeSection } from './components/HomeSection'
@@ -11,6 +11,7 @@ function App() {
   const [navVisible, setNavVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [showBlackOverlay, setShowBlackOverlay] = useState(true)
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null)
   const [bookingForm, setBookingForm] = useState<BookingForm>({
     name: '',
     email: '',
@@ -23,6 +24,16 @@ function App() {
   useEffect(() => {
     const timer = window.setTimeout(() => setShowBlackOverlay(false), 50)
     return () => window.clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    const scriptSrc = 'https://www.instagram.com/embed.js'
+    if (!document.querySelector(`script[src="${scriptSrc}"]`)) {
+      const script = document.createElement('script')
+      script.async = true
+      script.src = scriptSrc
+      document.body.appendChild(script)
+    }
   }, [])
 
   useEffect(() => {
@@ -44,13 +55,56 @@ function App() {
       setLastScrollY(currentScrollY)
     }
 
+    const handleTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0]
+      touchStartRef.current = { x: touch.clientX, y: touch.clientY }
+    }
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      const start = touchStartRef.current
+      if (!start) return
+
+      const touch = e.changedTouches[0]
+      const dx = touch.clientX - start.x
+      const dy = touch.clientY - start.y
+      const isHorizontalSwipe = Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5
+
+      if (isHorizontalSwipe) {
+        if (dx < 0) {
+          setActiveSection((prev) => Math.min(sections.length - 1, prev + 1))
+        } else {
+          setActiveSection((prev) => Math.max(0, prev - 1))
+        }
+      }
+
+      touchStartRef.current = null
+    }
+
     window.addEventListener('keydown', handleKeyDown)
     window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('touchstart', handleTouchStart, { passive: true })
+    window.addEventListener('touchend', handleTouchEnd)
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
       window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('touchstart', handleTouchStart)
+      window.removeEventListener('touchend', handleTouchEnd)
     }
   }, [lastScrollY])
+
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow
+    if (activeSection === 0) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = originalOverflow
+    }
+
+    return () => {
+      document.body.style.overflow = originalOverflow
+    }
+  }, [activeSection])
 
   const scrollToSection = (index: number) => {
     setActiveSection(index)
@@ -67,7 +121,7 @@ function App() {
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 60 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
   }
 
   const staggerContainer = {
@@ -106,7 +160,7 @@ function App() {
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.8 }}
             className="fixed inset-0 z-[200] bg-black"
           />
         )}
@@ -116,10 +170,10 @@ function App() {
         <AnimatePresence mode="wait">
           <motion.div
             key={activeSection}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
             className="w-full"
           >
             {activeSection === 0 && <HomeSection />}

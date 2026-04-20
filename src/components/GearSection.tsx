@@ -122,15 +122,15 @@ export function GearSection({ fadeInUp, staggerContainer }: GearSectionProps) {
       <AnimatePresence>
         {selectedGear && (
           <motion.div
-            className="fixed inset-0 z-50 overflow-y-auto bg-black/50 p-4"
+            className="fixed inset-0 z-50 overflow-y-auto bg-black/60 p-3 sm:p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedGear(null)}
           >
-            <div className="flex min-h-full items-start justify-center py-8">
+            <div className="flex min-h-full items-center justify-center py-6">
               <motion.div
-                className="w-full max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl max-h-[calc(100vh-4rem)]"
+                className="w-full max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl max-h-[calc(100vh-3rem)]"
                 initial={{ y: 20, opacity: 0, scale: 0.98 }}
                 animate={{ y: 0, opacity: 1, scale: 1 }}
                 exit={{ y: 20, opacity: 0, scale: 0.98 }}
