@@ -222,10 +222,9 @@ function App() {
                 {section.label}
                 {isActive && (
                   <motion.div
-                    layoutId="nav-underline"
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 4 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
                     transition={{ duration: 0.25, ease: 'easeOut' }}
                     className={`absolute -bottom-1 left-0 right-0 h-0.5 ${underlineColor}`}
                   />
