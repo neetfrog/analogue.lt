@@ -173,6 +173,10 @@ function App() {
     }
   }, [activeSection])
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' })
+  }, [activeSection])
+
   const scrollToSection = (index: number) => {
     setActiveSection(index)
     const sectionId = sections[index]?.id

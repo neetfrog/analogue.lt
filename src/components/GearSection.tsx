@@ -99,9 +99,21 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
     return undefined
   }, [selectedGear])
 
-  const filteredGearItems = selectedCategory === 'All'
-    ? gearItems
-    : gearItems.filter((item) => item.category === selectedCategory.toLowerCase())
+  const categoryOrder = ['cameras', 'lenses', 'accessories']
+
+  const filteredGearItems = (selectedCategory === 'All'
+    ? gearItems.slice()
+    : gearItems.filter((item) => item.category === selectedCategory.toLowerCase()))
+    .sort((a, b) => {
+      const aIndex = categoryOrder.indexOf(a.category)
+      const bIndex = categoryOrder.indexOf(b.category)
+
+      if (aIndex !== bIndex) {
+        return aIndex - bIndex
+      }
+
+      return a.name.localeCompare(b.name)
+    })
 
   const selectedImages = selectedGear
     ? Array.from(new Set([selectedGear.image, ...(selectedGear.moreImages ?? [])]))
@@ -179,8 +191,19 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-stone-500 mb-3 uppercase tracking-wider">{item.condition}</p>
                 <p className="text-stone-600 text-sm leading-relaxed">{item.description}</p>
+                {item.tags?.length ? (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {item.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-flex items-center rounded-full bg-stone-100 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.2em] text-stone-600"
+                      >
+                        {tag.replace(/-/g, ' ')}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
                 <button
                   type="button"
                   onClick={() => setSelectedGear(item)}
@@ -282,6 +305,18 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                     <div>
                       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-600 mb-3">About this item</p>
                       <p className="text-stone-600 leading-relaxed">{selectedGear.details}</p>
+                      {selectedGear.tags?.length ? (
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {selectedGear.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="inline-flex items-center rounded-full bg-stone-100 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.2em] text-stone-600"
+                            >
+                              {tag.replace(/-/g, ' ')}
+                            </span>
+                          ))}
+                        </div>
+                      ) : null}
                     </div>
 
                     <div>
