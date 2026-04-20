@@ -167,7 +167,7 @@ function App() {
   }
 
   return (
-    <div className="w-full h-screen overflow-hidden bg-stone-50 text-stone-900 font-['Inter']">
+    <div className="w-full min-h-screen overflow-auto bg-stone-50 text-stone-900 antialiased">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center mix-blend-difference text-white">
         <motion.div 
@@ -232,7 +232,7 @@ function App() {
       </AnimatePresence>
 
       {/* Sections */}
-      <div className="w-full h-full">
+      <div className="w-full">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeSection}
@@ -240,7 +240,7 @@ function App() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-            className="w-full h-full"
+            className="w-full"
           >
             {activeSection === 0 && <HomeSection fadeInUp={fadeInUp} />}
             {activeSection === 1 && <WeddingsSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} />}
@@ -291,18 +291,25 @@ function HomeSection({ fadeInUp }: any) {
   useEffect(() => {
     const interval = window.setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % homeSlides.length)
-    }, 5000)
+    }, 7000)
     return () => window.clearInterval(interval)
   }, [])
 
   return (
-    <section className="w-full h-full flex items-center justify-center px-6 relative overflow-hidden">
+    <section className="w-full min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        <img
-          src={homeSlides[currentSlide]}
-          alt={`Slide ${currentSlide + 1}`}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={homeSlides[currentSlide]}
+            src={homeSlides[currentSlide]}
+            alt={`Slide ${currentSlide + 1}`}
+            className="absolute inset-0 w-full h-full object-cover"
+            initial={{ opacity: 0, scale: 1.03 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          />
+        </AnimatePresence>
         <div className="absolute inset-0 bg-black/35" />
       </div>
       <motion.div 
@@ -369,7 +376,7 @@ function HomeSection({ fadeInUp }: any) {
 
 function WeddingsSection({ fadeInUp, staggerContainer }: any) {
   return (
-    <section className="w-full h-full flex items-center px-6 md:px-12 lg:px-24 py-20 relative">
+    <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 relative">
       <div className="max-w-7xl mx-auto w-full">
         <motion.div 
           variants={staggerContainer}
@@ -461,7 +468,7 @@ function WeddingsSection({ fadeInUp, staggerContainer }: any) {
 
 function PortfolioSection({ fadeInUp, staggerContainer }: any) {
   return (
-    <section className="w-full h-full flex items-center px-6 md:px-12 lg:px-24 py-20 relative">
+    <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 relative">
       <div className="max-w-7xl mx-auto w-full">
         <motion.div 
           variants={staggerContainer}
@@ -491,7 +498,7 @@ function PortfolioSection({ fadeInUp, staggerContainer }: any) {
 
 function GearSection({ fadeInUp, staggerContainer }: any) {
   return (
-    <section className="w-full h-full flex items-center px-6 md:px-12 lg:px-24 py-20 relative overflow-y-auto">
+    <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 relative overflow-y-auto">
       <div className="max-w-7xl mx-auto w-full">
         <motion.div 
           variants={staggerContainer}
