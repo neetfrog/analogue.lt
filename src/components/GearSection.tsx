@@ -203,6 +203,16 @@ export function GearSection({ fadeInUp, staggerContainer }: GearSectionProps) {
                         ))}
                       </ul>
                     </div>
+                    {selectedGear.vintedUrl && !selectedGear.sold && (
+                      <a
+                        href={selectedGear.vintedUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex w-full items-center justify-center rounded-2xl bg-amber-500 px-5 py-3 text-sm font-semibold text-white hover:bg-amber-400 transition"
+                      >
+                        Buy on Vinted
+                      </a>
+                    )}
                   </div>
                 </div>
               </motion.div>

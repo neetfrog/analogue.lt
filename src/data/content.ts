@@ -52,6 +52,7 @@ export const gearItems = [
     image: 'https://loremflickr.com/600/600/camera?lock=1',
     details: 'This Leica M6 is a beautifully maintained 35mm film rangefinder with a crisp optical viewfinder and dependable mechanical shutter.',
     specs: ['35mm film', 'Leica M-mount', 'Manual focus', 'Battery powered light meter'],
+    vintedUrl: 'https://www.vinted.lt/items/6980305592-jupiter-21m-200mm-f4-m42',
     moreImages: [
       'https://loremflickr.com/600/600/camera?lock=5',
       'https://loremflickr.com/600/600/camera?lock=6',
@@ -70,6 +71,7 @@ export const gearItems = [
     image: 'https://loremflickr.com/600/600/camera?lock=2',
     details: 'A legendary beginner SLR with classic Canon styling and a smooth shutter. Great for film students and first-time shooters.',
     specs: ['FD mount', '1.8 50mm lens included', 'Shutter speeds 1-1/1000s', 'Built-in meter'],
+    vintedUrl: 'https://www.vinted.lt/items/6980305592-jupiter-21m-200mm-f4-m42',
     moreImages: [
       'https://loremflickr.com/600/600/camera?lock=7',
       'https://loremflickr.com/600/600/camera?lock=8',
@@ -88,6 +90,7 @@ export const gearItems = [
     image: 'https://loremflickr.com/600/600/camera?lock=3',
     details: 'A cult favorite compact with Zeiss optics, titanium body, and reliable autofocus. Ideal for street and travel photography.',
     specs: ['Carl Zeiss 38mm f/2.8', 'Autofocus', 'Point-and-shoot', 'Titanium body'],
+    vintedUrl: 'https://www.vinted.lt/items/6980305592-jupiter-21m-200mm-f4-m42',
     moreImages: [
       'https://loremflickr.com/600/600/camera?lock=9',
       'https://loremflickr.com/600/600/camera?lock=10',
@@ -106,6 +109,7 @@ export const gearItems = [
     image: 'https://loremflickr.com/600/600/camera?lock=4',
     details: 'A rugged pro-grade Nikon with full manual control. This body is a classic workhorse for film photographers.',
     specs: ['Nikon F mount', 'Mechanical shutter', 'Full manual', 'Built to last'],
+    vintedUrl: 'https://www.vinted.lt/items/6980305592-jupiter-21m-200mm-f4-m42',
     moreImages: [
       'https://loremflickr.com/600/600/camera?lock=11',
       'https://loremflickr.com/600/600/camera?lock=12',
@@ -124,6 +128,7 @@ export const gearItems = [
     image: 'https://loremflickr.com/600/600/lens?lock=13',
     details: 'A beautiful 50mm summicron prime with crisp rendering and smooth bokeh. Works perfectly on Leica M bodies and adapted rangefinders.',
     specs: ['Leica M mount', '50mm focal length', 'f/2 max aperture', 'Manual focus'],
+    vintedUrl: 'https://www.vinted.lt/items/6980305592-jupiter-21m-200mm-f4-m42',
     moreImages: [
       'https://loremflickr.com/600/600/lens?lock=14',
       'https://loremflickr.com/600/600/lens?lock=15',
@@ -142,6 +147,7 @@ export const gearItems = [
     image: 'https://loremflickr.com/600/600/lens?lock=16',
     details: 'A versatile portrait lens with excellent sharpness and subject separation. Includes Nikon F mount and clean glass.',
     specs: ['Nikon F mount', '85mm focal length', 'f/1.8 max aperture', 'Autofocus'],
+    vintedUrl: 'https://www.vinted.lt/items/6980305592-jupiter-21m-200mm-f4-m42',
     moreImages: [
       'https://loremflickr.com/600/600/lens?lock=17',
       'https://loremflickr.com/600/600/lens?lock=18',
@@ -160,6 +166,7 @@ export const gearItems = [
     image: 'https://loremflickr.com/600/600/lighting?lock=19',
     details: 'A compact battery-powered flash head ideal for on-location shoots. Includes mount and fresh battery for immediate use.',
     specs: ['Battery powered', 'High output', 'TTL compatible', 'Portable lighting'],
+    vintedUrl: 'https://www.vinted.lt/items/6980305592-jupiter-21m-200mm-f4-m42',
     moreImages: [
       'https://loremflickr.com/600/600/lighting?lock=20',
       'https://loremflickr.com/600/600/lighting?lock=21',
@@ -178,6 +185,7 @@ export const gearItems = [
     image: 'https://loremflickr.com/600/600/tripod?lock=22',
     details: 'A lightweight, sturdy travel tripod designed for mirrorless and DSLR cameras. Packs down small and holds reliable weight.',
     specs: ['Carbon fiber', 'Quick release', 'Compact fold', 'Load capacity 20lb'],
+    vintedUrl: 'https://www.vinted.lt/items/6980305592-jupiter-21m-200mm-f4-m42',
     moreImages: [
       'https://loremflickr.com/600/600/tripod?lock=23',
       'https://loremflickr.com/600/600/tripod?lock=24',

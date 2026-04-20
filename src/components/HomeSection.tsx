@@ -46,7 +46,7 @@ export function HomeSection() {
       <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center justify-center text-center">
         <div>
           <p className="text-amber-200 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
-            Files are temporary. Film is forever.
+            Timeless, authentic, forever.
           </p>
         </div>
 
@@ -62,8 +62,6 @@ export function HomeSection() {
             className="inline-block overflow-hidden align-middle"
           >
             Capturing the important moments on film.
-            <br />
-            Timeless, authentic, forever.
           </motion.span>
         </div>
 
@@ -75,7 +73,7 @@ export function HomeSection() {
         >
           <div className="flex items-center gap-2 text-stone-400">
             <Heart size={18} />
-            <span className="text-sm">Based in Vilnius</span>
+            <span className="text-sm">Based in Vilnius, Lithuania</span>
           </div>
         </motion.div>
       </div>
