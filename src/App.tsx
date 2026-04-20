@@ -72,7 +72,7 @@ function App() {
   useEffect(() => {
     const applyHash = () => {
       const hash = window.location.hash.replace('#', '')
-      const match = hash.match(/^item-(\d+)$/)
+      const match = hash.match(/^item-(\d+)(?:-[a-z0-9-]+)?$/)
 
       if (match) {
         setActiveSection(sectionIndexById.get('gear') ?? 2)

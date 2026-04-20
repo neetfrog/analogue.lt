@@ -128,21 +128,18 @@ export const gearItems = [
   },
   {
     id: 5,
-    name: 'Leica 50mm f/2 Summicron',
-    price: '$950',
-    condition: 'Excellent',
+    name: 'Jupiter-11 135mm f/4',
+    price: '€80',
+    condition: 'Good',
     category: 'lenses',
-    description: 'Sharp Leica prime lens for portraits and low light.',
+    description: 'Classic Soviet telephoto lens in Leica M39 mount.',
     sold: false,
-    image: 'https://loremflickr.com/600/600/lens?lock=13',
-    details: 'A beautiful 50mm summicron prime with crisp rendering and smooth bokeh. Works perfectly on Leica M bodies and adapted rangefinders.',
-    specs: ['Leica M mount', '50mm focal length', 'f/2 max aperture', 'Manual focus'],
-    vintedUrl: 'https://www.vinted.lt/items/6980305592-jupiter-21m-200mm-f4-m42',
+    image: new URL('../../images/gear/jupiter-11/1.webp', import.meta.url).href,
+    details: 'This Jupiter-11 lens is derived from the Zeiss Sonnar design with four elements in three groups. It offers a 135mm focal length and f/4 maximum aperture, making it a compact telephoto prime for portrait and detail work.',
+    specs: ['135mm focal length', 'f/4 maximum aperture', 'M39 Leica mount', 'Sonnar-derived optical design'],
+    vintedUrl: 'https://www.vinted.lt/items/6980375412-jupiter-11-135mm-f4-m39-leica-mount',
     moreImages: [
-      'https://loremflickr.com/600/600/lens?lock=14',
-      'https://loremflickr.com/600/600/lens?lock=15',
-      'https://loremflickr.com/600/600/lens?lock=25',
-      'https://loremflickr.com/600/600/lens?lock=26'
+      new URL('../../images/gear/jupiter-11/2.webp', import.meta.url).href
     ]
   },
   {

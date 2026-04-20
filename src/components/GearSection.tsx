@@ -13,6 +13,12 @@ type GearSectionProps = {
 
 const categories = ['All', 'Cameras', 'Lenses', 'Accessories']
 
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+
 export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedGear, setSelectedGear] = useState<GearItem | null>(null)
@@ -194,13 +200,13 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                       type="button"
                       onClick={() => {
                         const url = new URL(window.location.href)
-                        url.hash = `item-${selectedGear.id}`
+                        url.hash = `item-${selectedGear.id}-${slugify(selectedGear.name)}`
                         navigator.clipboard.writeText(url.toString())
                           .then(() => setCopiedLink(true))
                           .catch(() => setCopiedLink(false))
                       }}
                       className="rounded-full bg-stone-100 p-3 text-stone-700 hover:bg-stone-200 transition"
-                      aria-label={copiedLink ? 'Link copied' : 'Copy link'}
+                      aria-label={copiedLink ? `Link copied for ${selectedGear.name}` : `Copy link to ${selectedGear.name}`}
                     >
                       {copiedLink ? <Check size={16} /> : <Link2 size={16} />}
                     </button>
@@ -271,8 +277,9 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                         href={selectedGear.vintedUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-sky-600 px-5 py-3 text-sm font-medium text-white hover:bg-sky-500 transition tracking-[0.01em] font-sans"
-                        aria-label="Vinted"
+                        className="inline-flex w-full items-center justify-center rounded-2xl bg-sky-600 px-5 py-3 text-white hover:bg-sky-500 transition font-sans"
+                        aria-label={`Open Vinted listing for ${selectedGear.name}`}
+                        title={`Open Vinted listing for ${selectedGear.name}`}
                       >
                         <img
                           src="/images/Vinted/Vinted_idaca39J_H_0.svg"
