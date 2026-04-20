@@ -205,7 +205,7 @@ export const gearItems = [
     image: new URL('../../images/gear/exakta-vx1000/exakta-vx1000-1.webp', import.meta.url).href,
     details: 'The Exakta VX1000 from 1967 is a historic German 35mm SLR known for its left-handed layout and robust build. This fully working example offers a unique shooting experience and is a great collectible for film photographers.',
     specs: ['35mm film', 'Exakta VX lens mount', 'Manual focus', 'Fully working'],
-    tags: ['camera','slr','35mm'],
+    tags: ['slr','35mm'],
     vintedUrl: 'https://www.vinted.lt/items/6960814027-exakta-vx1000-1967',
     wikiUrl: 'https://alysvintagecameraalley.com/2020/11/04/the-exakta-vx1000-a-left-handers-dream/',
     moreImages: [
@@ -224,7 +224,7 @@ export const gearItems = [
     image: new URL('../../images/gear/zorki-3-1951/zorki-3-1951-1.webp', import.meta.url).href,
     details: 'The Zorki-3 from 1951 is a classic Soviet rangefinder camera with a combined viewfinder/rangefinder and advanced shutter speeds for its era. This fully working example is a rare collectible that combines reliability with vintage Soviet design.',
     specs: ['35mm film', 'M39 lens mount', 'Manual focus', 'Fully working'],
-    tags: ['camera','rangefinder','35mm'],
+    tags: ['rangefinder','35mm'],
     vintedUrl: 'https://www.vinted.lt/items/6961166859',
     wikiUrl: 'https://camera-wiki.org/wiki/Zorki_3',
     moreImages: [
@@ -242,7 +242,7 @@ export const gearItems = [
     image: new URL('../../images/gear/carl-zeiss-werra-1954/carl-zeiss-werra-1954-1.webp', import.meta.url).href,
     details: 'The Carl Zeiss Jena Werra from 1954 is a design-focused German 35mm camera known for its streamlined controls and elegant styling. This fully working example emphasizes simplicity, with many functions integrated in the lens barrel and a distinct rangefinder/viewfinder layout.',
     specs: ['35mm film', 'Viewfinder / rangefinder', 'Manual focus', 'Fully working'],
-    tags: ['camera','rangefinder','35mm'],
+    tags: ['rangefinder','35mm'],
     vintedUrl: 'https://www.vinted.lt/items/6961116704-carl-zeiss-jena-werra-1954',
     wikiUrl: 'https://camera-wiki.org/wiki/werra',
     moreImages: [
@@ -260,7 +260,7 @@ export const gearItems = [
     image: new URL('../../images/gear/carl-zeiss-ikon-ikonta-521/carl-zeiss-ikon-ikonta-521-1.webp', import.meta.url).href,
     details: 'The Zeiss Ikon Ikonta 521 is a 120 roll-film folding camera producing 6x9cm negatives. This fully working example is a classic mid-century German medium-format camera with elegant styling and rugged build quality.',
     specs: ['120 film', '6x9cm medium format', 'Manual focus', 'Fully working'],
-    tags: ['camera','medium-format','120film'],
+    tags: ['medium-format','120film'],
     vintedUrl: 'https://www.vinted.lt/items/6961094420-carl-zeiss-ikon-ikonta-1938-1952-medium-format',
     wikiUrl: 'https://thenoisyshutter.com/2022/06/23/classic-camera-review-zeiss-ikon-ikonta-521/',
     moreImages: [
@@ -278,7 +278,7 @@ export const gearItems = [
     image: new URL('../../images/gear/fed-nkvd-1935/fed-nkvd-1935-1.webp', import.meta.url).href,
     details: 'The FED NKVD is a rare early Soviet FED camera made between 1939 and 1941. This type 1d/4 example is fully working and historically significant, featuring a solid Soviet-era build and unique provenance tied to the NKVD lineage.',
     specs: ['35mm film', 'M39 lens mount', 'Manual focus', 'Fully working'],
-    tags: ['camera','rangefinder','35mm'],
+    tags: ['rangefinder','35mm'],
     vintedUrl: 'https://www.vinted.lt/items/6960847627-fed-nkvd-1935',
     wikiUrl: 'https://camerapedia.fandom.com/wiki/FED_(Original)_(FED_NKVD,_FED-S,_FED-1)',
     moreImages: [
@@ -297,7 +297,7 @@ export const gearItems = [
     image: new URL('../../images/gear/fed-3-1961/fed-3-1961-1.webp', import.meta.url).href,
     details: 'The FED 3 is a mid-century Soviet rangefinder inspired by Leica II(D) cameras. This fully working 1961 example offers a compact 35mm format, smooth focus, and a complete set of shutter speeds for classic film photography.',
     specs: ['35mm film', 'M39 lens mount', 'Manual focus', 'Fully working'],
-    tags: ['camera','rangefinder','35mm'],
+    tags: ['rangefinder','35mm'],
     vintedUrl: 'https://www.vinted.lt/items/6960902366-fed-3-1961',
     wikiUrl: 'https://camerapedia.fandom.com/wiki/FED_3',
     moreImages: [
@@ -315,7 +315,7 @@ export const gearItems = [
     image: new URL('../../images/gear/fed-1g-1949/fed-1g-1949-1.webp', import.meta.url).href,
     details: 'The FED 1g is an early Soviet Leica II(D) copy with a rare calibration hole in the backplate. This fully working 1949 example is a historic FED 1g (type 1g / type 6) and includes the original Soviet-era engraving and classic Leica thread mount compatibility.',
     specs: ['35mm film', 'M39 lens mount', 'Manual focus', 'Fully working'],
-    tags: ['camera','rangefinder','35mm'],
+    tags: ['rangefinder','35mm'],
     vintedUrl: 'https://www.vinted.lt/items/6960888603-fed-1g-1949',
     wikiUrl: 'https://fedka.com/fs/product/fed-1g-chrome/',
     moreImages: [
@@ -334,7 +334,7 @@ export const gearItems = [
     image: new URL('../../images/gear/yashica-ye-1959/yashica-ye-1959-1.webp', import.meta.url).href,
     details: 'The Yashica YE is a 1959 35mm rangefinder camera featuring Leica screw mount compatibility and separate focus/viewing eyepieces. This fully working example carries classic mid-century Japanese design and reliable film handling.',
     specs: ['35mm film', 'Leica screw mount', 'Manual focus', 'Fully working'],
-    tags: ['camera','rangefinder','35mm'],
+    tags: ['rangefinder','35mm'],
     vintedUrl: 'https://www.vinted.lt/items/6961026635-yashica-ye-1959',
     wikiUrl: 'https://camera-wiki.org/wiki/Yashica_YE',
     moreImages: [
@@ -352,7 +352,7 @@ export const gearItems = [
     image: new URL('../../images/gear/lubitel-1949/lubitel-1949-1.webp', import.meta.url).href,
     details: 'The Lubitel 1949 is a Russian medium format TLR built by LOMO for 120 film. This fully working example features a Cooke triplet lens, simple controls, and classic Soviet-era medium format charm.',
     specs: ['120 film', '6x6cm medium format', 'TLR', 'Fully working'],
-    tags: ['camera','medium-format','tlr','120film'],
+    tags: ['medium-format','tlr','120film'],
     vintedUrl: 'https://www.vinted.lt/items/6960989450-lubitel-1949-medium-format',
     wikiUrl: 'https://en.wikipedia.org/wiki/Lubitel',
     moreImages: [
@@ -370,7 +370,7 @@ export const gearItems = [
     image: new URL('../../images/gear/contax-f-1956/contax-f-1956-1.webp', import.meta.url).href,
     details: 'The Contax F from 1956 is an early Contax camera with an automatic diaphragm release and larger mirror design. This set includes the Carl Zeiss Tessar 50mm f/2.8 lens, and it is fully working with clean glass and smooth focus.',
     specs: ['35mm film', 'Contax F mount', 'Manual focus', 'Fully working'],
-    tags: ['camera','slr','35mm'],
+    tags: ['slr','35mm'],
     vintedUrl: 'https://www.vinted.lt/items/6960741934-contax-f-1956-carl-zeiss-tessar-50mm-f28',
     wikiUrl: 'https://camera-wiki.org/wiki/Contax_S#Contax_F.2C_FM.2C_FB_and_FBM',
     moreImages: [
@@ -381,7 +381,7 @@ export const gearItems = [
   },
   {
     id: 26,
-    name: 'Canon FX [1964] + Canon 135mm f/2.5 FL',
+    name: 'Canon FX + Canon 135mm f/2.5 FL',
     price: '€100',
     condition: 'Very Good',
     category: 'cameras',
@@ -390,7 +390,7 @@ export const gearItems = [
     image: new URL('../../images/gear/canon-fx-1964/canon-fx-1964-1.webp', import.meta.url).href,
     details: 'The Canon FX from 1964 is an early FL-mount 35mm SLR with built-in CdS metering and a rare Canon 135mm f/2.5 FL lens. This set is fully working, with smooth focus and clean glass, making it a solid example of classic Canon SLR engineering.',
     specs: ['35mm film', 'Canon FL mount', 'Manual focus', 'Fully working'],
-    tags: ['camera','slr','35mm','telephoto'],
+    tags: ['slr','35mm','telephoto'],
     vintedUrl: 'https://www.vinted.lt/items/6960716767-canon-fx-1964-canon-135mm-f25-fl',
     wikiUrl: 'https://camera-wiki.org/wiki/Canon_FX',
     moreImages: [
@@ -408,7 +408,7 @@ export const gearItems = [
     image: new URL('../../images/gear/agfa-karat-36-50mm-f2-1948/agfa-karat-36-50mm-f2-1948-1.webp', import.meta.url).href,
     details: 'The Agfa Karat 36 is an uncommon medium-format camera paired with a Solagon 50mm f/2 lens by Rodenstock. This fully working 1948 example features classic German optics in a compact design.',
     specs: ['Medium format', 'Solagon 50mm f/2', 'Manual focus', 'Fully working'],
-    tags: ['camera','medium-format','standard','120film'],
+    tags: ['medium-format','standard','120film'],
     vintedUrl: 'https://www.vinted.lt/items/6960669161-agfa-karat-36-50mm-f2-1948',
     wikiUrl: 'https://camera-wiki.org/wiki/Karat#Karat_36',
     moreImages: [
