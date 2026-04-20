@@ -171,26 +171,6 @@ function App() {
         </AnimatePresence>
       </div>
 
-      <div className="fixed right-6 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-40">
-        {sections.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => scrollToSection(i)}
-            className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${activeSection === i ? 'w-6 h-1.5 bg-stone-900' : 'bg-stone-300 hover:bg-stone-500'}`}
-          />
-        ))}
-      </div>
-
-      {activeSection < sections.length - 1 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="fixed bottom-8 left-1/2 -translate-x-1/2 text-stone-400"
-        >
-          <ChevronDown size={24} />
-        </motion.div>
-      )}
     </div>
   )
 }

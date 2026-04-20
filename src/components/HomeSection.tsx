@@ -15,7 +15,7 @@ export function HomeSection() {
   }, [])
 
   return (
-    <section className="w-full min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
+    <section className="w-full min-h-screen flex items-center justify-center px-6 relative overflow-hidden text-center">
       <div className="absolute inset-0 overflow-hidden">
         <AnimatePresence>
           <motion.img
@@ -43,7 +43,7 @@ export function HomeSection() {
         transition={{ duration: 6, repeat: Infinity, delay: 1 }}
       />
 
-      <div className="relative z-10 max-w-5xl mx-auto text-center">
+      <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center justify-center text-center">
         <div>
           <p className="text-amber-200 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
             Files are temporary. Film is forever.
@@ -59,9 +59,9 @@ export function HomeSection() {
             initial={{ clipPath: 'inset(0 100% 0 0)' }}
             animate={{ clipPath: 'inset(0 0% 0 0)' }}
             transition={{ duration: 2, ease: [0.25, 0.1, 0.25, 1], delay: 0.15 }}
-            className="inline-block overflow-hidden whitespace-nowrap align-middle"
+            className="inline-block overflow-hidden align-middle"
           >
-            Capturing love stories on film — timeless, authentic, forever.
+            Capturing the important moments on film — timeless, authentic, forever.
           </motion.span>
         </div>
 

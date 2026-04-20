@@ -39,9 +39,6 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
                 </motion.div>
               ))}
             </div>
-            <p className="text-center text-sm text-stone-500">
-              Wedding work now sits inside the portfolio section as part of the selected gallery.
-            </p>
           </motion.div>
         </motion.div>
       </div>
