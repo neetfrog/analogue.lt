@@ -33,6 +33,10 @@ const manufacturerLogoMap: Record<string, { src: string; alt: string }> = {
   'Zeiss Jena': { src: new URL('../../images/logos/manufacturers/zeissJena.png', import.meta.url).href, alt: 'Zeiss Jena' }
 }
 
+const manufacturers = Array.from(
+  new Set(gearItems.map((item) => item.manufacturer).filter((manufacturer): manufacturer is string => Boolean(manufacturer)))
+).sort((a, b) => a.localeCompare(b))
+
 type SpecRule = {
   test: RegExp | ((value: string) => boolean)
   format: (value: string) => string
@@ -132,6 +136,7 @@ const sortSpecs = (specs: string[]) =>
 
 export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState('All')
+  const [selectedManufacturer, setSelectedManufacturer] = useState<string | null>(null)
   const [selectedGear, setSelectedGear] = useState<GearItem | null>(null)
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [copiedLink, setCopiedLink] = useState(false)
@@ -212,9 +217,11 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
 
   const categoryOrder = ['cameras', 'lenses', 'accessories']
 
-  const filteredGearItems = (selectedCategory === 'All'
-    ? gearItems.slice()
-    : gearItems.filter((item) => item.category === selectedCategory.toLowerCase()))
+  const filteredGearItems = gearItems
+    .filter((item) =>
+      (selectedCategory === 'All' || item.category === selectedCategory.toLowerCase()) &&
+      (!selectedManufacturer || item.manufacturer === selectedManufacturer)
+    )
     .sort((a, b) => {
       const aIndex = categoryOrder.indexOf(a.category)
       const bIndex = categoryOrder.indexOf(b.category)
@@ -245,6 +252,29 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
             >
               Well-loved equipment looking for new homes
             </motion.p>
+          </motion.div>
+
+          <motion.div variants={fadeInUp} className="mb-8 flex flex-wrap items-center justify-center gap-4">
+            {manufacturers.map((manufacturer) => (
+              <button
+                key={manufacturer}
+                type="button"
+                onClick={() => setSelectedManufacturer((current) => (current === manufacturer ? null : manufacturer))}
+                className={`rounded-3xl border p-2 transition shadow-sm ${
+                  selectedManufacturer === manufacturer
+                    ? 'border-amber-400 bg-amber-50'
+                    : 'border-stone-200 bg-white hover:border-stone-900'
+                }`}
+                aria-pressed={selectedManufacturer === manufacturer}
+                title={`Filter by ${manufacturer}`}
+              >
+                <img
+                  src={manufacturerLogoMap[manufacturer]?.src}
+                  alt={manufacturer}
+                  className="h-8 w-auto object-contain"
+                />
+              </button>
+            ))}
           </motion.div>
 
           <motion.div variants={fadeInUp} className="flex flex-wrap items-center justify-center gap-3 mb-10">
@@ -281,6 +311,15 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                     : 'border-stone-200 hover:border-amber-400 hover:shadow-lg'
                 }`}
               >
+                  {item.manufacturer && manufacturerLogoMap[item.manufacturer] ? (
+                  <div className="mb-4 flex items-center justify-center">
+                    <img
+                      src={manufacturerLogoMap[item.manufacturer].src}
+                      alt={manufacturerLogoMap[item.manufacturer].alt}
+                      className="h-10 w-auto object-contain opacity-90"
+                    />
+                  </div>
+                ) : null}
                 <button
                   type="button"
                   onClick={() => setSelectedGear(item)}
@@ -295,15 +334,6 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                     className="w-full h-full object-cover"
                   />
                 </button>
-                {item.manufacturer && manufacturerLogoMap[item.manufacturer] ? (
-                  <div className="mb-4 flex items-center justify-center">
-                    <img
-                      src={manufacturerLogoMap[item.manufacturer].src}
-                      alt={manufacturerLogoMap[item.manufacturer].alt}
-                      className="h-10 w-auto object-contain opacity-90"
-                    />
-                  </div>
-                ) : null}
                 <h3 className="text-xl font-semibold mb-1">{item.name}</h3>
                 <div className="flex items-center gap-3 mb-2">
                   <p className={`font-bold text-2xl ${item.sold ? 'text-stone-400 line-through' : 'text-amber-600'}`}>
