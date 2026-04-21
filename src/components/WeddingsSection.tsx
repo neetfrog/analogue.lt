@@ -1,6 +1,6 @@
 import { motion, type Variants } from 'framer-motion'
 import { Film } from 'lucide-react'
-import { weddingImages } from '../data/content'
+import { eventImages } from '../data/content'
 
 type MotionVariants = Variants
 
@@ -29,20 +29,20 @@ export function WeddingsSection({ fadeInUp, staggerContainer }: WeddingsSectionP
                 There's something magical about film — the way it captures light, the organic grain, the colors that feel like a memory rather than a digital file.
               </p>
               <p>
-                Every shot is intentional. No instant review, no endless takes. Just presence, intuition, and trust in the process.
+                I photograph weddings, baptisms, family gatherings and quiet ceremonies with presence, intuition, and trust in the process.
               </p>
-              <p className="text-stone-900 font-medium">Your love deserves to be remembered forever.</p>
+              <p className="text-stone-900 font-medium">Your story deserves to be remembered forever.</p>
             </motion.div>
 
             <motion.div variants={fadeInUp} className="mt-10 flex flex-wrap gap-4">
-              <div className="px-4 py-2 bg-stone-100 rounded-full text-sm text-stone-600">35mm & Medium Format</div>
+              <div className="px-4 py-2 bg-stone-100 rounded-full text-sm text-stone-600">Weddings & Baptisms</div>
               <div className="px-4 py-2 bg-stone-100 rounded-full text-sm text-stone-600">Natural Light Only</div>
               <div className="px-4 py-2 bg-stone-100 rounded-full text-sm text-stone-600">Limited Availability</div>
             </motion.div>
           </div>
 
           <motion.div variants={fadeInUp} className="order-1 lg:order-2 grid grid-cols-2 gap-3">
-            {weddingImages.map((item, i) => (
+            {eventImages.map((item, i) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, y: 30 }}

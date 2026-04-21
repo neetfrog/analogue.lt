@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, type TouchEvent } from 'react'
 import { motion, type Variants } from 'framer-motion'
-import { weddingImages } from '../data/content'
+import { eventImages } from '../data/content'
 import { ImageLightbox } from './ImageLightbox'
 import type { PortfolioTranslations } from '../i18n'
 
@@ -79,7 +79,7 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
 
           <motion.div variants={fadeInUp} className="grid gap-10">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {weddingImages.map((item, i) => (
+              {eventImages.map((item, i) => (
                 <motion.button
                   type="button"
                   key={item.id}

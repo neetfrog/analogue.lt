@@ -5,7 +5,7 @@ export const sections = [
   { id: 'contact', label: 'Contact' }
 ]
 
-export const weddingImages = [
+export const eventImages = [
   {
     id: 1,
     title: 'Emma & James',
@@ -39,11 +39,11 @@ export const homeSlides = [
   },
   {
     src: new URL('../../images/slideshow/2.jpg', import.meta.url).href,
-    alt: 'Wedding portrait on a moody city street'
+    alt: 'Portrait on a moody city street'
   },
   {
     src: new URL('../../images/slideshow/3.jpg', import.meta.url).href,
-    alt: 'Bride and groom sharing a quiet moment'
+    alt: 'Two people sharing a quiet moment'
   }
 ]
 

@@ -118,7 +118,7 @@ export const translations: Record<Locale, Translations> = {
     portfolio: {
       eyebrow: 'Selected Work',
       title: 'Portfolio',
-      description: 'A short edit of recent wedding work',
+      description: 'A small selection of my recent work',
       openImage: 'Open {title}',
       enlargedAlt: 'Enlarged portfolio'
     },
@@ -196,7 +196,7 @@ export const translations: Record<Locale, Translations> = {
     portfolio: {
       eyebrow: 'Atrinkti darbai',
       title: 'Portfolio',
-      description: 'Trumpa naujausių vestuvių darbų atranka',
+      description: 'nedidelė mano kadrų ekspozicija',
       openImage: 'Atidaryti {title}',
       enlargedAlt: 'Padidintas portfolio'
     },
