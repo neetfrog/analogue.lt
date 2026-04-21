@@ -171,6 +171,10 @@ function App() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (document.body.dataset.lightboxOpen === 'true') {
+        return
+      }
+
       if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
         setActiveSection((prev) => Math.min(sectionItems.length - 1, prev + 1))
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {

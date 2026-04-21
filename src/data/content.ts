@@ -8,27 +8,27 @@ export const sections = [
 export const eventImages = [
   {
     id: 1,
-    title: 'Emma & James',
-    location: 'Tuscany, Italy',
-    image: 'https://loremflickr.com/1200/900/wedding?lock=101'
+    title: 'Sunset Portrait',
+    location: 'Analog story',
+    image: new URL('../../images/portfolio/1.jpg', import.meta.url).href
   },
   {
     id: 2,
-    title: 'Sarah & Michael',
-    location: 'Big Sur, California',
-    image: 'https://loremflickr.com/1200/900/wedding?lock=102'
+    title: 'Golden Moment',
+    location: 'Film memories',
+    image: new URL('../../images/portfolio/2.jpg', import.meta.url).href
   },
   {
     id: 3,
-    title: 'Olivia & Thomas',
-    location: 'Paris, France',
-    image: 'https://loremflickr.com/1200/900/wedding?lock=103'
+    title: 'Quiet Details',
+    location: 'Captured light',
+    image: new URL('../../images/portfolio/3.jpg', import.meta.url).href
   },
   {
     id: 4,
-    title: 'Grace & William',
-    location: 'Kyoto, Japan',
-    image: 'https://loremflickr.com/1200/900/wedding?lock=104'
+    title: 'Vintage Frame',
+    location: 'Storytelling',
+    image: new URL('../../images/portfolio/4.jpg', import.meta.url).href
   }
 ]
 

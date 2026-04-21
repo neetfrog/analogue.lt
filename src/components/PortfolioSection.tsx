@@ -45,19 +45,59 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
     }
   }
 
+  const activeIndex = activeImage ? eventImages.findIndex((item) => item.image === activeImage) : -1
+
+  const goToPreviousImage = () => {
+    if (activeIndex > 0) {
+      setActiveImage(eventImages[activeIndex - 1].image)
+      setZoomed(false)
+    }
+  }
+
+  const goToNextImage = () => {
+    if (activeIndex >= 0 && activeIndex < eventImages.length - 1) {
+      setActiveImage(eventImages[activeIndex + 1].image)
+      setZoomed(false)
+    }
+  }
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && activeImage) {
+      if (!activeImage) {
+        return
+      }
+
+      if (event.key === 'Escape') {
         setActiveImage(null)
       }
-    }
 
-    if (!activeImage) {
-      return
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        event.stopPropagation()
+        goToPreviousImage()
+      }
+
+      if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        event.stopPropagation()
+        goToNextImage()
+      }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [activeImage, activeIndex])
+
+  useEffect(() => {
+    if (activeImage) {
+      document.body.dataset.lightboxOpen = 'true'
+    } else {
+      delete document.body.dataset.lightboxOpen
+    }
+
+    return () => {
+      delete document.body.dataset.lightboxOpen
+    }
   }, [activeImage])
 
   return (
@@ -97,11 +137,6 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
                     decoding="async"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:translate-x-1"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-900/70 to-transparent" />
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <p className="font-semibold">{item.title}</p>
-                    <p className="text-sm opacity-80">{item.location}</p>
-                  </div>
                 </motion.button>
               ))}
             </div>
@@ -118,6 +153,8 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
           onClose={() => setActiveImage(null)}
           onToggleZoom={handleImageDoubleClick}
           onTouchEnd={handleImageTouchEnd}
+          onPrev={goToPreviousImage}
+          onNext={goToNextImage}
         />
       )}
     </section>
