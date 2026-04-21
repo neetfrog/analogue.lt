@@ -105,7 +105,7 @@ export const translations: Record<Locale, Translations> = {
       sections: {
         home: 'Home',
         portfolio: 'Portfolio',
-        gear: 'Gear',
+        gear: 'Shop',
         contact: 'Contact'
       }
     },
@@ -124,7 +124,7 @@ export const translations: Record<Locale, Translations> = {
     },
     gear: {
       eyebrow: 'For Sale',
-      title: 'Camera Gear',
+      title: 'Shop',
       description: 'Well-loved equipment looking for new homes',
       categories: {
         All: 'All',
@@ -183,14 +183,14 @@ export const translations: Record<Locale, Translations> = {
       sections: {
         home: 'Pagrindinis',
         portfolio: 'Portfolio',
-        gear: 'Įranga',
+        gear: 'Parduotuvė',
         contact: 'Kontaktai'
       }
     },
     home: {
       tagline: 'Autentiška. Amžina. Nepavaldu laikui.',
-      description: 'Saugau brangiausias akimirkas ant juostos',
-      location: 'Veikiu Vilniuje, Lietuvoje',
+      description: 'Išsaugau jūsų brangiausias akimirkas juostoje',
+      location: 'Vilnius, Lietuva',
       locationAlt: 'Vilnius'
     },
     portfolio: {
