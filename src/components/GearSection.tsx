@@ -515,7 +515,7 @@ export function GearSection({ fadeInUp, staggerContainer, reduceMotion, initialG
                           title={t.vinted}
                         >
                           <img
-                            src="/images/Vinted/Vinted_idaca39J_H_0.svg"
+                            src={new URL('../../images/Vinted/Vinted_idaca39J_H_0.svg', import.meta.url).href}
                             alt="Vinted logo"
                             className="h-6 w-auto object-contain filter brightness-0 invert"
                           />

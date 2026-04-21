@@ -141,7 +141,7 @@ export const translations: Record<Locale, Translations> = {
       aboutItem: 'About this item',
       techSpecs: 'Tech Specs',
       vinted: 'Open Vinted listing',
-      wiki: 'Open Wikipedia article',
+      wiki: 'Wikipedia',
       filterBy: 'Filter by {manufacturer}',
       specs: {
         focalLength: 'Focal length',
