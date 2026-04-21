@@ -209,7 +209,23 @@ function App() {
     {
       id: 'shop',
       label: t.nav.sections.gear,
-      render: () => <GearSection items={gearItemsState} fadeInUp={fadeInUp} staggerContainer={staggerContainer} initialGearId={initialGearId} reduceMotion={reduceMotion} t={t.gear} />
+      render: () => (
+        <GearSection
+          items={gearItemsState}
+          fadeInUp={fadeInUp}
+          staggerContainer={staggerContainer}
+          initialGearId={initialGearId}
+          reduceMotion={reduceMotion}
+          t={t.gear}
+          onAskAbout={(itemName) => {
+            dispatchBookingForm({ type: 'field', field: 'message', value: `Inquiry about ${itemName}` })
+            const contactIndex = sectionIndexById.get('contact')
+            if (typeof contactIndex === 'number') {
+              setActiveSection(contactIndex)
+            }
+          }}
+        />
+      )
     },
     {
       id: 'contact',
