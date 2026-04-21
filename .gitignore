@@ -27,3 +27,4 @@ pnpm-debug.log*
 
 # Misc
 *.log
+server/db.json

@@ -71,72 +71,114 @@ function App() {
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [bookingForm, dispatchBookingForm] = useReducer(bookingFormReducer, initialBookingForm)
   const [locale, setLocale] = useState<Locale>(() => getInitialLocale())
-  const [adminUnlocked, setAdminUnlocked] = useState<boolean>(() => {
-    if (typeof window === 'undefined' || !ADMIN_PASSWORD || !ADMIN_ROUTE) {
-      return false
-    }
-    return window.localStorage.getItem('analogue-admin-unlocked') === 'true'
-  })
+  const [adminUnlocked, setAdminUnlocked] = useState<boolean>(false)
   const [adminPasswordInput, setAdminPasswordInput] = useState('')
   const [adminError, setAdminError] = useState<string | null>(null)
-  const [gearItemsState, setGearItemsState] = useState<GearItem[]>(() => {
-    if (typeof window === 'undefined') {
-      return gearItems
-    }
-
-    const stored = window.localStorage.getItem('analogue-gear-items')
-    if (!stored) {
-      return gearItems
-    }
-
-    try {
-      const parsed = JSON.parse(stored) as GearItem[]
-      if (!Array.isArray(parsed)) {
-        return gearItems
-      }
-      return parsed.map((item) => ({
-        ...item,
-        specs: Array.isArray(item.specs) ? item.specs : [],
-        tags: Array.isArray(item.tags) ? item.tags : [],
-        moreImages: Array.isArray(item.moreImages) ? item.moreImages : []
-      }))
-    } catch {
-      return gearItems
-    }
-  })
-
-  useEffect(() => {
-    window.localStorage.setItem('analogue-gear-items', JSON.stringify(gearItemsState))
-  }, [gearItemsState])
+  const [gearItemsState, setGearItemsState] = useState<GearItem[]>(gearItems)
+  const [hasLoadedItems, setHasLoadedItems] = useState(false)
 
   const t = translations[locale]
   const reduceMotion = useReducedMotionMobile()
-  const adminEnabled = Boolean(ADMIN_PASSWORD && ADMIN_ROUTE)
+  const adminEnabled = Boolean(ADMIN_ROUTE)
 
-  const unlockAdmin = () => {
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    fetch('/api/auth/me', {
+      credentials: 'include'
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data?.authenticated) {
+          setAdminUnlocked(true)
+        }
+      })
+      .catch(() => {
+        setAdminUnlocked(false)
+      })
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    fetch('/api/items', {
+      credentials: 'include'
+    })
+      .then((response) => response.json())
+      .then((items) => {
+        if (Array.isArray(items) && items.length > 0) {
+          setGearItemsState(items)
+        }
+      })
+      .catch(() => {
+        // Keep the static fallback if backend is not available
+      })
+      .finally(() => setHasLoadedItems(true))
+  }, [])
+
+  const unlockAdmin = async () => {
     if (!adminEnabled) {
       setAdminError('Admin access is not configured')
       return
     }
 
-    if (adminPasswordInput === ADMIN_PASSWORD) {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password: adminPasswordInput })
+      })
+
+      if (!response.ok) {
+        const data = await response.json()
+        setAdminError(data?.message ?? 'Login failed')
+        return
+      }
+
       setAdminUnlocked(true)
       setAdminError(null)
-      window.localStorage.setItem('analogue-admin-unlocked', 'true')
       setAdminPasswordInput('')
       const adminIndex = sectionIndexById.get(ADMIN_ROUTE)
       if (typeof adminIndex === 'number') {
         setActiveSection(adminIndex)
       }
-      return
+    } catch {
+      setAdminError('Unable to reach authentication server')
     }
-
-    setAdminError('Incorrect admin password')
   }
 
-  const lockAdmin = () => {
+  const lockAdmin = async () => {
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include'
+    })
     setAdminUnlocked(false)
-    window.localStorage.removeItem('analogue-admin-unlocked')
+  }
+
+  const saveItems = async (items: GearItem[]) => {
+    const response = await fetch('/api/items', {
+      method: 'PUT',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ items })
+    })
+
+    if (!response.ok) {
+      const data = await response.json()
+      throw new Error(data?.message || 'Failed to save items')
+    }
+
+    const data = await response.json()
+    setGearItemsState(Array.isArray(data.items) ? data.items : gearItems)
   }
 
   useEffect(() => {
@@ -206,7 +248,7 @@ function App() {
                       Log out
                     </button>
                   </div>
-                  <AdminSection items={gearItemsState} onSaveItems={setGearItemsState} />
+                  <AdminSection items={gearItemsState} onSaveItems={saveItems} />
                 </div>
               ) : (
                 <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 pt-24">

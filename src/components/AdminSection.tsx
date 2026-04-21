@@ -3,7 +3,7 @@ import type { GearItem } from '../data/content'
 
 type AdminSectionProps = {
   items: GearItem[]
-  onSaveItems: (items: GearItem[]) => void
+  onSaveItems: (items: GearItem[]) => Promise<void>
 }
 
 const parseList = (value: string) =>
@@ -61,9 +61,20 @@ export function AdminSection({ items, onSaveItems }: AdminSectionProps) {
     setIsDirty(true)
   }
 
-  const saveChanges = () => {
-    onSaveItems(draftItems)
-    setIsDirty(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
+  const [savePending, setSavePending] = useState(false)
+
+  const saveChanges = async () => {
+    try {
+      setSavePending(true)
+      setSaveError(null)
+      await onSaveItems(draftItems)
+      setIsDirty(false)
+    } catch (error) {
+      setSaveError(error instanceof Error ? error.message : 'Unable to save changes')
+    } finally {
+      setSavePending(false)
+    }
   }
 
   const handleImageUpload = async (id: number, file: File, field: 'image' | 'moreImages') => {
@@ -96,7 +107,7 @@ export function AdminSection({ items, onSaveItems }: AdminSectionProps) {
           <p className="text-amber-600 text-sm tracking-[0.2em] uppercase font-medium mb-4">Admin Dashboard</p>
           <h2 className="text-5xl md:text-6xl font-bold tracking-tight">Manage shop items</h2>
           <p className="mt-4 text-stone-500 text-base md:text-lg leading-8">
-            Add, edit, price, and update product details, photos, and links. Changes are saved locally in the browser.
+            Add, edit, price, and update product details, photos, and links. Changes are saved securely on the backend.
           </p>
         </div>
 
@@ -111,12 +122,13 @@ export function AdminSection({ items, onSaveItems }: AdminSectionProps) {
           <button
             type="button"
             onClick={saveChanges}
-            disabled={!isDirty}
+            disabled={!isDirty || savePending}
             className={`inline-flex items-center justify-center rounded-3xl px-6 py-3 text-sm font-medium transition ${isDirty ? 'bg-amber-600 text-white hover:bg-amber-500' : 'bg-stone-200 text-stone-500 cursor-not-allowed'}`}
           >
-            Save changes
+            {savePending ? 'Saving...' : 'Save changes'}
           </button>
         </div>
+        {saveError ? <p className="mb-6 text-sm text-red-600">{saveError}</p> : null}
 
         <div className="space-y-6">
           {draftItems.map((item) => (
