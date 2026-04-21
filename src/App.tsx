@@ -248,7 +248,7 @@ function App() {
         transition={{ duration: 0.3, ease: 'easeOut' }}
         className={`fixed top-0 left-0 w-full z-50 px-6 py-4 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}
       >
-        <div className="relative mx-auto flex max-w-7xl items-center justify-center">
+        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-center gap-4 md:flex-row md:gap-0">
           <div className={`flex flex-wrap items-center justify-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor}`}>
             {sectionItems.map((section, i) => {
               const isActive = activeSection === i
@@ -277,19 +277,21 @@ function App() {
             })}
           </div>
 
-          <div className={`absolute right-6 top-1/2 flex -translate-y-1/2 items-center gap-2 text-sm font-medium ${navTextColor}`}>
-            {localeOptions.map((language) => (
-              <button
-                key={language}
-                type="button"
-                onClick={() => setLocale(language)}
-                className={`rounded-full border px-3 py-2 bg-transparent transition ${language === locale ? 'border-amber-400 text-amber-400' : 'border-stone-300/80 text-current'}`}
-                aria-label={languageLabels[language]}
-              >
-                {languageLabels[language]}
-              </button>
-            ))}
-          </div>
+          {activeSection === 0 && (
+            <div className={`flex flex-wrap items-center justify-center gap-2 text-sm font-medium md:absolute md:right-6 md:top-1/2 md:-translate-y-1/2 ${navTextColor}`}>
+              {localeOptions.map((language) => (
+                <button
+                  key={language}
+                  type="button"
+                  onClick={() => setLocale(language)}
+                  className={`rounded-full border px-3 py-2 bg-transparent transition ${language === locale ? 'border-amber-400 text-amber-400' : 'border-stone-300/80 text-current'}`}
+                  aria-label={languageLabels[language]}
+                >
+                  {languageLabels[language]}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </motion.nav>
 
