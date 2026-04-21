@@ -30,7 +30,7 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   return (
     <section className="w-full h-[100svh] min-h-screen max-h-[100svh] flex items-center justify-center px-6 relative overflow-hidden text-center bg-black">
       <div className="absolute inset-0 overflow-hidden bg-black">
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           <motion.img
             key={homeSlides[currentSlide].src}
             src={homeSlides[currentSlide].src}
