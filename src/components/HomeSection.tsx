@@ -29,6 +29,7 @@ export function HomeSection({ t }: HomeSectionProps) {
             loading="eager"
             decoding="async"
             className="absolute inset-0 w-full h-full object-cover opacity-80"
+            style={currentSlide === 2 ? { objectPosition: '70% center' } : { objectPosition: 'center' }}
             initial={{ opacity: 0, scale: 1.01 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.99 }}
