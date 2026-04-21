@@ -1,52 +1,21 @@
-import { type FormEvent } from 'react'
 import { motion, type Variants } from 'framer-motion'
-import { Check, Heart } from 'lucide-react'
+import { Heart } from 'lucide-react'
 import { InstagramEmbed } from './InstagramEmbed'
 import { instagramAccount } from '../data/content'
 import type { ContactTranslations } from '../i18n'
-
-export type BookingForm = {
-  name: string
-  email: string
-  date: string
-  location: string
-  message: string
-}
 
 type MotionVariants = Variants
 
 type ContactSectionProps = {
   fadeInUp: MotionVariants
   reduceMotion?: boolean
-  bookingForm: BookingForm
-  onBookingFormChange: (field: keyof BookingForm, value: string) => void
-  handleBookingSubmit: (e: FormEvent) => void
-  formSubmitted: boolean
   instagramActive: boolean
   t: ContactTranslations
 }
 
-type BookingField = {
-  name: keyof BookingForm
-  label: string
-  type?: string
-  placeholder?: string
-  required?: boolean
-  optional?: boolean
-  helpText?: string
-  textarea?: boolean
-}
-
-const sharedInputClassName =
-  'w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-100 outline-none transition-all'
-
 export function ContactSection({
   fadeInUp,
   reduceMotion,
-  bookingForm,
-  onBookingFormChange,
-  handleBookingSubmit,
-  formSubmitted,
   instagramActive,
   t,
 }: ContactSectionProps) {
@@ -54,24 +23,6 @@ export function ContactSection({
   const reducedFadeIn: MotionVariants = isReducedMotion
     ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.6 } } }
     : fadeInUp
-  const bookingFields: BookingField[] = [
-    { name: 'name', label: t.fields.name.label, type: 'text', placeholder: t.fields.name.placeholder, required: true },
-    { name: 'email', label: t.fields.email.label, type: 'email', placeholder: t.fields.email.placeholder, required: true },
-    {
-      name: 'date',
-      label: t.fields.date.label,
-      type: 'date',
-      optional: true,
-      helpText: t.fields.date.optionalText
-    },
-    { name: 'location', label: t.fields.location.label, type: 'text', placeholder: t.fields.location.placeholder },
-    {
-      name: 'message',
-      label: t.fields.message.label,
-      textarea: true,
-      placeholder: t.fields.message.placeholder
-    }
-  ]
 
   return (
     <section className="w-full min-h-full flex flex-col items-center px-6 pt-24 py-12 relative">
@@ -89,58 +40,20 @@ export function ContactSection({
           </motion.p>
         </motion.div>
 
-        <motion.form
-          onSubmit={handleBookingSubmit}
+        <motion.div
           initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: isReducedMotion ? 0.25 : 0.35 }}
-          className="mx-auto w-full max-w-2xl overflow-hidden bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-stone-100"
+          className="mx-auto w-full max-w-2xl overflow-hidden bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-stone-100 text-center"
         >
-          <div className="space-y-5">
-            {bookingFields.map((field) => (
-              <div key={field.name}>
-                <label className="block text-sm font-medium text-stone-700 mb-2">
-                  {field.label}
-                  {field.optional ? <span className="text-stone-400 text-xs"> ({t.optional})</span> : null}
-                </label>
-                {field.textarea ? (
-                  <textarea
-                    rows={4}
-                    value={bookingForm[field.name]}
-                    onChange={(e) => onBookingFormChange(field.name, e.target.value)}
-                    className={`${sharedInputClassName} resize-none`}
-                    placeholder={field.placeholder}
-                  />
-                ) : (
-                  <input
-                    type={field.type ?? 'text'}
-                    required={field.required}
-                    value={bookingForm[field.name]}
-                    onChange={(e) => onBookingFormChange(field.name, e.target.value)}
-                    className={sharedInputClassName}
-                    placeholder={field.placeholder}
-                  />
-                )}
-                {field.helpText ? <p className="text-stone-400 text-xs mt-2">{field.helpText}</p> : null}
-              </div>
-            ))}
-
-            <button
-              type="submit"
-              disabled={formSubmitted}
-              className="w-full py-4 bg-stone-900 text-white rounded-xl font-medium hover:bg-stone-800 transition-all flex items-center justify-center gap-2"
-            >
-              {formSubmitted ? (
-                <>
-                  <Check size={18} />
-                  {t.inquirySent}
-                </>
-              ) : (
-                t.sendInquiry
-              )}
-            </button>
-          </div>
-        </motion.form>
+          <p className="text-stone-500 text-base mb-6">Send me a message directly via email.</p>
+          <a
+            href="mailto:ignasnefas@gmail.com?subject=Inquiry from analogue.lt"
+            className="inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-5 py-4 text-sm font-medium text-white transition hover:bg-stone-800"
+          >
+            {t.sendInquiry}
+          </a>
+        </motion.div>
 
         <motion.div variants={fadeInUp} className="mx-auto w-full max-w-4xl">
           <div className="text-center mb-6">

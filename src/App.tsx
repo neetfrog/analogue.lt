@@ -1,11 +1,11 @@
-﻿import { useState, useEffect, useRef, useReducer, type FormEvent, type ReactNode } from 'react'
+﻿import { useState, useEffect, useRef, type ReactNode } from 'react'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { gearItems, type GearItem } from './data/content'
 import { HomeSection } from './components/HomeSection'
 import { PortfolioSection } from './components/PortfolioSection'
 import { GearSection } from './components/GearSection'
 import { AdminSection } from './components/AdminSection'
-import { ContactSection, type BookingForm } from './components/ContactSection'
+import { ContactSection } from './components/ContactSection'
 import { useReducedMotionMobile } from './hooks/useReducedMotionMobile'
 import { slugify } from './utils/slugify'
 import { translations, type Locale, localeOptions, languageLabels, getInitialLocale } from './i18n'
@@ -38,29 +38,6 @@ const findGearIdBySlug = (slug: string, items: GearItem[]) => {
   return match?.id ?? null
 }
 
-const initialBookingForm: BookingForm = {
-  name: '',
-  email: '',
-  date: '',
-  location: '',
-  message: ''
-}
-
-type BookingFormAction =
-  | { type: 'field'; field: keyof BookingForm; value: string }
-  | { type: 'reset' }
-
-function bookingFormReducer(state: BookingForm, action: BookingFormAction): BookingForm {
-  switch (action.type) {
-    case 'field':
-      return { ...state, [action.field]: action.value }
-    case 'reset':
-      return initialBookingForm
-    default:
-      return state
-  }
-}
-
 function App() {
   const [activeSection, setActiveSection] = useState(0)
   const [navVisible, setNavVisible] = useState(true)
@@ -68,57 +45,16 @@ function App() {
   const [instagramActive, setInstagramActive] = useState(false)
   const [initialGearId, setInitialGearId] = useState<string | null>(null)
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
-  const [formSubmitted, setFormSubmitted] = useState(false)
-  const [bookingForm, dispatchBookingForm] = useReducer(bookingFormReducer, initialBookingForm)
   const [locale, setLocale] = useState<Locale>(() => getInitialLocale())
   const [adminUnlocked, setAdminUnlocked] = useState<boolean>(false)
   const [adminPasswordInput, setAdminPasswordInput] = useState('')
   const [adminError, setAdminError] = useState<string | null>(null)
   const [gearItemsState, setGearItemsState] = useState<GearItem[]>(gearItems)
-  const [hasLoadedItems, setHasLoadedItems] = useState(false)
 
   const t = translations[locale]
   const reduceMotion = useReducedMotionMobile()
   const adminEnabled = Boolean(ADMIN_ROUTE)
 
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return
-    }
-
-    fetch('/api/auth/me', {
-      credentials: 'include'
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data?.authenticated) {
-          setAdminUnlocked(true)
-        }
-      })
-      .catch(() => {
-        setAdminUnlocked(false)
-      })
-  }, [])
-
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return
-    }
-
-    fetch('/api/items', {
-      credentials: 'include'
-    })
-      .then((response) => response.json())
-      .then((items) => {
-        if (Array.isArray(items) && items.length > 0) {
-          setGearItemsState(items)
-        }
-      })
-      .catch(() => {
-        // Keep the static fallback if backend is not available
-      })
-      .finally(() => setHasLoadedItems(true))
-  }, [])
 
   const unlockAdmin = async () => {
     if (!adminEnabled) {
@@ -190,15 +126,6 @@ function App() {
     document.documentElement.lang = locale
   }, [locale])
 
-  const handleBookingSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    setFormSubmitted(true)
-    setTimeout(() => {
-      setFormSubmitted(false)
-      dispatchBookingForm({ type: 'reset' })
-    }, 3000)
-  }
-
   const sectionItems: SectionItem[] = [
     { id: 'home', label: t.nav.sections.home, render: () => <HomeSection t={t.home} reduceMotion={reduceMotion} /> },
     {
@@ -218,7 +145,6 @@ function App() {
           reduceMotion={reduceMotion}
           t={t.gear}
           onAskAbout={(itemName) => {
-            dispatchBookingForm({ type: 'field', field: 'message', value: `Inquiry about ${itemName}` })
             const contactIndex = sectionIndexById.get('contact')
             if (typeof contactIndex === 'number') {
               setActiveSection(contactIndex)
@@ -234,10 +160,6 @@ function App() {
         <ContactSection
           fadeInUp={fadeInUp}
           reduceMotion={reduceMotion}
-          bookingForm={bookingForm}
-          onBookingFormChange={(field, value) => dispatchBookingForm({ type: 'field', field, value })}
-          handleBookingSubmit={handleBookingSubmit}
-          formSubmitted={formSubmitted}
           instagramActive={instagramActive}
           t={t.contact}
         />
