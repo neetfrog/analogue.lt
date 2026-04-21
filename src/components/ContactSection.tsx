@@ -17,6 +17,7 @@ type MotionVariants = Variants
 
 type ContactSectionProps = {
   fadeInUp: MotionVariants
+  reduceMotion?: boolean
   bookingForm: BookingForm
   onBookingFormChange: (field: keyof BookingForm, value: string) => void
   handleBookingSubmit: (e: FormEvent) => void
@@ -41,6 +42,7 @@ const sharedInputClassName =
 
 export function ContactSection({
   fadeInUp,
+  reduceMotion,
   bookingForm,
   onBookingFormChange,
   handleBookingSubmit,
@@ -48,6 +50,10 @@ export function ContactSection({
   instagramActive,
   t,
 }: ContactSectionProps) {
+  const isReducedMotion = reduceMotion ?? false
+  const reducedFadeIn: MotionVariants = isReducedMotion
+    ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.6 } } }
+    : fadeInUp
   const bookingFields: BookingField[] = [
     { name: 'name', label: t.fields.name.label, type: 'text', placeholder: t.fields.name.placeholder, required: true },
     { name: 'email', label: t.fields.email.label, type: 'email', placeholder: t.fields.email.placeholder, required: true },
@@ -70,13 +76,13 @@ export function ContactSection({
   return (
     <section className="w-full min-h-full flex flex-col items-center px-6 pt-24 py-12 relative">
       <div className="max-w-4xl mx-auto w-full space-y-12">
-        <motion.div variants={fadeInUp} initial="hidden" animate="visible" className="text-center">
+        <motion.div variants={reducedFadeIn} initial="hidden" animate="visible" className="text-center">
           <p className="text-amber-600 text-xs tracking-[0.3em] uppercase mb-3 font-medium">{t.eyebrow}</p>
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">{t.title}</h2>
           <motion.p
-            initial={{ clipPath: 'inset(0 100% 0 0)' }}
-            animate={{ clipPath: 'inset(0 0% 0 0)' }}
-            transition={{ duration: 1.8, delay: 0.15 }}
+            initial={isReducedMotion ? { opacity: 0 } : { clipPath: 'inset(0 100% 0 0)' }}
+            animate={isReducedMotion ? { opacity: 1 } : { clipPath: 'inset(0 0% 0 0)' }}
+            transition={isReducedMotion ? { duration: 0.8, delay: 0.15 } : { duration: 1.8, delay: 0.15 }}
             className="text-stone-500 text-lg font-light max-w-2xl mx-auto"
           >
             {t.description}
@@ -85,9 +91,9 @@ export function ContactSection({
 
         <motion.form
           onSubmit={handleBookingSubmit}
-          initial={{ opacity: 0, y: -10 }}
+          initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25 }}
+          transition={{ duration: isReducedMotion ? 0.25 : 0.35 }}
           className="mx-auto w-full max-w-2xl overflow-hidden bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-stone-100"
         >
           <div className="space-y-5">

@@ -5,10 +5,12 @@ import type { HomeTranslations } from '../i18n'
 
 type HomeSectionProps = {
   t: HomeTranslations
+  reduceMotion?: boolean
 }
 
-export function HomeSection({ t }: HomeSectionProps) {
+export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const isReducedMotion = reduceMotion ?? false
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -52,13 +54,13 @@ export function HomeSection({ t }: HomeSectionProps) {
 
       <motion.div
         className="absolute -top-20 -right-20 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl"
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 8, repeat: Infinity }}
+        animate={isReducedMotion ? undefined : { scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={isReducedMotion ? undefined : { duration: 8, repeat: Infinity }}
       />
       <motion.div
         className="absolute -bottom-20 -left-20 w-80 h-80 bg-rose-200/20 rounded-full blur-3xl"
-        animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.45, 0.3] }}
-        transition={{ duration: 6, repeat: Infinity, delay: 1 }}
+        animate={isReducedMotion ? undefined : { scale: [1, 1.15, 1], opacity: [0.3, 0.45, 0.3] }}
+        transition={isReducedMotion ? undefined : { duration: 6, repeat: Infinity, delay: 1 }}
       />
 
       <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center justify-center text-center">
@@ -76,7 +78,7 @@ export function HomeSection({ t }: HomeSectionProps) {
           <motion.span
             initial={{ clipPath: 'inset(0 100% 0 0)' }}
             animate={{ clipPath: 'inset(0 0% 0 0)' }}
-            transition={{ duration: 2, delay: 0.15 }}
+            transition={{ duration: isReducedMotion ? 1.2 : 2, delay: 0.15 }}
             className="inline-block overflow-hidden align-middle"
           >
             {t.description}
@@ -87,9 +89,9 @@ export function HomeSection({ t }: HomeSectionProps) {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 2.3 }}
+          transition={{ duration: isReducedMotion ? 0.5 : 0.6, delay: 2.3 }}
           className="flex items-center justify-center"
         >
           <div className="flex flex-col items-center gap-2 text-stone-400">

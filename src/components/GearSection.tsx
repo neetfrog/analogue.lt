@@ -10,6 +10,7 @@ type MotionVariants = Variants
 type GearSectionProps = {
   fadeInUp: MotionVariants
   staggerContainer: MotionVariants
+  reduceMotion?: boolean
   initialGearId?: string | null
   t: GearTranslations
 }
@@ -129,7 +130,7 @@ const sortSpecs = (specs: string[]) =>
     return weight || a.localeCompare(b)
   })
 
-export function GearSection({ fadeInUp, staggerContainer, initialGearId, t }: GearSectionProps) {
+export function GearSection({ fadeInUp, staggerContainer, reduceMotion, initialGearId, t }: GearSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedManufacturer, setSelectedManufacturer] = useState<string | null>(null)
   const [selectedGear, setSelectedGear] = useState<GearItem | null>(null)
@@ -139,6 +140,13 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId, t }: Ge
   const [hasAppliedInitialGear, setHasAppliedInitialGear] = useState(false)
   const imageWrapperRef = useRef<HTMLDivElement | null>(null)
   const lastTapRef = useRef<number>(0)
+  const isReducedMotion = reduceMotion ?? false
+  const reducedFadeIn: MotionVariants = isReducedMotion
+    ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.6 } } }
+    : fadeInUp
+  const reducedStagger: MotionVariants = isReducedMotion
+    ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.2 } } }
+    : staggerContainer
 
   useEffect(() => {
     if (selectedGear) {
@@ -242,21 +250,21 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId, t }: Ge
   return (
     <section className="w-full min-h-screen flex flex-col px-6 md:px-12 lg:px-24 py-16 pt-24 relative">
       <div className="max-w-7xl mx-auto w-full">
-        <motion.div variants={staggerContainer} initial="hidden" animate="visible">
-          <motion.div variants={fadeInUp} className="text-center mb-12">
+        <motion.div variants={reducedStagger} initial="hidden" animate="visible">
+          <motion.div variants={reducedFadeIn} className="text-center mb-12">
             <p className="text-amber-600 text-sm tracking-[0.2em] uppercase mb-4 font-medium">{t.eyebrow}</p>
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4">{t.title}</h2>
             <motion.p
-              initial={{ clipPath: 'inset(0 100% 0 0)' }}
-              animate={{ clipPath: 'inset(0 0% 0 0)' }}
-              transition={{ duration: 1.8, delay: 0.15 }}
+              initial={isReducedMotion ? { opacity: 0 } : { clipPath: 'inset(0 100% 0 0)' }}
+              animate={isReducedMotion ? { opacity: 1 } : { clipPath: 'inset(0 0% 0 0)' }}
+              transition={isReducedMotion ? { duration: 0.8, delay: 0.15 } : { duration: 1.8, delay: 0.15 }}
               className="text-stone-500 text-lg font-light"
             >
               {t.description}
             </motion.p>
           </motion.div>
 
-          <motion.div variants={fadeInUp} className="mb-8 flex flex-wrap items-center justify-center gap-4">
+          <motion.div variants={reducedFadeIn} className="mb-8 flex flex-wrap items-center justify-center gap-4">
             {manufacturers.map((manufacturer) => (
               <button
                 key={manufacturer}
@@ -279,7 +287,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId, t }: Ge
             ))}
           </motion.div>
 
-          <motion.div variants={fadeInUp} className="flex flex-wrap items-center justify-center gap-3 mb-10">
+          <motion.div variants={reducedFadeIn} className="flex flex-wrap items-center justify-center gap-3 mb-10">
             {categories.map((category) => {
               const Icon = category.icon
               return (
@@ -300,13 +308,13 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId, t }: Ge
             })}
           </motion.div>
 
-          <motion.div variants={fadeInUp} className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <motion.div variants={reducedFadeIn} className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {filteredGearItems.map((item, index) => (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.03 }}
+                transition={{ delay: index * 0.02, duration: isReducedMotion ? 0.25 : 0.35 }}
                 className={`group relative bg-white rounded-2xl p-6 border transition-all duration-300 ${
                   item.sold
                     ? 'border-stone-200 opacity-60'
@@ -385,10 +393,10 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId, t }: Ge
             <div className="flex min-h-full items-center justify-center py-6">
               <motion.div
                 className="w-full max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl max-h-[calc(100vh-3rem)] min-w-0"
-                initial={{ y: 20, opacity: 0, scale: 0.98 }}
-                animate={{ y: 0, opacity: 1, scale: 1 }}
-                exit={{ y: 20, opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.2 }}
+                initial={isReducedMotion ? { opacity: 0 } : { y: 20, opacity: 0, scale: 0.98 }}
+                animate={isReducedMotion ? { opacity: 1 } : { y: 0, opacity: 1, scale: 1 }}
+                exit={isReducedMotion ? { opacity: 0 } : { y: 20, opacity: 0, scale: 0.98 }}
+                transition={{ duration: isReducedMotion ? 0.18 : 0.2 }}
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex items-center justify-between gap-4 border-b border-stone-200 px-6 py-4">

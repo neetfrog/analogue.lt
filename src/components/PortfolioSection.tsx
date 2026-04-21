@@ -9,13 +9,21 @@ type MotionVariants = Variants
 type PortfolioSectionProps = {
   fadeInUp: MotionVariants
   staggerContainer: MotionVariants
+  reduceMotion?: boolean
   t: PortfolioTranslations
 }
 
-export function PortfolioSection({ fadeInUp, staggerContainer, t }: PortfolioSectionProps) {
+export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }: PortfolioSectionProps) {
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [zoomed, setZoomed] = useState(false)
   const lastTapRef = useRef<number>(0)
+  const isReducedMotion = reduceMotion ?? false
+  const reducedFadeIn: MotionVariants = isReducedMotion
+    ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.6 } } }
+    : fadeInUp
+  const reducedStagger: MotionVariants = isReducedMotion
+    ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.2 } } }
+    : staggerContainer
 
   const handleImageOpen = (image: string) => {
     setActiveImage(image)
@@ -55,8 +63,8 @@ export function PortfolioSection({ fadeInUp, staggerContainer, t }: PortfolioSec
   return (
     <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 pt-24 relative">
       <div className="max-w-7xl mx-auto w-full">
-        <motion.div variants={staggerContainer} initial="hidden" animate="visible">
-          <motion.div variants={fadeInUp} className="text-center mb-12">
+        <motion.div variants={reducedStagger} initial="hidden" animate="visible">
+          <motion.div variants={reducedFadeIn} className="text-center mb-12">
             <p className="text-amber-600 text-sm tracking-[0.2em] uppercase mb-4 font-medium">{t.eyebrow}</p>
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">{t.title}</h2>
             <motion.p
@@ -77,9 +85,9 @@ export function PortfolioSection({ fadeInUp, staggerContainer, t }: PortfolioSec
                   key={item.id}
                   onClick={() => handleImageOpen(item.image)}
                   aria-label={t.openImage.replace('{title}', item.title)}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i * 0.05, duration: isReducedMotion ? 0.25 : 0.35 }}
                   className="group relative overflow-hidden rounded-3xl bg-stone-200 aspect-[4/5] cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400"
                 >
                   <img
@@ -106,6 +114,7 @@ export function PortfolioSection({ fadeInUp, staggerContainer, t }: PortfolioSec
           image={activeImage}
           alt={t.enlargedAlt}
           zoomed={zoomed}
+          reduceMotion={isReducedMotion}
           onClose={() => setActiveImage(null)}
           onToggleZoom={handleImageDoubleClick}
           onTouchEnd={handleImageTouchEnd}

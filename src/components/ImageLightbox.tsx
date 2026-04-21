@@ -6,12 +6,14 @@ type ImageLightboxProps = {
   image: string
   alt: string
   zoomed: boolean
+  reduceMotion?: boolean
   onClose: () => void
   onToggleZoom: () => void
   onTouchEnd: (event: TouchEvent<HTMLImageElement>) => void
 }
 
-export function ImageLightbox({ image, alt, zoomed, onClose, onToggleZoom, onTouchEnd }: ImageLightboxProps) {
+export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onToggleZoom, onTouchEnd }: ImageLightboxProps) {
+  const isReducedMotion = reduceMotion ?? false
   return (
     <AnimatePresence>
       <motion.div
@@ -19,6 +21,7 @@ export function ImageLightbox({ image, alt, zoomed, onClose, onToggleZoom, onTou
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
+        transition={{ duration: isReducedMotion ? 0.18 : 0.25 }}
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
         onClick={onClose}
       >
@@ -43,7 +46,7 @@ export function ImageLightbox({ image, alt, zoomed, onClose, onToggleZoom, onTou
             decoding="async"
             initial={{ scale: 1, x: 0, y: 0 }}
             animate={{ scale: zoomed ? 1.8 : 1, x: 0, y: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: isReducedMotion ? 0.18 : 0.25 }}
             drag={zoomed}
             dragMomentum={false}
             dragElastic={0.3}

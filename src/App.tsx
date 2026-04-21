@@ -5,6 +5,7 @@ import { HomeSection } from './components/HomeSection'
 import { PortfolioSection } from './components/PortfolioSection'
 import { GearSection } from './components/GearSection'
 import { ContactSection, type BookingForm } from './components/ContactSection'
+import { useReducedMotionMobile } from './hooks/useReducedMotionMobile'
 import { slugify } from './utils/slugify'
 import { translations, type Locale, localeOptions, languageLabels, getInitialLocale } from './i18n'
 
@@ -67,6 +68,7 @@ function App() {
   const [bookingForm, dispatchBookingForm] = useReducer(bookingFormReducer, initialBookingForm)
   const [locale, setLocale] = useState<Locale>(() => getInitialLocale())
   const t = translations[locale]
+  const reduceMotion = useReducedMotionMobile()
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -87,16 +89,16 @@ function App() {
   }
 
   const sectionItems: SectionItem[] = [
-    { id: 'home', label: t.nav.sections.home, render: () => <HomeSection t={t.home} /> },
+    { id: 'home', label: t.nav.sections.home, render: () => <HomeSection t={t.home} reduceMotion={reduceMotion} /> },
     {
       id: 'portfolio',
       label: t.nav.sections.portfolio,
-      render: () => <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} t={t.portfolio} />
+      render: () => <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} reduceMotion={reduceMotion} t={t.portfolio} />
     },
     {
       id: 'gear',
       label: t.nav.sections.gear,
-      render: () => <GearSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} initialGearId={initialGearId} t={t.gear} />
+      render: () => <GearSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} initialGearId={initialGearId} reduceMotion={reduceMotion} t={t.gear} />
     },
     {
       id: 'contact',
@@ -104,6 +106,7 @@ function App() {
       render: () => (
         <ContactSection
           fadeInUp={fadeInUp}
+          reduceMotion={reduceMotion}
           bookingForm={bookingForm}
           onBookingFormChange={(field, value) => dispatchBookingForm({ type: 'field', field, value })}
           handleBookingSubmit={handleBookingSubmit}
@@ -311,10 +314,10 @@ function App() {
         <AnimatePresence mode="wait">
           <motion.div
             key={activeSection}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: reduceMotion ? 0 : 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
+            exit={{ opacity: 0, y: reduceMotion ? 0 : -20 }}
+            transition={{ duration: reduceMotion ? 0.25 : 0.4 }}
             className="w-full"
           >
             {sectionItems[activeSection]?.render()}
