@@ -588,19 +588,21 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                         onTouchEnd={handleMainImageTouchEnd}
                       />
                     </div>
-                    <div className="flex gap-3 overflow-x-auto pb-1">
-                      {selectedImages.map((src, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          onClick={() => setActiveImage(src)}
-                          className={`w-20 h-20 min-w-[5rem] overflow-hidden rounded-3xl bg-stone-100 focus:outline-none ${activeImage === src ? 'ring-2 ring-amber-400' : ''}`}
-                          aria-label={`${t.openDetails.replace('{name}', selectedGear.name)} image ${index + 1}`}
-                        >
-                          <img src={src} alt={`${selectedGear.name} detail ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
-                        </button>
-                      ))}
-                    </div>
+                    {selectedImages.length > 1 ? (
+                      <div className="flex gap-3 overflow-x-auto pb-1">
+                        {selectedImages.map((src, index) => (
+                          <button
+                            key={index}
+                            type="button"
+                            onClick={() => setActiveImage(src)}
+                            className={`w-20 h-20 min-w-[5rem] overflow-hidden rounded-3xl bg-stone-100 focus:outline-none ${activeImage === src ? 'ring-2 ring-amber-400' : ''}`}
+                            aria-label={`${t.openDetails.replace('{name}', selectedGear.name)} image ${index + 1}`}
+                          >
+                            <img src={src} alt={`${selectedGear.name} detail ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                          </button>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
 
                   <div className="space-y-5 min-w-0">
