@@ -24,32 +24,31 @@ export type GearItem = {
   inquiryEmail?: string
 }
 
-export const eventImages = [
-  {
-    id: 1,
-    title: 'Sunset Portrait',
-    location: 'Analog story',
-    image: new URL('../../images/portfolio/1.jpg', import.meta.url).href
-  },
-  {
-    id: 2,
-    title: 'Golden Moment',
-    location: 'Film memories',
-    image: new URL('../../images/portfolio/2.jpg', import.meta.url).href
-  },
-  {
-    id: 3,
-    title: 'Quiet Details',
-    location: 'Captured light',
-    image: new URL('../../images/portfolio/3.jpg', import.meta.url).href
-  },
-  {
-    id: 4,
-    title: 'Vintage Frame',
-    location: 'Storytelling',
-    image: new URL('../../images/portfolio/4.jpg', import.meta.url).href
-  }
-]
+type EventImage = {
+  id: number
+  title: string
+  location: string
+  image: string
+}
+
+const portfolioImageModules = import.meta.glob('../../images/portfolio/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  query: '?url',
+  import: 'default'
+})
+
+export const eventImages: EventImage[] = Object.entries(portfolioImageModules)
+  .map(([path, image], index) => {
+    const filename = path.split('/').pop() ?? `portfolio-${index + 1}`
+    const title = filename.replace(/\.[^/.]+$/, '').replace(/[-_]+/g, ' ').trim()
+    return {
+      id: index + 1,
+      title: title.charAt(0).toUpperCase() + title.slice(1),
+      location: 'Portfolio',
+      image
+    }
+  })
+  .sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }))
 
 export const homeSlides = [
   {
