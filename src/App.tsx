@@ -183,11 +183,19 @@ function App() {
     }
 
     const handleTouchStart = (e: TouchEvent) => {
+      if (document.body.dataset.lightboxOpen === 'true') {
+        return
+      }
+
       const touch = e.touches[0]
       touchStartRef.current = { x: touch.clientX, y: touch.clientY }
     }
 
     const handleTouchEnd = (e: TouchEvent) => {
+      if (document.body.dataset.lightboxOpen === 'true') {
+        return
+      }
+
       const start = touchStartRef.current
       if (!start) return
 

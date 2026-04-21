@@ -162,6 +162,18 @@ export function GearSection({ fadeInUp, staggerContainer, reduceMotion, initialG
 
   useEffect(() => {
     if (selectedGear) {
+      document.body.dataset.lightboxOpen = 'true'
+    } else {
+      delete document.body.dataset.lightboxOpen
+    }
+
+    return () => {
+      delete document.body.dataset.lightboxOpen
+    }
+  }, [selectedGear])
+
+  useEffect(() => {
+    if (selectedGear) {
       const url = new URL(window.location.href)
       url.hash = slugify(selectedGear.name)
       window.history.replaceState(null, '', url.toString())
