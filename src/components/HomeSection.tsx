@@ -10,6 +10,7 @@ type HomeSectionProps = {
 
 export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [pageLoaded, setPageLoaded] = useState(false)
   const isReducedMotion = reduceMotion ?? false
 
   useEffect(() => {
@@ -18,6 +19,17 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
     }, 7000)
 
     return () => window.clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    if (document.readyState === 'complete') {
+      setPageLoaded(true)
+      return
+    }
+
+    const handleLoad = () => setPageLoaded(true)
+    window.addEventListener('load', handleLoad)
+    return () => window.removeEventListener('load', handleLoad)
   }, [])
 
   useEffect(() => {
@@ -77,8 +89,8 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
         <div className="text-lg md:text-xl text-stone-100/80 max-w-lg mx-auto mb-12 font-light leading-relaxed">
           <motion.span
             initial={{ clipPath: 'inset(0 100% 0 0)' }}
-            animate={{ clipPath: 'inset(0 0% 0 0)' }}
-            transition={{ duration: isReducedMotion ? 1.2 : 2, delay: 0.15 }}
+            animate={isReducedMotion ? { opacity: 1 } : pageLoaded ? { clipPath: 'inset(0 0% 0 0)' } : { clipPath: 'inset(0 100% 0 0)' }}
+            transition={{ duration: isReducedMotion ? 1.2 : 2, delay: pageLoaded ? 0.15 : 0 }}
             className="inline-block overflow-hidden align-middle"
           >
             {t.description}
