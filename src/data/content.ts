@@ -5,6 +5,25 @@ export const sections = [
   { id: 'contact', label: 'Contact' }
 ]
 
+export type GearItem = {
+  id: number
+  name: string
+  price: string
+  condition: string
+  category: string
+  manufacturer: string
+  description: string
+  sold: boolean
+  image: string
+  details: string
+  specs: string[]
+  tags?: string[]
+  moreImages?: string[]
+  vintedUrl?: string
+  wikiUrl?: string
+  inquiryEmail?: string
+}
+
 export const eventImages = [
   {
     id: 1,
@@ -661,7 +680,5 @@ export const gearItems = [
     ]
   }
 ]
-
-export type GearItem = typeof gearItems[number]
 
 

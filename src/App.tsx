@@ -1,13 +1,17 @@
 ﻿import { useState, useEffect, useRef, useReducer, type FormEvent, type ReactNode } from 'react'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
-import { gearItems } from './data/content'
+import { gearItems, type GearItem } from './data/content'
 import { HomeSection } from './components/HomeSection'
 import { PortfolioSection } from './components/PortfolioSection'
 import { GearSection } from './components/GearSection'
+import { AdminSection } from './components/AdminSection'
 import { ContactSection, type BookingForm } from './components/ContactSection'
 import { useReducedMotionMobile } from './hooks/useReducedMotionMobile'
 import { slugify } from './utils/slugify'
 import { translations, type Locale, localeOptions, languageLabels, getInitialLocale } from './i18n'
+
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD ?? ''
+const ADMIN_ROUTE = import.meta.env.VITE_ADMIN_ROUTE ?? ''
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 60 },
@@ -28,9 +32,9 @@ type SectionItem = {
   render: () => ReactNode
 }
 
-const findGearIdBySlug = (slug: string) => {
+const findGearIdBySlug = (slug: string, items: GearItem[]) => {
   const normalized = slug.toLowerCase()
-  const match = gearItems.find((item) => slugify(item.name) === normalized)
+  const match = items.find((item) => slugify(item.name) === normalized)
   return match?.id ?? null
 }
 
@@ -67,8 +71,73 @@ function App() {
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [bookingForm, dispatchBookingForm] = useReducer(bookingFormReducer, initialBookingForm)
   const [locale, setLocale] = useState<Locale>(() => getInitialLocale())
+  const [adminUnlocked, setAdminUnlocked] = useState<boolean>(() => {
+    if (typeof window === 'undefined' || !ADMIN_PASSWORD || !ADMIN_ROUTE) {
+      return false
+    }
+    return window.localStorage.getItem('analogue-admin-unlocked') === 'true'
+  })
+  const [adminPasswordInput, setAdminPasswordInput] = useState('')
+  const [adminError, setAdminError] = useState<string | null>(null)
+  const [gearItemsState, setGearItemsState] = useState<GearItem[]>(() => {
+    if (typeof window === 'undefined') {
+      return gearItems
+    }
+
+    const stored = window.localStorage.getItem('analogue-gear-items')
+    if (!stored) {
+      return gearItems
+    }
+
+    try {
+      const parsed = JSON.parse(stored) as GearItem[]
+      if (!Array.isArray(parsed)) {
+        return gearItems
+      }
+      return parsed.map((item) => ({
+        ...item,
+        specs: Array.isArray(item.specs) ? item.specs : [],
+        tags: Array.isArray(item.tags) ? item.tags : [],
+        moreImages: Array.isArray(item.moreImages) ? item.moreImages : []
+      }))
+    } catch {
+      return gearItems
+    }
+  })
+
+  useEffect(() => {
+    window.localStorage.setItem('analogue-gear-items', JSON.stringify(gearItemsState))
+  }, [gearItemsState])
+
   const t = translations[locale]
   const reduceMotion = useReducedMotionMobile()
+  const adminEnabled = Boolean(ADMIN_PASSWORD && ADMIN_ROUTE)
+
+  const unlockAdmin = () => {
+    if (!adminEnabled) {
+      setAdminError('Admin access is not configured')
+      return
+    }
+
+    if (adminPasswordInput === ADMIN_PASSWORD) {
+      setAdminUnlocked(true)
+      setAdminError(null)
+      window.localStorage.setItem('analogue-admin-unlocked', 'true')
+      setAdminPasswordInput('')
+      const adminIndex = sectionIndexById.get(ADMIN_ROUTE)
+      if (typeof adminIndex === 'number') {
+        setActiveSection(adminIndex)
+      }
+      return
+    }
+
+    setAdminError('Incorrect admin password')
+  }
+
+  const lockAdmin = () => {
+    setAdminUnlocked(false)
+    window.localStorage.removeItem('analogue-admin-unlocked')
+  }
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -98,7 +167,7 @@ function App() {
     {
       id: 'gear',
       label: t.nav.sections.gear,
-      render: () => <GearSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} initialGearId={initialGearId} reduceMotion={reduceMotion} t={t.gear} />
+      render: () => <GearSection items={gearItemsState} fadeInUp={fadeInUp} staggerContainer={staggerContainer} initialGearId={initialGearId} reduceMotion={reduceMotion} t={t.gear} />
     },
     {
       id: 'contact',
@@ -115,10 +184,62 @@ function App() {
           t={t.contact}
         />
       )
-    }
+    },
+    ...(adminEnabled
+      ? [
+          {
+            id: ADMIN_ROUTE,
+            label: 'Admin',
+            render: () =>
+              adminUnlocked ? (
+                <div className="w-full min-h-screen px-6 md:px-12 lg:px-24 py-16 pt-24">
+                  <div className="mb-6 flex items-center justify-between gap-4 rounded-[2rem] border border-stone-200 bg-white p-6 shadow-sm">
+                    <div>
+                      <h2 className="text-3xl font-semibold">Admin dashboard</h2>
+                      <p className="text-sm text-stone-500">Manage items securely.</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={lockAdmin}
+                      className="rounded-3xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm font-medium text-stone-700 transition hover:bg-stone-100"
+                    >
+                      Log out
+                    </button>
+                  </div>
+                  <AdminSection items={gearItemsState} onSaveItems={setGearItemsState} />
+                </div>
+              ) : (
+                <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 pt-24">
+                  <div className="mx-auto w-full max-w-md rounded-[2rem] border border-stone-200 bg-white p-8 shadow-lg">
+                    <h2 className="text-3xl font-semibold mb-4">Admin login</h2>
+                    <p className="text-sm text-stone-500 mb-6">Enter your admin password to access the dashboard.</p>
+                    <label className="block mb-4 text-sm font-medium text-stone-700">
+                      Password
+                      <input
+                        type="password"
+                        value={adminPasswordInput}
+                        onChange={(event) => setAdminPasswordInput(event.target.value)}
+                        className="mt-2 w-full rounded-3xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-200"
+                      />
+                    </label>
+                    {adminError ? <p className="mb-4 text-sm text-red-600">{adminError}</p> : null}
+                    <button
+                      type="button"
+                      onClick={unlockAdmin}
+                      className="w-full rounded-3xl bg-stone-900 px-4 py-3 text-sm font-medium text-white transition hover:bg-stone-800"
+                    >
+                      Unlock admin
+                    </button>
+                  </div>
+                </section>
+              )
+          }
+        ]
+      : []),
   ]
 
   const sectionIndexById = new Map(sectionItems.map((section, index) => [section.id, index]))
+  const navSectionItems = sectionItems.filter((section) => section.id !== ADMIN_ROUTE)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -144,7 +265,7 @@ function App() {
         return
       }
 
-      const gearId = findGearIdBySlug(hash)
+      const gearId = findGearIdBySlug(hash, gearItemsState)
       if (gearId) {
         setActiveSection(sectionIndexById.get('gear') ?? 2)
         setInitialGearId(String(gearId))
@@ -265,8 +386,9 @@ function App() {
       >
         <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-center gap-4 md:flex-row md:gap-0">
           <div className={`flex flex-wrap items-center justify-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor}`}>
-            {sectionItems.map((section, i) => {
-              const isActive = activeSection === i
+            {navSectionItems.map((section) => {
+              const sectionIndex = sectionIndexById.get(section.id) ?? 0
+              const isActive = activeSection === sectionIndex
 
               return (
                 <button
@@ -274,7 +396,7 @@ function App() {
                   type="button"
                   aria-label={section.label}
                   aria-current={isActive ? 'page' : undefined}
-                  onClick={() => scrollToSection(i)}
+                  onClick={() => scrollToSection(sectionIndex)}
                   className={`relative transition-colors duration-300 ${isActive ? `font-semibold opacity-100 ${navTextColor}` : `opacity-70 hover:opacity-100 ${navTextColor}`}`}
                 >
                   {section.label}

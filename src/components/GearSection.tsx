@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import { X, Check, Link2, Camera, Aperture, Grid, Package } from 'lucide-react'
-import { gearItems, type GearItem } from '../data/content'
+import type { GearItem } from '../data/content'
 import { slugify } from '../utils/slugify'
 import type { GearTranslations } from '../i18n'
 
 type MotionVariants = Variants
 
 type GearSectionProps = {
+  items: GearItem[]
   fadeInUp: MotionVariants
   staggerContainer: MotionVariants
   reduceMotion?: boolean
@@ -29,16 +30,6 @@ const manufacturerLogoMap: Record<string, { src: string; alt: string }> = {
   'Zeiss Ikon': { src: new URL('../../images/logos/manufacturers/zeissIkon.png', import.meta.url).href, alt: 'Zeiss Ikon' },
   'Zeiss Jena': { src: new URL('../../images/logos/manufacturers/zeissJena.png', import.meta.url).href, alt: 'Zeiss Jena' }
 }
-
-const manufacturers = Array.from(
-  new Set(
-    gearItems
-      .map((item) => item.manufacturer)
-      .filter((manufacturer): manufacturer is string =>
-        Boolean(manufacturer) && manufacturer !== 'Generic' && manufacturer !== 'Various'
-      )
-  )
-).sort((a, b) => a.localeCompare(b))
 
 type SpecRule = {
   test: RegExp | ((value: string) => boolean)
@@ -199,13 +190,13 @@ export function GearSection({ fadeInUp, staggerContainer, reduceMotion, initialG
   useEffect(() => {
     if (!selectedGear && initialGearId && !hasAppliedInitialGear) {
       const id = Number(initialGearId)
-      const matchedGear = gearItems.find((item) => item.id === id)
+      const matchedGear = items.find((item) => item.id === id)
       if (matchedGear) {
         setSelectedGear(matchedGear)
         setHasAppliedInitialGear(true)
       }
     }
-  }, [initialGearId, selectedGear, hasAppliedInitialGear])
+  }, [initialGearId, selectedGear, hasAppliedInitialGear, items])
 
   const handleMainImageDoubleClick = () => {
     setZoomed((prev) => !prev)
@@ -221,6 +212,16 @@ export function GearSection({ fadeInUp, staggerContainer, reduceMotion, initialG
       lastTapRef.current = now
     }
   }
+
+  const manufacturers = Array.from(
+    new Set(
+      items
+        .map((item) => item.manufacturer)
+        .filter((manufacturer): manufacturer is string =>
+          Boolean(manufacturer) && manufacturer !== 'Generic' && manufacturer !== 'Various'
+        )
+    )
+  ).sort((a, b) => a.localeCompare(b))
 
   const categories = [
     { value: 'All', label: t.categories.All, icon: Grid },
@@ -246,7 +247,7 @@ export function GearSection({ fadeInUp, staggerContainer, reduceMotion, initialG
 
   const categoryOrder = ['cameras', 'lenses', 'accessories']
 
-  const filteredGearItems = gearItems
+  const filteredGearItems = items
     .filter((item) =>
       (selectedCategory === 'All' || item.category === selectedCategory.toLowerCase()) &&
       (!selectedManufacturer || item.manufacturer === selectedManufacturer)
