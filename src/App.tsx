@@ -246,48 +246,50 @@ function App() {
         aria-label={t.nav.mainNavigation}
         animate={{ backgroundColor: 'transparent' }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 w-full z-50 px-6 py-4 flex flex-wrap items-center justify-center gap-6 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}
+        className={`fixed top-0 left-0 w-full z-50 px-6 py-4 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}
       >
-        <div className={`flex flex-wrap items-center justify-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor}`}>
-          {sectionItems.map((section, i) => {
-            const isActive = activeSection === i
+        <div className="relative mx-auto flex max-w-7xl items-center justify-center">
+          <div className={`flex flex-wrap items-center justify-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor}`}>
+            {sectionItems.map((section, i) => {
+              const isActive = activeSection === i
 
-            return (
+              return (
+                <button
+                  key={section.id}
+                  type="button"
+                  aria-label={section.label}
+                  aria-current={isActive ? 'page' : undefined}
+                  onClick={() => scrollToSection(i)}
+                  className={`relative transition-colors duration-300 ${isActive ? `font-semibold opacity-100 ${navTextColor}` : `opacity-70 hover:opacity-100 ${navTextColor}`}`}
+                >
+                  {section.label}
+                  {isActive && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.25, ease: 'easeOut' }}
+                      className={`absolute -bottom-1 left-0 right-0 h-0.5 ${underlineColor}`}
+                    />
+                  )}
+                </button>
+              )
+            })}
+          </div>
+
+          <div className={`absolute right-6 top-1/2 flex -translate-y-1/2 items-center gap-2 text-sm font-medium ${navTextColor}`}>
+            {localeOptions.map((language) => (
               <button
-                key={section.id}
+                key={language}
                 type="button"
-                aria-label={section.label}
-                aria-current={isActive ? 'page' : undefined}
-                onClick={() => scrollToSection(i)}
-                className={`relative transition-colors duration-300 ${isActive ? `font-semibold opacity-100 ${navTextColor}` : `opacity-70 hover:opacity-100 ${navTextColor}`}`}
+                onClick={() => setLocale(language)}
+                className={`rounded-full border px-3 py-2 bg-transparent transition ${language === locale ? 'border-amber-400 text-amber-400' : 'border-stone-300/80 text-current'}`}
+                aria-label={languageLabels[language]}
               >
-                {section.label}
-                {isActive && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.25, ease: 'easeOut' }}
-                    className={`absolute -bottom-1 left-0 right-0 h-0.5 ${underlineColor}`}
-                  />
-                )}
+                {languageLabels[language]}
               </button>
-            )
-          })}
-        </div>
-
-        <div className={`flex items-center gap-2 text-sm font-medium ${navTextColor}`}>
-          {localeOptions.map((language) => (
-            <button
-              key={language}
-              type="button"
-              onClick={() => setLocale(language)}
-              className={`rounded-full border px-3 py-2 transition ${language === locale ? 'bg-amber-400 text-stone-900 border-amber-400' : 'bg-white text-current border-stone-200 hover:bg-stone-100'}`}
-              aria-label={languageLabels[language]}
-            >
-              {languageLabels[language]}
-            </button>
-          ))}
+            ))}
+          </div>
         </div>
       </motion.nav>
 
