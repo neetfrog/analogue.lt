@@ -30,7 +30,7 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   return (
     <section className="w-full h-[100svh] min-h-screen max-h-[100svh] flex items-center justify-center px-6 relative overflow-hidden text-center bg-black">
       <div className="absolute inset-0 overflow-hidden bg-black">
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           <motion.img
             key={homeSlides[currentSlide].src}
             src={homeSlides[currentSlide].src}
@@ -45,8 +45,8 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
             }}
             initial={{ opacity: 0, scale: 1.01 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.99 }}
-            transition={{ duration: 1.6 }}
+            exit={{ opacity: 0, scale: 0.99, transition: { duration: 0.8 } }}
+            transition={{ duration: 1.2 }}
           />
         </AnimatePresence>
         <div className="absolute inset-0 bg-black/50" />
