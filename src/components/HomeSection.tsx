@@ -18,9 +18,16 @@ export function HomeSection({ t }: HomeSectionProps) {
     return () => window.clearInterval(interval)
   }, [])
 
+  useEffect(() => {
+    homeSlides.forEach((slide) => {
+      const image = new Image()
+      image.src = slide.src
+    })
+  }, [])
+
   return (
-    <section className="w-full h-[100svh] min-h-screen max-h-[100svh] flex items-center justify-center px-6 relative overflow-hidden text-center">
-      <div className="absolute inset-0 overflow-hidden">
+    <section className="w-full h-[100svh] min-h-screen max-h-[100svh] flex items-center justify-center px-6 relative overflow-hidden text-center bg-black">
+      <div className="absolute inset-0 overflow-hidden bg-black">
         <AnimatePresence>
           <motion.img
             key={homeSlides[currentSlide].src}
@@ -29,7 +36,11 @@ export function HomeSection({ t }: HomeSectionProps) {
             loading="eager"
             decoding="async"
             className="absolute inset-0 w-full h-full object-cover opacity-80"
-            style={currentSlide === 2 ? { objectPosition: '70% center' } : { objectPosition: 'center' }}
+            style={{
+              backgroundColor: '#000',
+              willChange: 'opacity, transform',
+              ...(currentSlide === 2 ? { objectPosition: '70% center' } : { objectPosition: 'center' }),
+            }}
             initial={{ opacity: 0, scale: 1.01 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.99 }}
