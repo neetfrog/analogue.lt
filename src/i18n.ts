@@ -42,6 +42,7 @@ export type GearTranslations = {
   techSpecs: string
   vinted: string
   wiki: string
+  askAbout: string
   filterBy: string
   specs: {
     focalLength: string
@@ -142,6 +143,7 @@ export const translations: Record<Locale, Translations> = {
       techSpecs: 'Tech Specs',
       vinted: 'Open Vinted listing',
       wiki: 'Wikipedia',
+      askAbout: 'Ask about this item',
       filterBy: 'Filter by {manufacturer}',
       specs: {
         focalLength: 'Focal length',
@@ -220,6 +222,7 @@ export const translations: Record<Locale, Translations> = {
       techSpecs: 'Techninės savybės',
       vinted: 'Atidaryti Vinted skelbimą',
       wiki: 'Atidaryti Wikipedia straipsnį',
+      askAbout: 'Paklausti apie šį daiktą',
       filterBy: 'Filtruoti pagal {manufacturer}',
       specs: {
         focalLength: 'Fokusavimo nuotolis',

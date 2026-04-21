@@ -22,6 +22,7 @@ const manufacturerLogoMap: Record<string, { src: string; alt: string }> = {
   FED: { src: new URL('../../images/logos/manufacturers/fed.png', import.meta.url).href, alt: 'FED' },
   GOMZ: { src: new URL('../../images/logos/manufacturers/gomz.png', import.meta.url).href, alt: 'GOMZ' },
   KMZ: { src: new URL('../../images/logos/manufacturers/kmz.png', import.meta.url).href, alt: 'KMZ' },
+  Lomo: { src: new URL('../../images/logos/manufacturers/lomo.png', import.meta.url).href, alt: 'Lomo' },
   Pentacon: { src: new URL('../../images/logos/manufacturers/pentacon.png', import.meta.url).href, alt: 'Pentacon' },
   Vivitar: { src: new URL('../../images/logos/manufacturers/vivitar.png', import.meta.url).href, alt: 'Vivitar' },
   Yashica: { src: new URL('../../images/logos/manufacturers/yashica.png', import.meta.url).href, alt: 'Yashica' },
@@ -30,7 +31,13 @@ const manufacturerLogoMap: Record<string, { src: string; alt: string }> = {
 }
 
 const manufacturers = Array.from(
-  new Set(gearItems.map((item) => item.manufacturer).filter((manufacturer): manufacturer is string => Boolean(manufacturer)))
+  new Set(
+    gearItems
+      .map((item) => item.manufacturer)
+      .filter((manufacturer): manufacturer is string =>
+        Boolean(manufacturer) && manufacturer !== 'Generic' && manufacturer !== 'Various'
+      )
+  )
 ).sort((a, b) => a.localeCompare(b))
 
 type SpecRule = {
@@ -531,6 +538,16 @@ export function GearSection({ fadeInUp, staggerContainer, reduceMotion, initialG
                             alt="Vinted logo"
                             className="h-6 w-auto object-contain filter brightness-0 invert"
                           />
+                        </a>
+                      )}
+                      {selectedGear.inquiryEmail && !selectedGear.sold && (
+                        <a
+                          href={`mailto:${selectedGear.inquiryEmail}?subject=${encodeURIComponent(`Inquiry about ${selectedGear.name}`)}`}
+                          className="inline-flex w-full items-center justify-center rounded-2xl bg-amber-600 px-5 py-3 text-white hover:bg-amber-500 transition font-sans"
+                          aria-label={t.askAbout}
+                          title={t.askAbout}
+                        >
+                          {t.askAbout}
                         </a>
                       )}
                       {selectedGear.wikiUrl && (
