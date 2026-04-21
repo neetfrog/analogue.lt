@@ -8,7 +8,7 @@ export const sections = [
 export type GearItem = {
   id: number
   name: string
-  price: string
+  price: string | number
   condition: string
   category: string
   manufacturer: string
@@ -281,7 +281,7 @@ export const gearItems = [
   {
     id: 19,
     name: 'Carl Zeiss Ikon Ikonta 521',
-    price: '€80',
+    price: '€120',
     condition: 'Good',
     category: 'cameras',
     manufacturer: 'Zeiss Ikon',
@@ -320,7 +320,7 @@ export const gearItems = [
   {
     id: 21,
     name: 'FED 3',
-    price: '€15',
+    price: '€20',
     condition: 'Good',
     category: 'cameras',
     manufacturer: 'FED',
@@ -359,7 +359,7 @@ export const gearItems = [
   {
     id: 23,
     name: 'Yashica YE',
-    price: '€130',
+    price: '€150',
     condition: 'Good',
     category: 'cameras',
     manufacturer: 'Yashica',
@@ -378,7 +378,7 @@ export const gearItems = [
   {
     id: 24,
     name: 'Lubitel 1',
-    price: '€45',
+    price: '€60',
     condition: 'Good',
     category: 'cameras',
     manufacturer: 'GOMZ',
@@ -643,7 +643,7 @@ export const gearItems = [
   {
     id: 38,
     name: 'Zeiss Ikon Contaflex',
-    price: '€150',
+    price: '€130',
     condition: 'Good',
     category: 'cameras',
     manufacturer: 'Zeiss Ikon',

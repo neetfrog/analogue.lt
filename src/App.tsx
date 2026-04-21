@@ -207,7 +207,7 @@ function App() {
       render: () => <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} reduceMotion={reduceMotion} t={t.portfolio} />
     },
     {
-      id: 'gear',
+      id: 'shop',
       label: t.nav.sections.gear,
       render: () => <GearSection items={gearItemsState} fadeInUp={fadeInUp} staggerContainer={staggerContainer} initialGearId={initialGearId} reduceMotion={reduceMotion} t={t.gear} />
     },
@@ -301,7 +301,8 @@ function App() {
   useEffect(() => {
     const applyHash = () => {
       const hash = window.location.hash.replace('#', '')
-      const sectionIndex = sectionIndexById.get(hash)
+      const normalizedHash = hash === 'gear' ? 'shop' : hash
+      const sectionIndex = sectionIndexById.get(normalizedHash)
       if (typeof sectionIndex === 'number') {
         setActiveSection(sectionIndex)
         return
@@ -309,14 +310,14 @@ function App() {
 
       const gearId = findGearIdBySlug(hash, gearItemsState)
       if (gearId) {
-        setActiveSection(sectionIndexById.get('gear') ?? 2)
+        setActiveSection(sectionIndexById.get('shop') ?? 2)
         setInitialGearId(String(gearId))
         return
       }
 
       const legacyMatch = hash.match(/^item-(\d+)(?:-[a-z0-9-]+)?$/)
       if (legacyMatch) {
-        setActiveSection(sectionIndexById.get('gear') ?? 2)
+        setActiveSection(sectionIndexById.get('shop') ?? 2)
         setInitialGearId(legacyMatch[1])
       }
     }

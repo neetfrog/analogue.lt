@@ -31,6 +31,29 @@ const manufacturerLogoMap: Record<string, { src: string; alt: string }> = {
   'Zeiss Jena': { src: new URL('../../images/logos/manufacturers/zeissJena.png', import.meta.url).href, alt: 'Zeiss Jena' }
 }
 
+const formatPrice = (value: string | number) => {
+  if (typeof value === 'number') {
+    return new Intl.NumberFormat('en-IE', {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 0
+    }).format(value)
+  }
+
+  const normalizedValue = value.trim()
+  if (/^\d+(?:[.,]\d+)?$/.test(normalizedValue)) {
+    return new Intl.NumberFormat('en-IE', {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 0
+    }).format(Number(normalizedValue.replace(',', '.')))
+  }
+
+  return value
+}
+
 type SpecRule = {
   test: RegExp | ((value: string) => boolean)
   format: (value: string, specs: GearTranslations['specs']) => string
@@ -178,10 +201,10 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
     } else {
       const url = new URL(window.location.href)
       const hash = url.hash.replace('#', '')
-      const sectionIds = ['home', 'portfolio', 'gear', 'contact']
+      const sectionIds = ['home', 'portfolio', 'shop', 'contact']
 
       if (hash && !sectionIds.includes(hash)) {
-        url.hash = 'gear'
+        url.hash = 'shop'
         window.history.replaceState(null, '', url.toString())
       }
     }
@@ -367,7 +390,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                 <h3 className="text-xl font-semibold mb-1">{item.name}</h3>
                 <div className="flex items-center gap-3 mb-2">
                   <p className={`font-bold text-2xl ${item.sold ? 'text-stone-400 line-through' : 'text-amber-600'}`}>
-                    {item.price}
+                    {formatPrice(item.price)}
                   </p>
                   {item.sold && (
                     <span className="rounded-full bg-stone-900 px-2 py-1 text-[0.65rem] uppercase tracking-[0.25em] text-white">
@@ -431,7 +454,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                       </div>
                     ) : null}
                     <h3 className="text-2xl font-semibold">{selectedGear.name}</h3>
-                    <p className="text-sm text-stone-500">{selectedGear.price} · {selectedGear.condition}</p>
+                    <p className="text-sm text-stone-500">{formatPrice(selectedGear.price)} · {selectedGear.condition}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
