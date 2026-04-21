@@ -379,7 +379,7 @@ export const gearItems = [
   {
     id: 25,
     name: 'Contax F + Carl Zeiss Tessar 50mm f/2.8',
-    price: '€95',
+    price: '€130',
     condition: 'Very Good',
     category: 'cameras',
     manufacturer: 'Zeiss Ikon',
@@ -400,7 +400,7 @@ export const gearItems = [
   {
     id: 26,
     name: 'Canon FX + Canon 135mm f/2.5 FL',
-    price: '€100',
+    price: '€160',
     condition: 'Very Good',
     category: 'cameras',
     manufacturer: 'Canon',
@@ -419,7 +419,7 @@ export const gearItems = [
   {
     id: 27,
     name: 'Agfa Karat 36',
-    price: '€80',
+    price: '€130',
     condition: 'Good',
     category: 'cameras',
     manufacturer: 'Agfa',
