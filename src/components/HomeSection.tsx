@@ -39,6 +39,11 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
     })
   }, [])
 
+  const textRevealVariants = {
+    hidden: { clipPath: 'inset(0 100% 0 0)' },
+    visible: { clipPath: 'inset(0 0% 0 0)' }
+  }
+
   return (
     <section className="w-full h-[100svh] min-h-screen max-h-[100svh] flex items-center justify-center px-6 relative overflow-hidden text-center bg-black">
       <div className="absolute inset-0 overflow-hidden bg-black">
@@ -88,8 +93,9 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
 
         <div className="text-lg md:text-xl text-stone-100/80 max-w-lg mx-auto mb-12 font-light leading-relaxed">
           <motion.span
-            initial={{ clipPath: 'inset(0 100% 0 0)' }}
-            animate={isReducedMotion ? { opacity: 1 } : pageLoaded ? { clipPath: 'inset(0 0% 0 0)' } : { clipPath: 'inset(0 100% 0 0)' }}
+            initial="hidden"
+            animate={isReducedMotion ? 'visible' : pageLoaded ? 'visible' : 'hidden'}
+            variants={textRevealVariants}
             transition={{ duration: isReducedMotion ? 1.2 : 2, delay: pageLoaded ? 0.15 : 0 }}
             className="inline-block overflow-hidden align-middle"
           >
