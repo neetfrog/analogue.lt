@@ -506,7 +506,7 @@ export const gearItems = [
     details: 'This Soviet-style M42 bellows unit is designed for macro and close-up work, letting photographers extend the lens-to-film distance with precision focusing. It works with M42 screw-mount lenses and is perfect for detailed film still-life, product, and botanical photography.',
     specs: ['M42 screw mount', 'Macro bellows', 'Close-up photography', 'Adjustable focusing rail', 'No additional optics'],
     tags: ['macro','bellows','m42','close-up','accessory'],
-    wikiUrl: 'https://en.wikipedia.org/wiki/Macro_photography',
+    wikiUrl: 'https://camera-wiki.org/wiki/Bellows',
     moreImages: [
       new URL('../../images/gear/m42-vorsatz-soviet-macro-bellows/m42-vorsatz-soviet-macro-bellows-2.jpg', import.meta.url).href,
       new URL('../../images/gear/m42-vorsatz-soviet-macro-bellows/m42-vorsatz-soviet-macro-bellows-3.jpg', import.meta.url).href
