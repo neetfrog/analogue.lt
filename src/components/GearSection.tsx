@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
-import { X, Check, Link2, Camera, Aperture, Grid, Package } from 'lucide-react'
+import { X, Check, Link2, Camera, Aperture, Grid, Package, Type, DollarSign, ChevronUp } from 'lucide-react'
 import type { GearItem } from '../data/content'
 import { slugify } from '../utils/slugify'
 import type { GearTranslations } from '../i18n'
@@ -151,10 +151,26 @@ const sortSpecs = (specs: string[]) =>
     return weight || a.localeCompare(b)
   })
 
+type SortField = 'name' | 'price'
+
+type SortOrder = 'asc' | 'desc'
+
 export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, initialGearId, t }: GearSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedManufacturer, setSelectedManufacturer] = useState<string | null>(null)
+  const [sortField, setSortField] = useState<SortField>('name')
+  const [sortOrder, setSortOrder] = useState<SortOrder>('asc')
   const [selectedGear, setSelectedGear] = useState<GearItem | null>(null)
+
+  const toggleSortField = (field: SortField) => {
+    if (sortField === field) {
+      setSortOrder((current) => (current === 'asc' ? 'desc' : 'asc'))
+      return
+    }
+
+    setSortField(field)
+    setSortOrder('asc')
+  }
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [copiedLink, setCopiedLink] = useState(false)
   const [zoomed, setZoomed] = useState(false)
@@ -268,23 +284,48 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
     return undefined
   }, [selectedGear])
 
-  const categoryOrder = ['cameras', 'lenses', 'accessories']
+  const parsePriceForSort = (value: string | number) => {
+    if (typeof value === 'number') {
+      return value
+    }
+
+    const trimmed = value.trim()
+    const firstPart = trimmed.split(/[-–—]/)[0]
+    const numericString = firstPart.replace(/[^0-9.,]/g, '').replace(',', '.')
+    const numeric = Number(numericString)
+    return Number.isFinite(numeric) ? numeric : Number.NaN
+  }
+
+  const compareGearItems = (a: GearItem, b: GearItem) => {
+    if (sortField === 'price') {
+      const aValue = parsePriceForSort(a.price)
+      const bValue = parsePriceForSort(b.price)
+      const aValid = !Number.isNaN(aValue)
+      const bValid = !Number.isNaN(bValue)
+
+      if (aValid && bValid) {
+        return sortOrder === 'asc' ? aValue - bValue : bValue - aValue
+      }
+
+      if (aValid !== bValid) {
+        return sortOrder === 'asc' ? (aValid ? -1 : 1) : (aValid ? 1 : -1)
+      }
+
+      return sortOrder === 'asc'
+        ? a.name.localeCompare(b.name)
+        : b.name.localeCompare(a.name)
+    }
+
+    const comparison = a.name.localeCompare(b.name)
+    return sortOrder === 'asc' ? comparison : -comparison
+  }
 
   const filteredGearItems = items
     .filter((item) =>
       (selectedCategory === 'All' || item.category === selectedCategory.toLowerCase()) &&
       (!selectedManufacturer || item.manufacturer === selectedManufacturer)
     )
-    .sort((a, b) => {
-      const aIndex = categoryOrder.indexOf(a.category)
-      const bIndex = categoryOrder.indexOf(b.category)
-
-      if (aIndex !== bIndex) {
-        return aIndex - bIndex
-      }
-
-      return a.name.localeCompare(b.name)
-    })
+    .sort(compareGearItems)
 
   const selectedImages = selectedGear
     ? Array.from(new Set([selectedGear.image, ...(selectedGear.moreImages ?? [])]))
@@ -349,6 +390,50 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                 </button>
               )
             })}
+          </motion.div>
+
+          <motion.div variants={reducedFadeIn} className="mb-8 flex items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => toggleSortField('name')}
+              aria-label={`Sort by name, ${sortOrder}`}
+              className={`relative rounded-full border p-3 transition ${
+                sortField === 'name'
+                  ? 'border-amber-400 bg-amber-100 text-stone-900'
+                  : 'border-stone-200 bg-white text-stone-500 hover:bg-stone-50'
+              }`}
+            >
+              <Type className="h-5 w-5" aria-hidden="true" />
+              {sortField === 'name' ? (
+                <ChevronUp
+                  className={`absolute -right-1 -top-1 h-4 w-4 transition-transform ${
+                    sortOrder === 'asc' ? 'rotate-0' : 'rotate-180'
+                  }`}
+                  aria-hidden="true"
+                />
+              ) : null}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => toggleSortField('price')}
+              aria-label={`Sort by price, ${sortOrder}`}
+              className={`relative rounded-full border p-3 transition ${
+                sortField === 'price'
+                  ? 'border-amber-400 bg-amber-100 text-stone-900'
+                  : 'border-stone-200 bg-white text-stone-500 hover:bg-stone-50'
+              }`}
+            >
+              <DollarSign className="h-5 w-5" aria-hidden="true" />
+              {sortField === 'price' ? (
+                <ChevronUp
+                  className={`absolute -right-1 -top-1 h-4 w-4 transition-transform ${
+                    sortOrder === 'asc' ? 'rotate-0' : 'rotate-180'
+                  }`}
+                  aria-hidden="true"
+                />
+              ) : null}
+            </button>
           </motion.div>
 
           <motion.div variants={reducedFadeIn} className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">

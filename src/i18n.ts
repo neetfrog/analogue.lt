@@ -44,6 +44,16 @@ export type GearTranslations = {
   wiki: string
   askAbout: string
   filterBy: string
+  sortByLabel: string
+  sortOrderLabel: string
+  sortFields: {
+    name: string
+    price: string
+  }
+  sortOrders: {
+    asc: string
+    desc: string
+  }
   specs: {
     focalLength: string
     aperture: string
@@ -145,6 +155,16 @@ export const translations: Record<Locale, Translations> = {
       wiki: 'Wikipedia',
       askAbout: 'Ask about this item',
       filterBy: 'Filter by {manufacturer}',
+      sortByLabel: 'Sort by',
+      sortOrderLabel: 'Order',
+      sortFields: {
+        name: 'Name',
+        price: 'Price'
+      },
+      sortOrders: {
+        asc: 'Ascending',
+        desc: 'Descending'
+      },
       specs: {
         focalLength: 'Focal length',
         aperture: 'Aperture',
@@ -224,6 +244,16 @@ export const translations: Record<Locale, Translations> = {
       wiki: 'Atidaryti Wikipedia straipsnį',
       askAbout: 'Paklausti apie šį daiktą',
       filterBy: 'Filtruoti pagal {manufacturer}',
+      sortByLabel: 'Rūšiuoti pagal',
+      sortOrderLabel: 'Eiliškumas',
+      sortFields: {
+        name: 'Pavadinimas',
+        price: 'Kaina'
+      },
+      sortOrders: {
+        asc: 'Didėjančiai',
+        desc: 'Mažėjančiai'
+      },
       specs: {
         focalLength: 'Fokusavimo nuotolis',
         aperture: 'Diafragma',
