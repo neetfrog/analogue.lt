@@ -281,13 +281,13 @@ function App() {
           </div>
 
           {activeSection === 0 && (
-            <div className={`flex flex-wrap items-center justify-center gap-2 text-sm font-medium md:absolute md:right-6 md:top-1/2 md:-translate-y-1/2 ${navTextColor}`}>
+            <div className={`flex flex-wrap items-center justify-center gap-2 text-xs md:text-sm font-medium md:absolute md:right-6 md:top-1/2 md:-translate-y-1/2 ${navTextColor}`}>
               {localeOptions.map((language) => (
                 <button
                   key={language}
                   type="button"
                   onClick={() => setLocale(language)}
-                  className={`rounded-full border px-3 py-2 bg-transparent transition ${language === locale ? 'border-amber-400 text-amber-400' : 'border-stone-300/80 text-current'}`}
+                  className={`rounded-full border px-2.5 py-1.5 transition duration-200 ${language === locale ? 'border-amber-400 bg-amber-400/10 text-amber-400' : 'border-stone-300/70 text-stone-100/80 hover:border-stone-100/80 hover:text-stone-100'}`}
                   aria-label={languageLabels[language]}
                 >
                   {languageLabels[language]}
