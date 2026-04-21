@@ -23,7 +23,7 @@ if (!JWT_SECRET) {
 
 const dbFile = path.resolve(__dirname, 'db.json')
 const adapter = new JSONFile(dbFile)
-const db = new Low(adapter)
+const db = new Low(adapter, { items: [] })
 
 await db.read()
 db.data ||= { items: [] }

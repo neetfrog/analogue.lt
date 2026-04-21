@@ -128,7 +128,7 @@ const sortSpecs = (specs: string[]) =>
     return weight || a.localeCompare(b)
   })
 
-export function GearSection({ fadeInUp, staggerContainer, reduceMotion, initialGearId, t }: GearSectionProps) {
+export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, initialGearId, t }: GearSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedManufacturer, setSelectedManufacturer] = useState<string | null>(null)
   const [selectedGear, setSelectedGear] = useState<GearItem | null>(null)
