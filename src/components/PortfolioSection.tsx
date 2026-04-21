@@ -2,15 +2,17 @@ import { useState, useRef, useEffect, type TouchEvent } from 'react'
 import { motion, type Variants } from 'framer-motion'
 import { weddingImages } from '../data/content'
 import { ImageLightbox } from './ImageLightbox'
+import type { PortfolioTranslations } from '../i18n'
 
 type MotionVariants = Variants
 
 type PortfolioSectionProps = {
   fadeInUp: MotionVariants
   staggerContainer: MotionVariants
+  t: PortfolioTranslations
 }
 
-export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectionProps) {
+export function PortfolioSection({ fadeInUp, staggerContainer, t }: PortfolioSectionProps) {
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [zoomed, setZoomed] = useState(false)
   const lastTapRef = useRef<number>(0)
@@ -55,15 +57,15 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
       <div className="max-w-7xl mx-auto w-full">
         <motion.div variants={staggerContainer} initial="hidden" animate="visible">
           <motion.div variants={fadeInUp} className="text-center mb-12">
-            <p className="text-amber-600 text-sm tracking-[0.2em] uppercase mb-4 font-medium">Selected Work</p>
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">Portfolio</h2>
+            <p className="text-amber-600 text-sm tracking-[0.2em] uppercase mb-4 font-medium">{t.eyebrow}</p>
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">{t.title}</h2>
             <motion.p
               initial={{ clipPath: 'inset(0 100% 0 0)' }}
               animate={{ clipPath: 'inset(0 0% 0 0)' }}
               transition={{ duration: 1.8, delay: 0.15 }}
               className="text-stone-500 text-lg font-light mt-4"
             >
-              A short edit of recent wedding work
+              {t.description}
             </motion.p>
           </motion.div>
 
@@ -74,7 +76,7 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
                   type="button"
                   key={item.id}
                   onClick={() => handleImageOpen(item.image)}
-                  aria-label={`Open ${item.title}`}
+                  aria-label={t.openImage.replace('{title}', item.title)}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
@@ -102,7 +104,7 @@ export function PortfolioSection({ fadeInUp, staggerContainer }: PortfolioSectio
       {activeImage && (
         <ImageLightbox
           image={activeImage}
-          alt="Enlarged portfolio"
+          alt={t.enlargedAlt}
           zoomed={zoomed}
           onClose={() => setActiveImage(null)}
           onToggleZoom={handleImageDoubleClick}

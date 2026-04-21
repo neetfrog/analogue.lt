@@ -3,6 +3,7 @@ import { motion, type Variants } from 'framer-motion'
 import { Check, Heart } from 'lucide-react'
 import { InstagramEmbed } from './InstagramEmbed'
 import { instagramAccount } from '../data/content'
+import type { ContactTranslations } from '../i18n'
 
 export type BookingForm = {
   name: string
@@ -21,6 +22,7 @@ type ContactSectionProps = {
   handleBookingSubmit: (e: FormEvent) => void
   formSubmitted: boolean
   instagramActive: boolean
+  t: ContactTranslations
 }
 
 type BookingField = {
@@ -34,25 +36,6 @@ type BookingField = {
   textarea?: boolean
 }
 
-const bookingFields: BookingField[] = [
-  { name: 'name', label: 'Your Name', type: 'text', placeholder: 'Jane & John', required: true },
-  { name: 'email', label: 'Email', type: 'email', placeholder: 'hello@example.com', required: true },
-  {
-    name: 'date',
-    label: 'Preferred Date',
-    type: 'date',
-    optional: true,
-    helpText: 'Leave blank if you just want to message first.'
-  },
-  { name: 'location', label: 'Location', type: 'text', placeholder: 'New York, NY' },
-  {
-    name: 'message',
-    label: 'Tell me about your vision',
-    textarea: true,
-    placeholder: "Your story, your style, anything you'd like me to know..."
-  }
-]
-
 const sharedInputClassName =
   'w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-100 outline-none transition-all'
 
@@ -63,20 +46,40 @@ export function ContactSection({
   handleBookingSubmit,
   formSubmitted,
   instagramActive,
+  t,
 }: ContactSectionProps) {
+  const bookingFields: BookingField[] = [
+    { name: 'name', label: t.fields.name.label, type: 'text', placeholder: t.fields.name.placeholder, required: true },
+    { name: 'email', label: t.fields.email.label, type: 'email', placeholder: t.fields.email.placeholder, required: true },
+    {
+      name: 'date',
+      label: t.fields.date.label,
+      type: 'date',
+      optional: true,
+      helpText: t.fields.date.optionalText
+    },
+    { name: 'location', label: t.fields.location.label, type: 'text', placeholder: t.fields.location.placeholder },
+    {
+      name: 'message',
+      label: t.fields.message.label,
+      textarea: true,
+      placeholder: t.fields.message.placeholder
+    }
+  ]
+
   return (
     <section className="w-full min-h-full flex flex-col items-center px-6 pt-24 py-12 relative">
       <div className="max-w-4xl mx-auto w-full space-y-12">
         <motion.div variants={fadeInUp} initial="hidden" animate="visible" className="text-center">
-          <p className="text-amber-600 text-xs tracking-[0.3em] uppercase mb-3 font-medium">Vibing with what you see?</p>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">Book or send a message</h2>
+          <p className="text-amber-600 text-xs tracking-[0.3em] uppercase mb-3 font-medium">{t.eyebrow}</p>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">{t.title}</h2>
           <motion.p
             initial={{ clipPath: 'inset(0 100% 0 0)' }}
             animate={{ clipPath: 'inset(0 0% 0 0)' }}
             transition={{ duration: 1.8, delay: 0.15 }}
             className="text-stone-500 text-lg font-light max-w-2xl mx-auto"
           >
-            Use the form to inquire about availability or just say hello
+            {t.description}
           </motion.p>
         </motion.div>
 
@@ -92,7 +95,7 @@ export function ContactSection({
               <div key={field.name}>
                 <label className="block text-sm font-medium text-stone-700 mb-2">
                   {field.label}
-                  {field.optional ? <span className="text-stone-400 text-xs"> (optional)</span> : null}
+                  {field.optional ? <span className="text-stone-400 text-xs"> ({t.optional})</span> : null}
                 </label>
                 {field.textarea ? (
                   <textarea
@@ -124,10 +127,10 @@ export function ContactSection({
               {formSubmitted ? (
                 <>
                   <Check size={18} />
-                  Inquiry Sent!
+                  {t.inquirySent}
                 </>
               ) : (
-                'Send Inquiry'
+                t.sendInquiry
               )}
             </button>
           </div>
@@ -135,7 +138,7 @@ export function ContactSection({
 
         <motion.div variants={fadeInUp} className="mx-auto w-full max-w-4xl">
           <div className="text-center mb-6">
-            <p className="text-stone-500 text-sm uppercase tracking-[0.3em] mb-2">My Instagram Feed</p>
+            <p className="text-stone-500 text-sm uppercase tracking-[0.3em] mb-2">{t.instagram}</p>
           </div>
           <InstagramEmbed account={instagramAccount} active={instagramActive} />
         </motion.div>
@@ -149,7 +152,7 @@ export function ContactSection({
               rel="noreferrer"
               className="transition text-stone-400 hover:text-stone-900"
             >
-              crafted with love
+              {t.crafted}
             </a>
           </div>
         </motion.div>

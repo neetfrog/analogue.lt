@@ -6,6 +6,7 @@ import { PortfolioSection } from './components/PortfolioSection'
 import { GearSection } from './components/GearSection'
 import { ContactSection, type BookingForm } from './components/ContactSection'
 import { slugify } from './utils/slugify'
+import { translations, type Locale, localeOptions, languageLabels, getInitialLocale } from './i18n'
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 60 },
@@ -64,6 +65,17 @@ function App() {
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [bookingForm, dispatchBookingForm] = useReducer(bookingFormReducer, initialBookingForm)
+  const [locale, setLocale] = useState<Locale>(() => getInitialLocale())
+  const t = translations[locale]
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    localStorage.setItem('locale', locale)
+    document.documentElement.lang = locale
+  }, [locale])
 
   const handleBookingSubmit = (e: FormEvent) => {
     e.preventDefault()
@@ -75,20 +87,20 @@ function App() {
   }
 
   const sectionItems: SectionItem[] = [
-    { id: 'home', label: 'Home', render: () => <HomeSection /> },
+    { id: 'home', label: t.nav.sections.home, render: () => <HomeSection t={t.home} /> },
     {
       id: 'portfolio',
-      label: 'Portfolio',
-      render: () => <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} />
+      label: t.nav.sections.portfolio,
+      render: () => <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} t={t.portfolio} />
     },
     {
       id: 'gear',
-      label: 'Gear',
-      render: () => <GearSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} initialGearId={initialGearId} />
+      label: t.nav.sections.gear,
+      render: () => <GearSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} initialGearId={initialGearId} t={t.gear} />
     },
     {
       id: 'contact',
-      label: 'Contact',
+      label: t.nav.sections.contact,
       render: () => (
         <ContactSection
           fadeInUp={fadeInUp}
@@ -97,6 +109,7 @@ function App() {
           handleBookingSubmit={handleBookingSubmit}
           formSubmitted={formSubmitted}
           instagramActive={instagramActive}
+          t={t.contact}
         />
       )
     }
@@ -230,7 +243,7 @@ function App() {
   return (
     <div className="w-full min-h-screen bg-stone-50 text-stone-900 antialiased">
       <motion.nav
-        aria-label="Main navigation"
+        aria-label={t.nav.mainNavigation}
         animate={{ backgroundColor: 'transparent' }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
         className={`fixed top-0 left-0 w-full z-50 px-6 py-4 flex flex-wrap items-center justify-center gap-6 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}
@@ -261,6 +274,20 @@ function App() {
               </button>
             )
           })}
+        </div>
+
+        <div className={`flex items-center gap-2 text-sm font-medium ${navTextColor}`}>
+          {localeOptions.map((language) => (
+            <button
+              key={language}
+              type="button"
+              onClick={() => setLocale(language)}
+              className={`rounded-full border px-3 py-2 transition ${language === locale ? 'bg-amber-400 text-stone-900 border-amber-400' : 'bg-white text-current border-stone-200 hover:bg-stone-100'}`}
+              aria-label={languageLabels[language]}
+            >
+              {languageLabels[language]}
+            </button>
+          ))}
         </div>
       </motion.nav>
 

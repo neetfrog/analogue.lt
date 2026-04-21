@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { homeSlides } from '../data/content'
+import type { HomeTranslations } from '../i18n'
 
-export function HomeSection() {
+type HomeSectionProps = {
+  t: HomeTranslations
+}
+
+export function HomeSection({ t }: HomeSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
 
   useEffect(() => {
@@ -47,7 +52,7 @@ export function HomeSection() {
       <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center justify-center text-center">
         <div>
           <p className="text-amber-200 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
-            Timeless. Authentic. Forever.
+            {t.tagline}
           </p>
         </div>
 
@@ -62,7 +67,7 @@ export function HomeSection() {
             transition={{ duration: 2, delay: 0.15 }}
             className="inline-block overflow-hidden align-middle"
           >
-            Preserving your most meaningful moments on film.
+            {t.description}
           </motion.span>
           <span className="sr-only">
             Juostinė fotografija, juostine fotografija, analoginė fotografija, vestuvių fotografija, Vilnius
@@ -76,10 +81,10 @@ export function HomeSection() {
           className="flex items-center justify-center"
         >
           <div className="flex flex-col items-center gap-2 text-stone-400">
-            <span className="text-sm">Based in Vilnius, Lithuania</span>
+            <span className="text-sm">{t.location}</span>
             <img
               src={new URL('../../images/logos/vilnius.png', import.meta.url).href}
-              alt="Vilnius"
+              alt={t.locationAlt}
               className="h-5 w-5 object-contain"
             />
           </div>

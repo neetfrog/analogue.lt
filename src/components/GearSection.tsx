@@ -3,6 +3,7 @@ import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import { X, Check, Link2, Camera, Aperture, Grid, Package } from 'lucide-react'
 import { gearItems, type GearItem } from '../data/content'
 import { slugify } from '../utils/slugify'
+import type { GearTranslations } from '../i18n'
 
 type MotionVariants = Variants
 
@@ -10,14 +11,8 @@ type GearSectionProps = {
   fadeInUp: MotionVariants
   staggerContainer: MotionVariants
   initialGearId?: string | null
+  t: GearTranslations
 }
-
-const categories = [
-  { value: 'All', label: 'All', icon: Grid },
-  { value: 'cameras', label: 'Cameras', icon: Camera },
-  { value: 'lenses', label: 'Lenses', icon: Aperture },
-  { value: 'accessories', label: 'Accessories', icon: Package }
-]
 
 const manufacturerLogoMap: Record<string, { src: string; alt: string }> = {
   Agfa: { src: new URL('../../images/logos/manufacturers/agfa.png', import.meta.url).href, alt: 'Agfa' },
@@ -39,74 +34,74 @@ const manufacturers = Array.from(
 
 type SpecRule = {
   test: RegExp | ((value: string) => boolean)
-  format: (value: string) => string
+  format: (value: string, specs: GearTranslations['specs']) => string
   weight: number
 }
 
 const specRules: SpecRule[] = [
   {
     test: /^\d+mm focal length$/i,
-    format: (value) => `Focal length: ${value.replace(/ focal length$/i, '')}`,
+    format: (value, specs) => `${specs.focalLength}: ${value.replace(/ focal length$/i, '')}`,
     weight: 0
   },
   {
     test: /^f\/(\d|\d\.\d) maximum aperture$/i,
-    format: (value) => `Aperture: ${value.replace(/ maximum aperture$/i, '')}`,
+    format: (value, specs) => `${specs.aperture}: ${value.replace(/ maximum aperture$/i, '')}`,
     weight: 1
   },
   {
     test: /(mount|lens mount|screw mount|slr mount)$/i,
-    format: (value) => `Mount: ${value.replace(/ lens mount$/i, '').replace(/ screw mount$/i, '').replace(/ slr mount$/i, '').replace(/ mount$/i, '').trim()}`,
+    format: (value, specs) => `${specs.mount}: ${value.replace(/ lens mount$/i, '').replace(/ screw mount$/i, '').replace(/ slr mount$/i, '').replace(/ mount$/i, '').trim()}`,
     weight: 2
   },
   {
     test: /^(35mm film|120 film)$/i,
-    format: (value) => `Film type: ${value}`,
+    format: (value, specs) => `${specs.filmType}: ${value}`,
     weight: 0
   },
   {
     test: /^(6x\d+cm|medium format)$/i,
-    format: (value) => `Format: ${value}`,
+    format: (value, specs) => `${specs.format}: ${value}`,
     weight: 0
   },
   {
     test: /^manual focus$/i,
-    format: () => 'Focus: Manual',
+    format: (_, specs) => `${specs.focus}: Manual`,
     weight: 3
   },
   {
     test: /^fully working$/i,
-    format: () => 'Condition: Fully working',
+    format: (_, specs) => `${specs.condition}: Fully working`,
     weight: 3
   },
   {
     test: /^(tlr|viewfinder \/ rangefinder)$/i,
-    format: (value) => `Type: ${value}`,
+    format: (value, specs) => `${specs.type}: ${value}`,
     weight: 3
   },
   {
     test: /optical design/i,
-    format: (value) => `Optical design: ${value.replace(/ optical design/i, '').trim()}`,
+    format: (value, specs) => `${specs.opticalDesign}: ${value.replace(/ optical design/i, '').trim()}`,
     weight: 3
   },
   {
     test: /multicoated optics/i,
-    format: () => 'Optics: Multicoated',
+    format: (_, specs) => `${specs.optics}: Multicoated`,
     weight: 3
   },
   {
     test: /ultra-wide prime/i,
-    format: () => 'Type: Ultra-wide prime',
+    format: (_, specs) => `${specs.ultraWide}`,
     weight: 3
   },
   {
     test: /classic east german optics/i,
-    format: () => 'Optics: Classic East German',
+    format: (_, specs) => `${specs.classicOptics}`,
     weight: 3
   },
   {
     test: /^solagon .* lens$/i,
-    format: (value) => `Lens: ${value}`,
+    format: (value, specs) => `${specs.lens}: ${value}`,
     weight: 3
   }
 ]
@@ -116,10 +111,10 @@ const findSpecRule = (value: string) =>
     typeof rule.test === 'function' ? rule.test(value) : rule.test.test(value)
   )
 
-const formatSpec = (spec: string) => {
+const formatSpec = (spec: string, specs: GearTranslations['specs']) => {
   const value = spec.trim()
   const rule = findSpecRule(value)
-  return rule ? rule.format(value) : value
+  return rule ? rule.format(value, specs) : value
 }
 
 const getSpecWeight = (spec: string) => {
@@ -134,7 +129,7 @@ const sortSpecs = (specs: string[]) =>
     return weight || a.localeCompare(b)
   })
 
-export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearSectionProps) {
+export function GearSection({ fadeInUp, staggerContainer, initialGearId, t }: GearSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedManufacturer, setSelectedManufacturer] = useState<string | null>(null)
   const [selectedGear, setSelectedGear] = useState<GearItem | null>(null)
@@ -200,6 +195,13 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
     }
   }
 
+  const categories = [
+    { value: 'All', label: t.categories.All, icon: Grid },
+    { value: 'cameras', label: t.categories.cameras, icon: Camera },
+    { value: 'lenses', label: t.categories.lenses, icon: Aperture },
+    { value: 'accessories', label: t.categories.accessories, icon: Package }
+  ]
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && selectedGear) {
@@ -242,15 +244,15 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
       <div className="max-w-7xl mx-auto w-full">
         <motion.div variants={staggerContainer} initial="hidden" animate="visible">
           <motion.div variants={fadeInUp} className="text-center mb-12">
-            <p className="text-amber-600 text-sm tracking-[0.2em] uppercase mb-4 font-medium">For Sale</p>
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4">Camera Gear</h2>
+            <p className="text-amber-600 text-sm tracking-[0.2em] uppercase mb-4 font-medium">{t.eyebrow}</p>
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4">{t.title}</h2>
             <motion.p
               initial={{ clipPath: 'inset(0 100% 0 0)' }}
               animate={{ clipPath: 'inset(0 0% 0 0)' }}
               transition={{ duration: 1.8, delay: 0.15 }}
               className="text-stone-500 text-lg font-light"
             >
-              Well-loved equipment looking for new homes
+              {t.description}
             </motion.p>
           </motion.div>
 
@@ -266,7 +268,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                     : 'border-stone-200 bg-white hover:border-stone-900'
                 }`}
                 aria-pressed={selectedManufacturer === manufacturer}
-                title={`Filter by ${manufacturer}`}
+                title={t.filterBy.replace('{manufacturer}', manufacturer)}
               >
                 <img
                   src={manufacturerLogoMap[manufacturer]?.src}
@@ -323,7 +325,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                 <button
                   type="button"
                   onClick={() => setSelectedGear(item)}
-                  aria-label={`Open details for ${item.name}`}
+                  aria-label={t.openDetails.replace('{name}', item.name)}
                   className="aspect-square bg-stone-100 rounded-xl mb-4 overflow-hidden focus:outline-none"
                 >
                   <img
@@ -341,7 +343,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                   </p>
                   {item.sold && (
                     <span className="rounded-full bg-stone-900 px-2 py-1 text-[0.65rem] uppercase tracking-[0.25em] text-white">
-                      Sold
+                      {t.soldLabel}
                     </span>
                   )}
                 </div>
@@ -363,7 +365,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                   onClick={() => setSelectedGear(item)}
                   className="mt-4 w-full py-3 rounded-xl font-medium text-sm bg-stone-900 text-white hover:bg-stone-800 transition-all"
                 >
-                  Details
+                  {t.detailsButton}
                 </button>
               </motion.div>
             ))}
@@ -414,7 +416,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                           .catch(() => setCopiedLink(false))
                       }}
                       className="rounded-full bg-stone-100 p-3 text-stone-700 hover:bg-stone-200 transition"
-                      aria-label={copiedLink ? `Link copied for ${selectedGear.name}` : `Copy link to ${selectedGear.name}`}
+                      aria-label={copiedLink ? `${t.linkCopied} ${selectedGear.name}` : t.copyLink.replace('{name}', selectedGear.name)}
                     >
                       {copiedLink ? <Check size={16} /> : <Link2 size={16} />}
                     </button>
@@ -422,7 +424,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                       type="button"
                       onClick={() => setSelectedGear(null)}
                       className="rounded-full bg-stone-100 p-3 text-stone-700 hover:bg-stone-200 transition"
-                      aria-label="Close details"
+                      aria-label={t.close}
                     >
                       <X size={16} />
                     </button>
@@ -457,7 +459,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                           type="button"
                           onClick={() => setActiveImage(src)}
                           className={`w-20 h-20 min-w-[5rem] overflow-hidden rounded-3xl bg-stone-100 focus:outline-none ${activeImage === src ? 'ring-2 ring-amber-400' : ''}`}
-                          aria-label={`View ${selectedGear.name} image ${index + 1}`}
+                          aria-label={`${t.openDetails.replace('{name}', selectedGear.name)} image ${index + 1}`}
                         >
                           <img src={src} alt={`${selectedGear.name} detail ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </button>
@@ -467,7 +469,7 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
 
                   <div className="space-y-5 min-w-0">
                     <div>
-                      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-600 mb-3">About this item</p>
+                      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-600 mb-3">{t.aboutItem}</p>
                       <p className="text-stone-600 leading-relaxed">{selectedGear.details}</p>
                       {selectedGear.tags?.length ? (
                         <div className="mt-4 flex flex-wrap gap-2">
@@ -484,12 +486,12 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                     </div>
 
                     <div>
-                      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-stone-600 mb-3">Tech Specs</p>
+                      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-stone-600 mb-3">{t.techSpecs}</p>
                       <ul className="space-y-2 text-sm text-stone-600">
                         {sortSpecs(selectedGear.specs).map((spec, index) => (
                           <li key={index} className="flex items-start gap-2">
                             <span className="mt-1 h-1.5 w-1.5 rounded-full bg-stone-900" />
-                            {formatSpec(spec)}
+                            {formatSpec(spec, t.specs)}
                           </li>
                         ))}
                       </ul>
@@ -501,8 +503,8 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex w-full items-center justify-center rounded-2xl bg-sky-600 px-5 py-3 text-white hover:bg-sky-500 transition font-sans"
-                          aria-label={`Open Vinted listing for ${selectedGear.name}`}
-                          title={`Open Vinted listing for ${selectedGear.name}`}
+                          aria-label={t.vinted}
+                          title={t.vinted}
                         >
                           <img
                             src="/images/Vinted/Vinted_idaca39J_H_0.svg"
@@ -517,10 +519,10 @@ export function GearSection({ fadeInUp, staggerContainer, initialGearId }: GearS
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex w-full items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-sm font-medium text-white hover:bg-stone-800 transition font-sans"
-                          aria-label={`Open Wikipedia article for ${selectedGear.name}`}
-                          title={`Open Wikipedia article for ${selectedGear.name}`}
+                          aria-label={t.wiki}
+                          title={t.wiki}
                         >
-                          Wikipedia
+                          {t.wiki}
                         </a>
                       )}
                     </div>
