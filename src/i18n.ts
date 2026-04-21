@@ -111,7 +111,7 @@ export const translations: Record<Locale, Translations> = {
     },
     home: {
       tagline: 'Timeless. Authentic. Forever.',
-      description: 'Preserving your most meaningful moments on film.',
+      description: 'Preserving your most meaningful moments on film',
       location: 'Based in Vilnius, Lithuania',
       locationAlt: 'Vilnius'
     },
@@ -167,14 +167,14 @@ export const translations: Record<Locale, Translations> = {
         name: { label: 'Your Name', placeholder: 'Jane & John' },
         email: { label: 'Email', placeholder: 'hello@example.com' },
         date: { label: 'Preferred Date', optionalText: 'Leave blank if you just want to message first.' },
-        location: { label: 'Location', placeholder: 'New York, NY' },
+        location: { label: 'Location', placeholder: 'Vilnius, Lithuania' },
         message: { label: 'Tell me about your vision', placeholder: "Your story, your style, anything you'd like me to know..." }
       },
       optional: 'optional',
       sendInquiry: 'Send Inquiry',
       inquirySent: 'Inquiry Sent!',
       instagram: 'My Instagram Feed',
-      crafted: 'crafted with love'
+      crafted: 'crafted with care by myself'
     }
   }),
   lt: buildTranslations({
@@ -188,8 +188,8 @@ export const translations: Record<Locale, Translations> = {
       }
     },
     home: {
-      tagline: 'Amžina. Autentiška. Išliksianti.',
-      description: 'Saugau brangiausias akimirkas ant juostos.',
+      tagline: 'Autentiška. Amžina. Nepavaldu laikui.',
+      description: 'Saugau brangiausias akimirkas ant juostos',
       location: 'Veikiu Vilniuje, Lietuvoje',
       locationAlt: 'Vilnius'
     },
@@ -270,10 +270,6 @@ export function getInitialLocale(): Locale {
   const urlParams = new URLSearchParams(window.location.search)
   const queryLocale = urlParams.get('lang')
   if (queryLocale === 'lt') {
-    return 'lt'
-  }
-
-  if (window.navigator.language?.startsWith('lt')) {
     return 'lt'
   }
 
