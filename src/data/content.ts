@@ -137,7 +137,7 @@ export const gearItems = [
     image: new URL('../../images/gear/jupiter-11-slr/jupiter-11-slr-1.webp', import.meta.url).href,
     details: 'This Jupiter-11 is the SLR M39 mount version designed for early Zenit bodies. It has a 135mm focal length, f/4 maximum aperture, clean glass, smooth focusing, and is based on the classic Zeiss Sonnar optical layout.',
     specs: ['135mm focal length', 'f/4 maximum aperture', 'M39 SLR mount', 'Sonnar-derived optical design'],
-    tags: ['m39-slr','telephoto','prime','slr'],
+    tags: ['m39-slr','telephoto','prime'],
     vintedUrl: 'https://www.vinted.lt/items/6980390883-jupiter-11-135mm-f4-m39-slr-mount',
     wikiUrl: 'https://en.wikipedia.org/wiki/Jupiter_(lenses)#Jupiter-11',
     moreImages: [
@@ -465,7 +465,7 @@ export const gearItems = [
     image: new URL('../../images/gear/mini-tripod-clamp-fed-3-8/mini-tripod-clamp-fed-3-8-1.jpg', import.meta.url).href,
     details: 'A compact FED accessory clamp made for 3/8" tripod screws and lightweight vintage camera setups. It secures small heads and adapters with a rugged aluminum alloy body while keeping the package easy to carry for film shooting on the move.',
     specs: ['3/8" tripod thread', 'Compact clamp design', 'Compatible with small tripod heads', 'Aluminum alloy body', 'FED accessory'],
-    tags: ['tripod','clamp','accessory','3/8"','FED'],
+    tags: ['tripod','clamp','accessory'],
     wikiUrl: 'https://en.wikipedia.org/wiki/Tripod',
     moreImages: [
       new URL('../../images/gear/mini-tripod-clamp-fed-3-8/mini-tripod-clamp-fed-3-8-2.jpg', import.meta.url).href,
@@ -484,7 +484,7 @@ export const gearItems = [
     image: new URL('../../images/gear/exakta-waist-level-finder/exakta-waist-level-finder-1.jpg', import.meta.url).href,
     details: 'This Exakta waist-level finder attaches to the camera body and provides a bright ground glass view for composing from waist height. It is especially useful for low-angle street photography, precise focusing, and a classic shooting style compatible with many Exakta SLR bodies.',
     specs: ['Waist-level finder', 'Exakta SLR attachment', 'Low-angle shooting', 'Ground glass focusing', 'Vintage accessory'],
-    tags: ['finder','waist-level','accessory','exakta'],
+    tags: ['finder','waist-level','accessory'],
     wikiUrl: 'https://en.wikipedia.org/wiki/Waist-level_viewfinder',
     moreImages: [
       new URL('../../images/gear/exakta-waist-level-finder/exakta-waist-level-finder-2.jpg', import.meta.url).href,
@@ -503,7 +503,7 @@ export const gearItems = [
     image: new URL('../../images/gear/m39-m42-extension-tubes/m39-m42-extension-tubes-1.jpg', import.meta.url).href,
     details: 'This KMZ extension tube set includes both M39 and M42 adapters that let vintage lenses focus much closer for macro still life, flower, and product photography. It is a no-optics solution that preserves the character of classic lenses while enabling more extreme close-up work on film cameras.',
     specs: ['M39 extension tube', 'M42 extension tube', 'Macro photography', 'Close-focusing kit', 'No optical elements'],
-    tags: ['extension','tube','macro','m39','m42','accessory'],
+    tags: ['extension','tube','macro'],
     wikiUrl: 'https://en.wikipedia.org/wiki/Extension_tube_(photography)',
     moreImages: [
       new URL('../../images/gear/m39-m42-extension-tubes/m39-m42-extension-tubes-2.jpg', import.meta.url).href,
@@ -523,7 +523,7 @@ export const gearItems = [
     image: new URL('../../images/gear/m42-vorsatz-soviet-macro-bellows/m42-vorsatz-soviet-macro-bellows-1.jpg', import.meta.url).href,
     details: 'This Soviet-style M42 bellows unit is designed for macro and close-up work, letting photographers extend the lens-to-film distance with precision focusing. It works with M42 screw-mount lenses and is perfect for detailed film still-life, product, and botanical photography.',
     specs: ['M42 screw mount', 'Macro bellows', 'Close-up photography', 'Adjustable focusing rail', 'No additional optics'],
-    tags: ['macro','bellows','m42','close-up','accessory'],
+    tags: ['macro','bellows','accessory'],
     wikiUrl: 'https://camera-wiki.org/wiki/Bellows',
     moreImages: [
       new URL('../../images/gear/m42-vorsatz-soviet-macro-bellows/m42-vorsatz-soviet-macro-bellows-2.jpg', import.meta.url).href,
@@ -542,7 +542,7 @@ export const gearItems = [
     image: new URL('../../images/gear/kmz-l-5-loupe-viewer/kmz-l-5-loupe-viewer-1.jpg', import.meta.url).href,
     details: 'This KMZ L-5 magnifying loupe is designed for fast evaluation of 35mm film negatives and slides with a bright 5x optical magnification. It is a handy tool for film photographers who need to check focus and frame details before scanning or printing.',
     specs: ['5x magnification', '35mm film viewer', 'KMZ optical loupe', 'Compact handheld design', 'Glass optics'],
-    tags: ['loupe','magnifier','film viewer','35mm','KMZ','accessory'],
+    tags: ['loupe','film viewer','accessory'],
     wikiUrl: 'https://en.wikipedia.org/wiki/Loupe',
     moreImages: [
       new URL('../../images/gear/kmz-l-5-loupe-viewer/kmz-l-5-loupe-viewer-2.jpg', import.meta.url).href,
@@ -561,7 +561,7 @@ export const gearItems = [
     image: new URL('../../images/gear/kmz-pocket-loupe-4x/kmz-pocket-loupe-4x-1.jpg', import.meta.url).href,
     details: 'This KMZ pocket loupe delivers 4x magnification in a compact folding design, making it ideal for quick 35mm film inspection and detail checks. The optical quality is reminiscent of classic precision loupe designs, with crisp glass optics and a sturdy USSR-era metal frame.',
     specs: ['4x magnification', '35mm film viewer', 'Pocket folding loupe', 'Glass optics', 'USSR-made'],
-    tags: ['loupe','magnifier','film viewer','35mm','KMZ','accessory'],
+    tags: ['loupe','film viewer','accessory'],
     wikiUrl: 'https://en.wikipedia.org/wiki/Loupe',
     moreImages: [
       new URL('../../images/gear/kmz-pocket-loupe-4x/kmz-pocket-loupe-4x-2.jpg', import.meta.url).href,
@@ -581,7 +581,7 @@ export const gearItems = [
     inquiryEmail: 'ignasnefas@gmail.com',
     details: 'A selection of Soviet-era chrome and silver lens caps for vintage lenses. Prices vary by size, type and condition, so please inquire for exact availability and pricing.',
     specs: ['Chrome finish', 'Silver finish', 'Vintage Soviet accessory', 'Varied sizes', 'Mixed condition'],
-    tags: ['lens cap','cap','soviet','chrome','silver','accessory'],
+    tags: ['lens cap','soviet','accessory'],
     wikiUrl: 'https://en.wikipedia.org/wiki/Lens_cap',
     moreImages: []
   },
@@ -598,7 +598,7 @@ export const gearItems = [
     inquiryEmail: 'ignasnefas@gmail.com',
     details: 'A selection of non-Soviet lens caps for vintage and modern cameras. Prices vary by size, type and condition, so please inquire for availability and exact pricing.',
     specs: ['Non-Soviet models', 'Varied sizes', 'Mixed condition'],
-    tags: ['lens cap','cap','non-soviet','accessory'],
+    tags: ['lens cap','non-soviet','accessory'],
     wikiUrl: 'https://en.wikipedia.org/wiki/Lens_cap',
     moreImages: []
   },
@@ -615,7 +615,7 @@ export const gearItems = [
     inquiryEmail: 'ignasnefas@gmail.com',
     details: 'Various mount adapters for Kiev, Pentacon, Exakta, Contax-Yashica and Canon EF systems. Prices range from €10 to €100 depending on the specific adapter and condition, so please inquire for availability and exact pricing.',
     specs: ['Kiev mount', 'Pentacon mount', 'Exakta mount', 'Contax-Yashica mount', 'Canon EF mount'],
-    tags: ['adapter','kiev','pentacon','exakta','contax-yashica','canon ef','accessory'],
+    tags: ['adapter','mount','accessory'],
     wikiUrl: 'https://en.wikipedia.org/wiki/Lens_mount_adapter',
     moreImages: [
       new URL('../../images/gear/various-adapters-ky-canon-exakta-pentacon/various-adapters-2.jpg', import.meta.url).href
@@ -633,7 +633,7 @@ export const gearItems = [
     image: new URL('../../images/gear/mir-1-37mm-f28-brussels-grand-prix/mir-1-37mm-f28-brussels-grand-prix-1.jpg', import.meta.url).href,
     details: 'This special Brussels Grand Prix edition of the KMZ Mir-1 is a 37mm f/2.8 wide-angle lens in M39 SLR mount. It offers compact handling, pleasing retro colors and contrast, and can be adapted to M42 with a simple adapter for use on a wider range of vintage and modern bodies.',
     specs: ['37mm focal length', 'f/2.8 maximum aperture', 'M39 SLR mount', 'Adaptable to M42', 'KMZ Mir-1 optical design'],
-    tags: ['mir-1','37mm','wide-angle','m39','m42','kmz','prime'],
+    tags: ['mir-1','wide-angle','prime'],
     wikiUrl: 'https://en.wikipedia.org/wiki/Mir_(lens)',
     moreImages: [
       new URL('../../images/gear/mir-1-37mm-f28-brussels-grand-prix/mir-1-37mm-f28-brussels-grand-prix-2.jpg', import.meta.url).href,
@@ -652,7 +652,7 @@ export const gearItems = [
     image: new URL('../../images/gear/zeiss-ikon-contaflex-1953/zeiss-ikon-contaflex-1953-1.jpg', import.meta.url).href,
     details: 'A 1953 Zeiss Ikon Contaflex SLR in good working condition, offering a compact camera design and solid German engineering. This early Contaflex is a great collectible for vintage 35mm photography enthusiasts and includes the original folding lens mount style body. ',
     specs: ['35mm film', 'Contaflex reflex system', 'Manual focus', 'Good working condition', 'Classic 1950s design'],
-    tags: ['contaflex','zeiss ikon','35mm','slr','vintage'],
+    tags: ['contaflex','35mm','vintage'],
     wikiUrl: 'https://en.wikipedia.org/wiki/Contaflex',
     moreImages: [
       new URL('../../images/gear/zeiss-ikon-contaflex-1953/zeiss-ikon-contaflex-1953-2.jpg', import.meta.url).href,
@@ -671,7 +671,7 @@ export const gearItems = [
     image: new URL('../../images/gear/lomo-lc-a/lomo-lc-a-1.jpg', import.meta.url).href,
     details: 'The Lomo LC-A is a compact 35mm camera cherished for its “happy” color rendering, vignetting, and ease of use. This example is in good condition and retains the iconic small-format rangefinder-style body, making it a strong choice for film photography lovers and street shooters.',
     specs: ['35mm film', 'Compact build', 'Automatic exposure', 'Zone focus', 'Vivid color rendering'],
-    tags: ['lomo','lc-a','35mm','compact','film','vintage'],
+    tags: ['lomo','35mm','film'],
     wikiUrl: 'https://en.wikipedia.org/wiki/LC-A',
     moreImages: [
       new URL('../../images/gear/lomo-lc-a/lomo-lc-a-2.jpg', import.meta.url).href,
