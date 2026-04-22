@@ -398,7 +398,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                 <img
                   src={manufacturerLogoMap[manufacturer]?.src}
                   alt={manufacturer}
-                  className="h-8 w-auto object-contain"
+                  className="manufacturer-logo h-8 w-auto object-contain"
                 />
               </button>
             ))}
@@ -495,7 +495,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                     <img
                       src={manufacturerLogoMap[item.manufacturer].src}
                       alt={manufacturerLogoMap[item.manufacturer].alt}
-                      className="h-10 w-auto object-contain opacity-90"
+                      className="manufacturer-logo h-10 w-auto object-contain opacity-90"
                     />
                   </div>
                 ) : null}
@@ -585,7 +585,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                         <img
                           src={manufacturerLogoMap[selectedGear.manufacturer].src}
                           alt={manufacturerLogoMap[selectedGear.manufacturer].alt}
-                          className="h-8 w-auto object-contain opacity-90"
+                          className="manufacturer-logo h-8 w-auto object-contain opacity-90"
                         />
                       </div>
                     ) : null}

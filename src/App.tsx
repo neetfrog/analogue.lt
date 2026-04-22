@@ -1,5 +1,6 @@
 ﻿import { useState, useEffect, useRef, type ReactNode } from 'react'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
+import { Moon, Sun } from 'lucide-react'
 import { gearItems, type GearItem } from './data/content'
 import { HomeSection } from './components/HomeSection'
 import { PortfolioSection } from './components/PortfolioSection'
@@ -46,6 +47,18 @@ function App() {
   const [initialGearId, setInitialGearId] = useState<string | null>(null)
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
   const [locale, setLocale] = useState<Locale>(() => getInitialLocale())
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window === 'undefined') {
+      return 'light'
+    }
+
+    const storedTheme = localStorage.getItem('theme')
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      return storedTheme
+    }
+
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  })
   const [adminUnlocked, setAdminUnlocked] = useState<boolean>(false)
   const [adminPasswordInput, setAdminPasswordInput] = useState('')
   const [adminError, setAdminError] = useState<string | null>(null)
@@ -125,6 +138,20 @@ function App() {
     localStorage.setItem('locale', locale)
     document.documentElement.lang = locale
   }, [locale])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    document.documentElement.classList.toggle('dark', theme === 'dark')
+    document.documentElement.style.colorScheme = theme
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
+  }
 
   const sectionItems: SectionItem[] = [
     { id: 'home', label: t.nav.sections.home, render: () => <HomeSection t={t.home} reduceMotion={reduceMotion} /> },
@@ -395,21 +422,28 @@ function App() {
             })}
           </div>
 
-          {activeSection === 0 && (
-            <div className={`flex flex-wrap items-center justify-center gap-2 text-xs md:text-sm font-medium md:absolute md:right-6 md:top-1/2 md:-translate-y-1/2 ${navTextColor}`}>
-              {localeOptions.map((language) => (
-                <button
-                  key={language}
-                  type="button"
-                  onClick={() => setLocale(language)}
-                  className={`rounded-full border px-2.5 py-1.5 transition duration-200 ${language === locale ? 'border-amber-400 bg-amber-400/10 text-amber-400' : 'border-stone-300/70 text-stone-100/80 hover:border-stone-100/80 hover:text-stone-100'}`}
-                  aria-label={languageLabels[language]}
-                >
-                  {languageLabels[language]}
-                </button>
-              ))}
-            </div>
-          )}
+          <div className={`flex flex-wrap items-center justify-center gap-2 text-xs md:text-sm font-medium md:absolute md:right-6 md:top-1/2 md:-translate-y-1/2 ${navTextColor}`}>
+            {activeSection === 0 && localeOptions.map((language) => (
+              <button
+                key={language}
+                type="button"
+                onClick={() => setLocale(language)}
+                className={`rounded-full border px-2.5 py-1.5 transition duration-200 ${language === locale ? 'border-amber-400 bg-amber-400/10 text-amber-400' : 'border-stone-300/70 text-stone-100/80 hover:border-stone-100/80 hover:text-stone-100'}`}
+                aria-label={languageLabels[language]}
+              >
+                {languageLabels[language]}
+              </button>
+            ))}
+
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className={`rounded-full border p-2 transition duration-200 ${isHomeSection ? 'border-white/30 bg-white/10 text-white hover:bg-white/20' : 'border-stone-300 bg-stone-100 text-stone-900 hover:bg-stone-200'}`}
+              aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            >
+              {theme === 'dark' ? <Sun className="h-4 w-4" aria-hidden="true" /> : <Moon className="h-4 w-4" aria-hidden="true" />}
+            </button>
+          </div>
         </div>
       </motion.nav>
 
