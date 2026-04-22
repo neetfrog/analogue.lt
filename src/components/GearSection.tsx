@@ -171,7 +171,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
     }
 
     setSortField(field)
-    setSortOrder('asc')
+    setSortOrder(field === 'price' ? 'desc' : 'asc')
   }
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [copiedLink, setCopiedLink] = useState(false)
