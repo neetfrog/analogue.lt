@@ -562,7 +562,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                   {item.tags?.length ? (
                     <div
                       ref={tagScrollRef}
-                      className="mt-4 flex gap-2 overflow-x-auto pb-2 min-w-0 cursor-grab touch-pan-x"
+                      className="mt-4 flex gap-2 overflow-x-auto pb-2 min-w-0 cursor-grab touch-pan-x hide-scrollbar"
                       onPointerDown={handleTagPointerDown}
                       onPointerMove={handleTagPointerMove}
                       onPointerUp={handleTagPointerEnd}

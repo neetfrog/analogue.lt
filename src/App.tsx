@@ -406,9 +406,11 @@ function App() {
     <div className="w-full min-h-screen bg-stone-50 text-stone-900 antialiased">
       <motion.nav
         aria-label={t.nav.mainNavigation}
-        animate={{ backgroundColor: 'transparent' }}
+        initial={false}
+        animate={{ backgroundColor: 'transparent', opacity: navVisible ? 1 : 0, y: navVisible ? 0 : '-100%' }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 w-full z-50 px-6 py-4 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}
+        style={{ pointerEvents: navVisible ? 'auto' : 'none' }}
+        className="fixed top-0 left-0 w-full z-50 px-6 py-4"
       >
         <div className="relative mx-auto flex w-full max-w-7xl flex-col items-center gap-3 pt-14 md:pt-16 md:flex-row md:justify-center md:items-center">
           <button

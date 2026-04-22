@@ -217,6 +217,15 @@
     animation-duration: 21.7s;
     animation-delay: 0s;
   }
+
+  .hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @keyframes portfolio-image-kenburns-1 {
