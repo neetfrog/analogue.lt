@@ -357,14 +357,19 @@ function App() {
 
   useEffect(() => {
     const originalOverflow = document.body.style.overflow
+    const originalOverscrollBehavior = document.body.style.overscrollBehavior
+
     if (activeSection === 0) {
-      document.body.style.overflowY = 'scroll'
+      document.body.style.overflow = 'hidden'
+      document.body.style.overscrollBehavior = 'none'
     } else {
       document.body.style.overflow = originalOverflow
+      document.body.style.overscrollBehavior = originalOverscrollBehavior
     }
 
     return () => {
       document.body.style.overflow = originalOverflow
+      document.body.style.overscrollBehavior = originalOverscrollBehavior
     }
   }, [activeSection])
 

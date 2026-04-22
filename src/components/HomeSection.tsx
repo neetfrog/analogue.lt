@@ -45,7 +45,7 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   }
 
   return (
-    <section className="w-full min-h-screen flex items-center justify-center px-6 relative overflow-hidden text-center bg-black">
+    <section className="w-full min-h-screen min-h-[100svh] flex items-center justify-center px-6 relative overflow-hidden text-center bg-black overscroll-none" style={{ overscrollBehavior: 'none' }}>
       <div className="absolute inset-0 overflow-hidden bg-black">
         <AnimatePresence>
           <motion.img
@@ -80,18 +80,18 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
         transition={isReducedMotion ? undefined : { duration: 6, repeat: Infinity, delay: 1 }}
       />
 
-      <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center justify-center text-center">
+      <div className="relative z-10 max-w-[min(92vw,72rem)] mx-auto h-full flex flex-col items-center justify-center text-center">
         <div>
           <p className="text-amber-200 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
             {t.tagline}
           </p>
         </div>
 
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none mb-6 text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
+        <h1 className="text-[clamp(3.75rem,8vw,5.5rem)] md:text-[clamp(4.5rem,7vw,6.75rem)] lg:text-[clamp(5.25rem,6vw,8rem)] font-bold tracking-tight leading-none mb-6 text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
           analogue.lt
         </h1>
 
-        <div className="text-lg md:text-xl text-stone-100/80 max-w-lg mx-auto mb-12 font-light leading-relaxed">
+        <div className="text-base sm:text-lg md:text-xl text-stone-100/80 max-w-[min(80vw,44rem)] mx-auto mb-12 font-light leading-relaxed">
           <motion.span
             initial="hidden"
             animate={isReducedMotion ? 'visible' : pageLoaded ? 'visible' : 'hidden'}
