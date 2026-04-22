@@ -44,7 +44,7 @@ export function ContactSection({
           initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: isReducedMotion ? 0.25 : 0.35 }}
-          className="mx-auto w-full max-w-2xl overflow-hidden rounded-[2rem] bg-white p-6 md:p-8 shadow-[0_28px_80px_rgba(15,23,42,0.08)] border border-stone-100 text-center"
+          className="mx-auto w-full max-w-2xl overflow-hidden rounded-[2rem] bg-transparent p-6 md:p-8 text-center"
         >
           <div className="mx-auto flex max-w-xs flex-col items-center gap-4">
             <a
@@ -54,7 +54,6 @@ export function ContactSection({
             >
               <Mail size={20} aria-hidden="true" />
             </a>
-            <p className="text-sm text-stone-500">Tap the icon to open your email app.</p>
           </div>
         </motion.div>
 

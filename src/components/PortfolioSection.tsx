@@ -138,8 +138,8 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
   }, [activeImage])
 
   return (
-    <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 pt-24 relative">
-      <div className="max-w-7xl mx-auto w-full">
+    <section className="w-full min-h-screen flex items-center px-4 md:px-6 lg:px-8 py-16 pt-24 relative">
+      <div className="max-w-none mx-auto w-full">
         <motion.div variants={reducedStagger} initial="hidden" animate="visible">
           <motion.div variants={reducedFadeIn} className="text-center mb-12">
             <p className="text-amber-600 text-sm tracking-[0.2em] uppercase mb-4 font-medium">{t.eyebrow}</p>
