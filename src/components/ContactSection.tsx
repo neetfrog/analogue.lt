@@ -50,7 +50,7 @@ export function ContactSection({
             <a
               href="mailto:ignasnefas@gmail.com?subject=Inquiry from analogue.lt"
               aria-label={t.sendInquiry}
-              className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-stone-900 text-white transition hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+              className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-stone-200 text-stone-700 transition hover:bg-stone-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 dark:bg-stone-900 dark:text-white dark:hover:bg-stone-700"
             >
               <Mail size={20} aria-hidden="true" />
             </a>
