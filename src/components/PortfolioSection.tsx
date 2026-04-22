@@ -61,6 +61,15 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
     }
   }
 
+  const itemLayouts = [
+    'aspect-[4/5]',
+    'aspect-square',
+    'aspect-[5/4]',
+    'aspect-[5/3]',
+    'aspect-[3/4]',
+    'aspect-[4/3]'
+  ]
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!activeImage) {
@@ -117,8 +126,8 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
             </motion.p>
           </motion.div>
 
-          <motion.div variants={fadeInUp} className="grid gap-10">
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <motion.div variants={fadeInUp} className="grid gap-4 auto-rows-min">
+            <div className="columns-2 md:columns-3 lg:columns-4 space-y-1" style={{ columnGap: '0.6rem' }}>
               {eventImages.map((item, i) => (
                 <motion.button
                   type="button"
@@ -128,7 +137,7 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
                   initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05, duration: isReducedMotion ? 0.25 : 0.35 }}
-                  className="group relative overflow-hidden rounded-3xl bg-stone-200 aspect-[4/5] cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400"
+                  className={`group relative inline-block w-full overflow-hidden rounded-3xl bg-stone-200 ${itemLayouts[i % itemLayouts.length]} cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400 break-inside-avoid`}
                 >
                   <img
                     src={item.image}
