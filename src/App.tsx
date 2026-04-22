@@ -452,14 +452,16 @@ function App() {
               </button>
             ))}
 
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className={`rounded-full border p-2 transition duration-200 ${isHomeSection ? 'border-white/40 text-white hover:border-white/70 hover:text-white' : 'border-stone-300 text-stone-900'}`}
-              aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-            >
-              {theme === 'dark' ? <Sun className="h-4 w-4" aria-hidden="true" /> : <Moon className="h-4 w-4" aria-hidden="true" />}
-            </button>
+            {!isHomeSection && (
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="rounded-full border p-2 transition duration-200 border-stone-300 text-stone-900"
+                aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+              >
+                {theme === 'dark' ? <Sun className="h-4 w-4" aria-hidden="true" /> : <Moon className="h-4 w-4" aria-hidden="true" />}
+              </button>
+            )}
           </div>
         </div>
       </motion.nav>
