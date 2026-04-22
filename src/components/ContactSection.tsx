@@ -1,5 +1,5 @@
 import { motion, type Variants } from 'framer-motion'
-import { Heart } from 'lucide-react'
+import { Heart, Mail } from 'lucide-react'
 import { InstagramEmbed } from './InstagramEmbed'
 import { instagramAccount } from '../data/content'
 import type { ContactTranslations } from '../i18n'
@@ -44,15 +44,18 @@ export function ContactSection({
           initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: isReducedMotion ? 0.25 : 0.35 }}
-          className="mx-auto w-full max-w-2xl overflow-hidden bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-stone-100 text-center"
+          className="mx-auto w-full max-w-2xl overflow-hidden rounded-[2rem] bg-white p-6 md:p-8 shadow-[0_28px_80px_rgba(15,23,42,0.08)] border border-stone-100 text-center"
         >
-          <p className="text-stone-500 text-base mb-6">Send me a message directly via email.</p>
-          <a
-            href="mailto:ignasnefas@gmail.com?subject=Inquiry from analogue.lt"
-            className="inline-flex w-full items-center justify-center rounded-xl bg-stone-900 px-5 py-4 text-sm font-medium text-white transition hover:bg-stone-800"
-          >
-            {t.sendInquiry}
-          </a>
+          <div className="mx-auto flex max-w-xs flex-col items-center gap-4">
+            <a
+              href="mailto:ignasnefas@gmail.com?subject=Inquiry from analogue.lt"
+              aria-label={t.sendInquiry}
+              className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-stone-900 text-white transition hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+            >
+              <Mail size={20} aria-hidden="true" />
+            </a>
+            <p className="text-sm text-stone-500">Tap the icon to open your email app.</p>
+          </div>
         </motion.div>
 
         <motion.div variants={fadeInUp} className="mx-auto w-full max-w-4xl">

@@ -184,7 +184,7 @@ export const translations: Record<Locale, Translations> = {
     contact: {
       eyebrow: 'Vibing with what you see?',
       title: 'Book or send a message',
-      description: 'Use the form to inquire about availability or just say hello',
+      description: 'Send an email to inquire about availability or just say hello',
       fields: {
         name: { label: 'Your Name', placeholder: 'Jane & John' },
         email: { label: 'Email', placeholder: 'hello@example.com' },
@@ -195,7 +195,7 @@ export const translations: Record<Locale, Translations> = {
       optional: 'optional',
       sendInquiry: 'Send Inquiry',
       inquirySent: 'Inquiry Sent!',
-      instagram: 'My Instagram Feed',
+      instagram: 'Or message me on Instagram',
       crafted: 'crafted with care by myself'
     }
   }),
@@ -273,7 +273,7 @@ export const translations: Record<Locale, Translations> = {
     contact: {
       eyebrow: 'Patinka, ką matote?',
       title: 'Rezervuok arba parašyk žinutę',
-      description: 'Naudokite formą, kad paklaustumėte apie laisvą laiką ar tiesiog parašytumėte',
+      description: 'Parašyk el. paštu, kad paklaustum apie laisvą laiką arba tiesiog pasisveikintum',
       fields: {
         name: { label: 'Jūsų vardas', placeholder: 'Jonė & Jonas' },
         email: { label: 'El. paštas', placeholder: 'hello@example.com' },
