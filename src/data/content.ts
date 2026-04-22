@@ -524,6 +524,7 @@ export const gearItems = [
     details: 'This Soviet-style M42 bellows unit is designed for macro and close-up work, letting photographers extend the lens-to-film distance with precision focusing. It works with M42 screw-mount lenses and is perfect for detailed film still-life, product, and botanical photography.',
     specs: ['M42 screw mount', 'Macro bellows', 'Close-up photography', 'Adjustable focusing rail', 'No additional optics'],
     tags: ['macro','bellows','accessory'],
+    vintedUrl: 'https://www.vinted.lt/items/8718424490-m42-vorsatz-macro-close-up-bellows',
     wikiUrl: 'https://camera-wiki.org/wiki/Bellows',
     moreImages: [
       new URL('../../images/gear/m42-vorsatz-soviet-macro-bellows/m42-vorsatz-soviet-macro-bellows-2.jpg', import.meta.url).href,
@@ -634,6 +635,7 @@ export const gearItems = [
     details: 'This special Brussels Grand Prix edition of the KMZ Mir-1 is a 37mm f/2.8 wide-angle lens in M39 SLR mount. It offers compact handling, pleasing retro colors and contrast, and can be adapted to M42 with a simple adapter for use on a wider range of vintage and modern bodies.',
     specs: ['37mm focal length', 'f/2.8 maximum aperture', 'M39 SLR mount', 'Adaptable to M42', 'KMZ Mir-1 optical design'],
     tags: ['mir-1','wide-angle','prime'],
+    vintedUrl: 'https://www.vinted.lt/items/8718400913-mir-1-37mm-f28-grand-prix-brussels-1958',
     wikiUrl: 'https://en.wikipedia.org/wiki/Mir_(lens)',
     moreImages: [
       new URL('../../images/gear/mir-1-37mm-f28-brussels-grand-prix/mir-1-37mm-f28-brussels-grand-prix-2.jpg', import.meta.url).href,
@@ -653,6 +655,7 @@ export const gearItems = [
     details: 'A 1953 Zeiss Ikon Contaflex SLR in good working condition, offering a compact camera design and solid German engineering. This early Contaflex is a great collectible for vintage 35mm photography enthusiasts and includes the original folding lens mount style body. ',
     specs: ['35mm film', 'Contaflex reflex system', 'Manual focus', 'Good working condition', 'Classic 1950s design'],
     tags: ['contaflex','35mm','vintage'],
+    vintedUrl: 'https://www.vinted.lt/items/8718353347-zeiss-ikon-contaflex',
     wikiUrl: 'https://en.wikipedia.org/wiki/Contaflex',
     moreImages: [
       new URL('../../images/gear/zeiss-ikon-contaflex-1953/zeiss-ikon-contaflex-1953-2.jpg', import.meta.url).href,
@@ -672,6 +675,7 @@ export const gearItems = [
     details: 'The Lomo LC-A is a compact 35mm camera cherished for its “happy” color rendering, vignetting, and ease of use. This example is in good condition and retains the iconic small-format rangefinder-style body, making it a strong choice for film photography lovers and street shooters.',
     specs: ['35mm film', 'Compact build', 'Automatic exposure', 'Zone focus', 'Vivid color rendering'],
     tags: ['lomo','35mm','film'],
+    vintedUrl: 'https://www.vinted.lt/items/8718378636-lomo-lc-a',
     wikiUrl: 'https://en.wikipedia.org/wiki/LC-A',
     moreImages: [
       new URL('../../images/gear/lomo-lc-a/lomo-lc-a-2.jpg', import.meta.url).href,
@@ -685,12 +689,13 @@ export const gearItems = [
     condition: 'Good',
     category: 'cameras',
     manufacturer: 'Arsenal',
-    description: 'Rare Kiev II SLR with Jupiter-3 50mm f/1.5 lens, a classic 1950s Contax copy from Arsenal.',
+    description: 'Rare and historic camera + lens combination. A true Contax Copy from 1955.',
     sold: false,
     image: new URL('../../images/gear/kiev-ii-jupiter-3-50mm-f15/kiev-ii-jupiter-3-50mm-f15-1.jpg', import.meta.url).href,
     details: 'A rare and historic Kiev II with Jupiter-3 50mm f/1.5 lens, produced by Arsenal in 1955. The Kiev II is a true Contax II copy and was built from 1950–1956, with early examples featuring Cyrillic-only engraving and a stabilizing foot on the bottom plate. This example is an early-style 1955 production and is increasingly hard to find, especially among collectors of early Soviet cameras.',
-    specs: ['1955 Kiev II', 'Jupiter-3 50mm f/1.5', 'M39 Contax-style mount', 'Arsenal production', 'Rare collector item'],
-    tags: ['kiev-ii','jupiter-3','50mm','f1.5','arsenal','35mm','slr'],
+    specs: ['1955 Kiev II', 'Jupiter-3 50mm f/1.5', 'Contax mount', 'Arsenal production', 'Rare collector item'],
+    tags: ['rangefinder','kiev','jupiter',],
+    vintedUrl: 'https://www.vinted.lt/items/8718562344-kiev-ii-jupiter-3-50mm-f15',
     wikiUrl: 'https://en.wikipedia.org/wiki/Kiev_II',
     moreImages: [
       new URL('../../images/gear/kiev-ii-jupiter-3-50mm-f15/kiev-ii-jupiter-3-50mm-f15-2.jpg', import.meta.url).href,

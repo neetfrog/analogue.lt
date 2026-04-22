@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type TouchEvent } from 'react'
+import { useEffect, useRef, useState, type PointerEvent, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import { X, Check, Link2, Camera, Aperture, Grid, Package, Type, DollarSign, ChevronUp } from 'lucide-react'
 import type { GearItem } from '../data/content'
@@ -178,6 +178,10 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
   const [zoomed, setZoomed] = useState(false)
   const [hasAppliedInitialGear, setHasAppliedInitialGear] = useState(false)
   const imageWrapperRef = useRef<HTMLDivElement | null>(null)
+  const tagScrollRef = useRef<HTMLDivElement | null>(null)
+  const isTagDraggingRef = useRef(false)
+  const dragStartXRef = useRef(0)
+  const dragScrollLeftRef = useRef(0)
   const lastTapRef = useRef<number>(0)
   const isReducedMotion = reduceMotion ?? false
   const reducedFadeIn: MotionVariants = isReducedMotion
@@ -252,6 +256,33 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
     } else {
       lastTapRef.current = now
     }
+  }
+
+  const handleTagPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    const target = event.currentTarget
+    isTagDraggingRef.current = true
+    dragStartXRef.current = event.clientX
+    dragScrollLeftRef.current = target.scrollLeft
+    target.setPointerCapture(event.pointerId)
+  }
+
+  const handleTagPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (!isTagDraggingRef.current) {
+      return
+    }
+
+    const target = event.currentTarget
+    const deltaX = event.clientX - dragStartXRef.current
+    target.scrollLeft = dragScrollLeftRef.current - deltaX
+  }
+
+  const handleTagPointerEnd = (event: PointerEvent<HTMLDivElement>) => {
+    if (!isTagDraggingRef.current) {
+      return
+    }
+
+    isTagDraggingRef.current = false
+    event.currentTarget.releasePointerCapture(event.pointerId)
   }
 
   const manufacturers = Array.from(
@@ -445,7 +476,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                 initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.02, duration: isReducedMotion ? 0.25 : 0.35 }}
-                className={`group relative bg-white rounded-2xl p-6 border transition-all duration-300 ${
+                className={`group relative flex h-full flex-col bg-white rounded-2xl p-6 border transition-all duration-300 ${
                   item.sold
                     ? 'border-stone-200 opacity-60'
                     : 'border-stone-200 hover:border-amber-400 hover:shadow-lg'
@@ -474,34 +505,44 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                     className="w-full h-full object-cover"
                   />
                 </button>
-                <h3 className="text-xl font-semibold mb-1">{item.name}</h3>
-                <div className="flex items-center gap-3 mb-2">
-                  <p className={`font-bold text-2xl ${item.sold ? 'text-stone-400 line-through' : 'text-amber-600'}`}>
-                    {formatPrice(item.price)}
-                  </p>
-                  {item.sold && (
-                    <span className="rounded-full bg-stone-900 px-2 py-1 text-[0.65rem] uppercase tracking-[0.25em] text-white">
-                      {t.soldLabel}
-                    </span>
-                  )}
-                </div>
-                <p className="text-stone-600 text-sm leading-relaxed">{item.description}</p>
-                {item.tags?.length ? (
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {item.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="inline-flex items-center rounded-full bg-stone-100 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.2em] text-stone-600"
-                      >
-                        {tag.replace(/-/g, ' ')}
+                <div className="flex flex-col flex-1 min-w-0">
+                  <h3 className="text-xl font-semibold mb-1">{item.name}</h3>
+                  <div className="flex items-center gap-3 mb-2">
+                    <p className={`font-bold text-2xl ${item.sold ? 'text-stone-400 line-through' : 'text-amber-600'}`}>
+                      {formatPrice(item.price)}
+                    </p>
+                    {item.sold && (
+                      <span className="rounded-full bg-stone-900 px-2 py-1 text-[0.65rem] uppercase tracking-[0.25em] text-white">
+                        {t.soldLabel}
                       </span>
-                    ))}
+                    )}
                   </div>
-                ) : null}
+                  <p className="text-stone-600 text-sm leading-relaxed">{item.description}</p>
+                  {item.tags?.length ? (
+                    <div
+                      ref={tagScrollRef}
+                      className="mt-4 flex gap-2 overflow-x-auto pb-2 min-w-0 cursor-grab touch-pan-x"
+                      onPointerDown={handleTagPointerDown}
+                      onPointerMove={handleTagPointerMove}
+                      onPointerUp={handleTagPointerEnd}
+                      onPointerLeave={handleTagPointerEnd}
+                      onPointerCancel={handleTagPointerEnd}
+                    >
+                      {item.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="inline-flex flex-shrink-0 items-center rounded-full bg-stone-100 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.2em] text-stone-600"
+                        >
+                          {tag.replace(/-/g, ' ')}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
                 <button
                   type="button"
                   onClick={() => setSelectedGear(item)}
-                  className="mt-4 w-full py-3 rounded-xl font-medium text-sm bg-stone-900 text-white hover:bg-stone-800 transition-all"
+                  className="mt-6 w-full rounded-xl bg-stone-900 py-3 text-sm font-medium text-white transition-all hover:bg-stone-800"
                 >
                   {t.detailsButton}
                 </button>
