@@ -24,6 +24,11 @@
     color: #111827;
   }
 
+  body[data-lightbox-open='true'] {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+  }
+
   .dark {
     color-scheme: dark;
   }

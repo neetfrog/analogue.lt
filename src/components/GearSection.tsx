@@ -204,14 +204,31 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
   }, [selectedGear])
 
   useEffect(() => {
+    const originalBodyOverflow = document.body.style.overflow
+    const originalHtmlOverflow = document.documentElement.style.overflow
+    const originalBodyOverscrollBehavior = document.body.style.overscrollBehavior
+    const originalHtmlOverscrollBehavior = document.documentElement.style.overscrollBehavior
+
     if (selectedGear) {
       document.body.dataset.lightboxOpen = 'true'
+      document.body.style.overflow = 'hidden'
+      document.documentElement.style.overflow = 'hidden'
+      document.body.style.overscrollBehavior = 'none'
+      document.documentElement.style.overscrollBehavior = 'none'
     } else {
       delete document.body.dataset.lightboxOpen
+      document.body.style.overflow = originalBodyOverflow
+      document.documentElement.style.overflow = originalHtmlOverflow
+      document.body.style.overscrollBehavior = originalBodyOverscrollBehavior
+      document.documentElement.style.overscrollBehavior = originalHtmlOverscrollBehavior
     }
 
     return () => {
       delete document.body.dataset.lightboxOpen
+      document.body.style.overflow = originalBodyOverflow
+      document.documentElement.style.overflow = originalHtmlOverflow
+      document.body.style.overscrollBehavior = originalBodyOverscrollBehavior
+      document.documentElement.style.overscrollBehavior = originalHtmlOverscrollBehavior
     }
   }, [selectedGear])
 
@@ -579,7 +596,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
       <AnimatePresence>
         {selectedGear && (
           <motion.div
-            className="fixed inset-0 z-50 overflow-x-hidden overflow-y-auto bg-black/60 p-3 sm:p-4"
+            className="fixed inset-0 z-50 overflow-hidden bg-black/60 p-3 sm:p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
