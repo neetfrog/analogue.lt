@@ -425,48 +425,56 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
             })}
           </motion.div>
 
-          <motion.div variants={reducedFadeIn} className="mb-8 flex items-center justify-center gap-3">
-            <button
-              type="button"
-              onClick={() => toggleSortField('name')}
-              aria-label={`Sort by name, ${sortOrder}`}
-              className={`relative rounded-full border p-3 transition ${
-                sortField === 'name'
-                  ? 'border-amber-400 bg-amber-100 text-stone-900'
-                  : 'border-stone-200 bg-white text-stone-500 hover:bg-stone-50'
-              }`}
-            >
-              <Type className="h-5 w-5" aria-hidden="true" />
-              {sortField === 'name' ? (
-                <ChevronUp
-                  className={`absolute -right-1 -top-1 h-4 w-4 transition-transform ${
-                    sortOrder === 'asc' ? 'rotate-0' : 'rotate-180'
-                  }`}
-                  aria-hidden="true"
-                />
-              ) : null}
-            </button>
+          <motion.div variants={reducedFadeIn} className="mb-8 flex items-center justify-center gap-6">
+            <div className="flex flex-col items-center gap-2">
+              <button
+                type="button"
+                onClick={() => toggleSortField('name')}
+                aria-label={`Sort by name, ${sortOrder}`}
+                className={`flex h-12 w-12 items-center justify-center rounded-full border p-2 transition ${
+                  sortField === 'name'
+                    ? 'border-amber-400 bg-amber-100 text-stone-900'
+                    : 'border-stone-200 bg-white text-stone-500 hover:bg-stone-50'
+                }`}
+              >
+                <Type className="h-5 w-5" aria-hidden="true" />
+              </button>
+              <div className="h-4 flex items-center justify-center">
+                {sortField === 'name' ? (
+                  <ChevronUp
+                    className={`h-4 w-4 text-stone-500 transition-transform ${
+                      sortOrder === 'asc' ? 'rotate-0' : 'rotate-180'
+                    }`}
+                    aria-hidden="true"
+                  />
+                ) : null}
+              </div>
+            </div>
 
-            <button
-              type="button"
-              onClick={() => toggleSortField('price')}
-              aria-label={`Sort by price, ${sortOrder}`}
-              className={`relative rounded-full border p-3 transition ${
-                sortField === 'price'
-                  ? 'border-amber-400 bg-amber-100 text-stone-900'
-                  : 'border-stone-200 bg-white text-stone-500 hover:bg-stone-50'
-              }`}
-            >
-              <DollarSign className="h-5 w-5" aria-hidden="true" />
-              {sortField === 'price' ? (
-                <ChevronUp
-                  className={`absolute -right-1 -top-1 h-4 w-4 transition-transform ${
-                    sortOrder === 'asc' ? 'rotate-0' : 'rotate-180'
-                  }`}
-                  aria-hidden="true"
-                />
-              ) : null}
-            </button>
+            <div className="flex flex-col items-center gap-2">
+              <button
+                type="button"
+                onClick={() => toggleSortField('price')}
+                aria-label={`Sort by price, ${sortOrder}`}
+                className={`flex h-12 w-12 items-center justify-center rounded-full border p-2 transition ${
+                  sortField === 'price'
+                    ? 'border-amber-400 bg-amber-100 text-stone-900'
+                    : 'border-stone-200 bg-white text-stone-500 hover:bg-stone-50'
+                }`}
+              >
+                <DollarSign className="h-5 w-5" aria-hidden="true" />
+              </button>
+              <div className="h-4 flex items-center justify-center">
+                {sortField === 'price' ? (
+                  <ChevronUp
+                    className={`h-4 w-4 text-stone-500 transition-transform ${
+                      sortOrder === 'asc' ? 'rotate-0' : 'rotate-180'
+                    }`}
+                    aria-hidden="true"
+                  />
+                ) : null}
+              </div>
+            </div>
           </motion.div>
 
           <motion.div variants={reducedFadeIn} className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
