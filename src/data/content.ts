@@ -310,7 +310,7 @@ export const gearItems = [
     image: new URL('../../images/gear/fed-nkvd-1935/fed-nkvd-1935-1.webp', import.meta.url).href,
     details: 'The FED NKVD is a rare early Soviet FED camera made between 1939 and 1941. This type 1d/4 example is fully working and historically significant, featuring a solid Soviet-era build and unique provenance tied to the NKVD lineage.',
     specs: ['35mm film', 'M39 lens mount', 'Manual focus', 'Fully working'],
-    tags: ['rangefinder','35mm'],
+    tags: ['rangefinder','35mm', 'rare'],
     vintedUrl: 'https://www.vinted.lt/items/6960847627-fed-nkvd-1935',
     wikiUrl: 'https://camerapedia.fandom.com/wiki/FED_(Original)_(FED_NKVD,_FED-S,_FED-1)',
     moreImages: [
@@ -348,8 +348,8 @@ export const gearItems = [
     sold: false,
     image: new URL('../../images/gear/fed-1g-1949/fed-1g-1949-1.webp', import.meta.url).href,
     details: 'The FED 1g is an early Soviet Leica II(D) copy with a rare calibration hole in the backplate. This fully working 1949 example is a historic FED 1g (type 1g / type 6) and includes the original Soviet-era engraving and classic Leica thread mount compatibility.',
-    specs: ['35mm film', 'M39 lens mount', 'Manual focus', 'Fully working'],
-    tags: ['rangefinder','35mm'],
+    specs: ['35mm film', 'M39', 'rare'],
+    tags: ['rangefinder','35mm','rare'],
     vintedUrl: 'https://www.vinted.lt/items/6960888603-fed-1g-1949',
     wikiUrl: 'https://fedka.com/fs/product/fed-1g-chrome/',
     moreImages: [
@@ -445,9 +445,9 @@ export const gearItems = [
     description: '1950s Agfa Karat 36 with Solagon 50mm f/2.',
     sold: false,
     image: new URL('../../images/gear/agfa-karat-36-50mm-f2-1948/agfa-karat-36-50mm-f2-1948-1.webp', import.meta.url).href,
-    details: 'The Agfa Karat 36 is an uncommon medium-format camera paired with a Solagon 50mm f/2 lens by Rodenstock. This fully working 1948 example features classic German optics in a compact design.',
+    details: 'The Agfa Karat 36 is an uncommon camera paired with a Solagon 50mm f/2 lens by Rodenstock. This fully working 1948 example features classic German optics in a compact design.',
     specs: ['120 film', '6x6cm medium format', 'Solagon 50mm f/2 lens', 'Manual focus', 'Fully working'],
-    tags: ['medium-format','standard','120film'],
+    tags: ['rangefinder','standard','135film'],
     vintedUrl: 'https://www.vinted.lt/items/6960669161-agfa-karat-36-50mm-f2-1948',
     wikiUrl: 'https://camera-wiki.org/wiki/Karat#Karat_36',
     moreImages: [
@@ -635,7 +635,7 @@ export const gearItems = [
     image: new URL('../../images/gear/mir-1-37mm-f28-brussels-grand-prix/mir-1-37mm-f28-brussels-grand-prix-1.jpg', import.meta.url).href,
     details: 'This special Brussels Grand Prix edition of the KMZ Mir-1 is a 37mm f/2.8 wide-angle lens in M39 SLR mount. It offers compact handling, pleasing retro colors and contrast, and can be adapted to M42 with a simple adapter for use on a wider range of vintage and modern bodies.',
     specs: ['37mm focal length', 'f/2.8 maximum aperture', 'M39 SLR mount', 'Adaptable to M42', 'KMZ Mir-1 optical design'],
-    tags: ['mir-1','wide-angle','prime'],
+    tags: ['wide-angle','prime','rare'],
     vintedUrl: 'https://www.vinted.lt/items/8718400913-mir-1-37mm-f28-grand-prix-brussels-1958',
     wikiUrl: 'https://en.wikipedia.org/wiki/Mir_(lens)',
     moreImages: [
@@ -695,7 +695,7 @@ export const gearItems = [
     image: new URL('../../images/gear/kiev-ii-jupiter-3-50mm-f15/kiev-ii-jupiter-3-50mm-f15-1.jpg', import.meta.url).href,
     details: 'A rare and historic Kiev II with Jupiter-3 50mm f/1.5 lens, produced by Arsenal in 1955. The Kiev II is a true Contax II copy and was built from 1950–1956, with early examples featuring Cyrillic-only engraving and a stabilizing foot on the bottom plate. This example is an early-style 1955 production and is increasingly hard to find, especially among collectors of early Soviet cameras.',
     specs: ['1955 Kiev II', 'Jupiter-3 50mm f/1.5', 'Contax mount', 'Arsenal production', 'Rare collector item'],
-    tags: ['rangefinder','kiev','jupiter',],
+    tags: ['rangefinder','rare'],
     vintedUrl: 'https://www.vinted.lt/items/8718562344-kiev-ii-jupiter-3-50mm-f15',
     wikiUrl: 'https://en.wikipedia.org/wiki/Kiev_II',
     moreImages: [

@@ -550,7 +550,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                 <button
                   type="button"
                   onClick={() => setSelectedGear(item)}
-                  className="mt-6 w-full rounded-xl bg-stone-900 py-3 text-sm font-medium text-white transition-all hover:bg-stone-800"
+                  className="mt-6 w-full rounded-xl border border-amber-400 bg-amber-100 py-3 text-sm font-medium text-stone-900 transition-all hover:bg-amber-200"
                 >
                   {t.detailsButton}
                 </button>
@@ -631,7 +631,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                         dragMomentum={false}
                         dragElastic={0.3}
                         dragConstraints={{ left: -220, right: 220, top: -220, bottom: 220 }}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                         style={{ transformOrigin: 'center center' }}
                         loading="lazy"
                         decoding="async"
@@ -646,10 +646,12 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                             key={index}
                             type="button"
                             onClick={() => setActiveImage(src)}
-                            className={`w-20 h-20 min-w-[5rem] overflow-hidden rounded-3xl bg-stone-100 focus:outline-none ${activeImage === src ? 'ring-2 ring-amber-400' : ''}`}
+                            className={`w-20 h-20 min-w-[5rem] rounded-3xl bg-stone-100 focus:outline-none border-2 ${activeImage === src ? 'border-amber-400' : 'border-transparent'}`}
                             aria-label={`${t.openDetails.replace('{name}', selectedGear.name)} image ${index + 1}`}
                           >
-                            <img src={src} alt={`${selectedGear.name} detail ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                            <div className="w-full h-full overflow-hidden rounded-3xl">
+                              <img src={src} alt={`${selectedGear.name} detail ${index + 1}`} loading="lazy" decoding="async" className="w-full h-full object-contain" />
+                            </div>
                           </button>
                         ))}
                       </div>
@@ -676,10 +678,10 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
 
                     <div>
                       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-stone-600 mb-3">{t.techSpecs}</p>
-                      <ul className="space-y-2 text-sm text-stone-600">
+                      <ul className="space-y-2 text-sm text-stone-600 dark:text-stone-300">
                         {sortSpecs(selectedGear.specs).map((spec, index) => (
                           <li key={index} className="flex items-start gap-2">
-                            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-stone-900" />
+                            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-stone-900 dark:bg-stone-200" />
                             {formatSpec(spec, t.specs)}
                           </li>
                         ))}
