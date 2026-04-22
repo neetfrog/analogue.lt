@@ -35,7 +35,7 @@ const portfolioImageModules = import.meta.glob('../../images/portfolio/*.{jpg,jp
   eager: true,
   query: '?url',
   import: 'default'
-})
+}) as Record<string, string>
 
 export const eventImages: EventImage[] = Object.entries(portfolioImageModules)
   .map(([path, image], index) => {
