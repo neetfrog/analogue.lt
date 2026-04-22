@@ -381,8 +381,11 @@ function App() {
   }
 
   const isHomeSection = activeSection === 0
-  const navTextColor = isHomeSection ? 'text-white' : 'text-stone-900'
-  const underlineColor = isHomeSection ? 'bg-white' : 'bg-stone-900'
+  const isDarkTheme = theme === 'dark'
+  const navTextColor = isHomeSection || isDarkTheme ? 'text-white' : 'text-stone-900'
+  const underlineStyle = {
+    backgroundColor: isHomeSection || isDarkTheme ? '#ffffff' : '#111827'
+  }
 
   return (
     <div className="w-full min-h-screen bg-stone-50 text-stone-900 antialiased">
@@ -392,8 +395,8 @@ function App() {
         transition={{ duration: 0.3, ease: 'easeOut' }}
         className={`fixed top-0 left-0 w-full z-50 px-6 py-4 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}
       >
-        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-center gap-4 md:flex-row md:gap-0">
-          <div className={`flex flex-wrap items-center justify-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor}`}>
+        <div className="relative mx-auto flex w-full max-w-7xl flex-col items-center gap-3 md:flex-row md:justify-center md:items-center">
+          <div className={`flex flex-wrap justify-center items-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor}`}>
             {navSectionItems.map((section) => {
               const sectionIndex = sectionIndexById.get(section.id) ?? 0
               const isActive = activeSection === sectionIndex
@@ -414,7 +417,8 @@ function App() {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.25, ease: 'easeOut' }}
-                      className={`absolute -bottom-1 left-0 right-0 h-0.5 ${underlineColor}`}
+                      className="absolute -bottom-1 left-0 right-0 h-0.5"
+                      style={underlineStyle}
                     />
                   )}
                 </button>
@@ -422,7 +426,7 @@ function App() {
             })}
           </div>
 
-          <div className={`flex flex-wrap items-center justify-center gap-2 text-xs md:text-sm font-medium md:absolute md:right-6 md:top-1/2 md:-translate-y-1/2 ${navTextColor}`}>
+          <div className={`flex flex-wrap justify-center gap-2 text-xs md:text-sm font-medium ${navTextColor} md:absolute md:right-6 md:top-1/2 md:-translate-y-1/2`}>
             {activeSection === 0 && localeOptions.map((language) => (
               <button
                 key={language}
@@ -435,14 +439,16 @@ function App() {
               </button>
             ))}
 
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className={`rounded-full border p-2 transition duration-200 ${isHomeSection ? 'border-white/30 bg-white/10 text-white hover:bg-white/20' : 'border-stone-300 bg-stone-100 text-stone-900 hover:bg-stone-200'}`}
-              aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-            >
-              {theme === 'dark' ? <Sun className="h-4 w-4" aria-hidden="true" /> : <Moon className="h-4 w-4" aria-hidden="true" />}
-            </button>
+            {activeSection !== 0 && (
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="rounded-full border p-2 transition duration-200 border-stone-300 text-stone-900"
+                aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+              >
+                {theme === 'dark' ? <Sun className="h-4 w-4" aria-hidden="true" /> : <Moon className="h-4 w-4" aria-hidden="true" />}
+              </button>
+            )}
           </div>
         </div>
       </motion.nav>
