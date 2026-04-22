@@ -52,8 +52,9 @@ export const eventImages: EventImage[] = Object.entries(portfolioImageModules)
 
 const slideshowImageModules = import.meta.glob('../../images/slideshow/*.{jpg,jpeg,png,webp}', {
   eager: true,
-  as: 'url'
-})
+  query: '?url',
+  import: 'default'
+}) as Record<string, string>
 
 export const homeSlides = Object.entries(slideshowImageModules)
   .map(([path, src]) => {
