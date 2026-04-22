@@ -216,6 +216,12 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
   }, [selectedGear])
 
   useEffect(() => {
+    if (!selectedGear && document.activeElement instanceof HTMLElement && document.activeElement !== document.body) {
+      document.activeElement.blur()
+    }
+  }, [selectedGear])
+
+  useEffect(() => {
     if (selectedGear) {
       const url = new URL(window.location.href)
       url.hash = slugify(selectedGear.name)
