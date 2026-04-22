@@ -356,20 +356,28 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow
-    const originalOverscrollBehavior = document.body.style.overscrollBehavior
+    const originalBodyOverflow = document.body.style.overflow
+    const originalHtmlOverflow = document.documentElement.style.overflow
+    const originalBodyOverscrollBehavior = document.body.style.overscrollBehavior
+    const originalHtmlOverscrollBehavior = document.documentElement.style.overscrollBehavior
 
     if (activeSection === 0) {
       document.body.style.overflow = 'hidden'
+      document.documentElement.style.overflow = 'hidden'
       document.body.style.overscrollBehavior = 'none'
+      document.documentElement.style.overscrollBehavior = 'none'
     } else {
-      document.body.style.overflow = originalOverflow
-      document.body.style.overscrollBehavior = originalOverscrollBehavior
+      document.body.style.overflow = originalBodyOverflow
+      document.documentElement.style.overflow = originalHtmlOverflow
+      document.body.style.overscrollBehavior = originalBodyOverscrollBehavior
+      document.documentElement.style.overscrollBehavior = originalHtmlOverscrollBehavior
     }
 
     return () => {
-      document.body.style.overflow = originalOverflow
-      document.body.style.overscrollBehavior = originalOverscrollBehavior
+      document.body.style.overflow = originalBodyOverflow
+      document.documentElement.style.overflow = originalHtmlOverflow
+      document.body.style.overscrollBehavior = originalBodyOverscrollBehavior
+      document.documentElement.style.overscrollBehavior = originalHtmlOverscrollBehavior
     }
   }, [activeSection])
 

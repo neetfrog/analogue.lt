@@ -45,7 +45,7 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   }
 
   return (
-    <section className="w-full min-h-screen min-h-[100svh] flex items-center justify-center px-6 relative overflow-hidden text-center bg-black overscroll-none" style={{ overscrollBehavior: 'none' }}>
+    <section className="w-full min-h-screen flex items-center justify-center px-6 relative overflow-hidden text-center bg-black" style={{ overscrollBehavior: 'none', minHeight: '100svh' }}>
       <div className="absolute inset-0 overflow-hidden bg-black">
         <AnimatePresence>
           <motion.img
