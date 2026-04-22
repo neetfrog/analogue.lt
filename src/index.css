@@ -166,6 +166,14 @@
     font-family: inherit;
   }
 
+  .tech-specs-list {
+    color: #111827;
+  }
+
+  .dark .tech-specs-list {
+    color: #cbd5e1;
+  }
+
   ::selection {
     background: rgba(251, 191, 36, 0.25);
     color: #111827;

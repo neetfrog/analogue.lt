@@ -711,10 +711,10 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
 
                     <div>
                       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-600 mb-3">{t.techSpecs}</p>
-                      <ul className="space-y-2 text-sm text-stone-900 dark:text-stone-300 list-none" style={{ color: '#111827' }}>
+                      <ul className="space-y-2 text-sm list-none tech-specs-list">
                         {sortSpecs(selectedGear.specs).map((spec, index) => (
-                          <li key={index} className="flex items-start gap-2 list-none" style={{ color: '#111827' }}>
-                            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-stone-900 dark:bg-stone-200" style={{ backgroundColor: '#111827' }} />
+                          <li key={index} className="flex items-start gap-2 list-none">
+                            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-stone-900 dark:bg-stone-200" />
                             {formatSpec(spec, t.specs)}
                           </li>
                         ))}
