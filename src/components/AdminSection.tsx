@@ -21,13 +21,6 @@ const defaultGearItem = (): GearItem => ({
   condition: '',
   category: 'cameras',
   manufacturer: '',
-  description: '',
-  sold: false,
-  image: '',
-  details: '',
-  specs: [],
-  tags: [],
-  moreImages: []
 })
 
 export function AdminSection({ items, onSaveItems }: AdminSectionProps) {
@@ -205,16 +198,6 @@ export function AdminSection({ items, onSaveItems }: AdminSectionProps) {
               </div>
 
               <div className="mt-6 grid gap-4">
-                <label className="flex flex-col gap-2 text-sm font-medium text-stone-700">
-                  Description
-                  <textarea
-                    value={item.description}
-                    rows={3}
-                    onChange={(event) => updateItem(item.id, 'description', event.target.value)}
-                    className="min-h-[5rem] rounded-3xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-200"
-                  />
-                </label>
-
                 <label className="flex flex-col gap-2 text-sm font-medium text-stone-700">
                   Details
                   <textarea

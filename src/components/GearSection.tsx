@@ -525,7 +525,17 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                       </span>
                     )}
                   </div>
-                  <p className="text-stone-600 text-sm leading-relaxed">{item.description}</p>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedGear(item)}
+                    aria-label={t.openDetails.replace('{name}', item.name)}
+                    className="relative overflow-hidden text-left text-stone-600 text-sm leading-relaxed cursor-pointer transition hover:text-stone-900 fade-out-bottom"
+                    style={{ maxHeight: '4.5rem' }}
+                  >
+                    <div style={{ lineHeight: 1.5 }}>
+                      {item.details}
+                    </div>
+                  </button>
                   {item.tags?.length ? (
                     <div
                       ref={tagScrollRef}
