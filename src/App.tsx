@@ -410,24 +410,22 @@ function App() {
         transition={{ duration: 0.3, ease: 'easeOut' }}
         className={`fixed top-0 left-0 w-full z-50 px-6 py-4 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}
       >
-        <div className="relative mx-auto flex w-full max-w-7xl flex-col items-center gap-3 md:flex-row md:justify-center md:items-center">
-          {!isHomeSection && (
-            <button
-              type="button"
-              onClick={() => scrollToSection(0)}
-              aria-label="Go to home"
-              className="absolute left-1/2 top-4 -translate-x-1/2 p-0"
-            >
-              <img
-                src={homeLogoSrc}
-                alt="analogue.lt"
-                className="h-8 w-auto object-contain"
-                style={isDarkTheme ? { filter: 'brightness(0) invert(1)' } : undefined}
-              />
-            </button>
-          )}
+        <div className="relative mx-auto flex w-full max-w-7xl flex-col items-center gap-3 pt-14 md:pt-16 md:flex-row md:justify-center md:items-center">
+          <button
+            type="button"
+            onClick={() => scrollToSection(0)}
+            aria-label="Go to home"
+            className="absolute left-1/2 top-4 -translate-x-1/2 p-0"
+          >
+            <img
+              src={homeLogoSrc}
+              alt="analogue.lt"
+              className="h-8 w-auto object-contain"
+              style={isHomeSection || isDarkTheme ? { filter: 'brightness(0) invert(1)' } : undefined}
+            />
+          </button>
 
-          <div className={`flex flex-wrap justify-center items-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor} ${!isHomeSection ? 'pt-14 md:pt-16' : ''}`}>
+          <div className={`flex flex-wrap justify-center items-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor}`}>
             {navSectionItems.map((section) => {
               const sectionIndex = sectionIndexById.get(section.id) ?? 0
               const isActive = activeSection === sectionIndex
