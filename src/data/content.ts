@@ -50,20 +50,21 @@ export const eventImages: EventImage[] = Object.entries(portfolioImageModules)
   })
   .sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }))
 
-export const homeSlides = [
-  {
-    src: new URL('../../images/slideshow/1.jpg', import.meta.url).href,
-    alt: 'Couple walking through a sunlit meadow'
-  },
-  {
-    src: new URL('../../images/slideshow/2.jpg', import.meta.url).href,
-    alt: 'Portrait on a moody city street'
-  },
-  {
-    src: new URL('../../images/slideshow/3.jpg', import.meta.url).href,
-    alt: 'Two people sharing a quiet moment'
-  }
-]
+const slideshowImageModules = import.meta.glob('../../images/slideshow/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  as: 'url'
+})
+
+export const homeSlides = Object.entries(slideshowImageModules)
+  .map(([path, src]) => {
+    const filename = path.split('/').pop() ?? 'slideshow'
+    const label = filename.replace(/\.[^/.]+$/, '').replace(/[-_]+/g, ' ').trim()
+    const alt = label
+      .replace(/\b\w/g, (char) => char.toUpperCase())
+      .replace(/\s+/g, ' ')
+    return { src, alt }
+  })
+  .sort((a, b) => a.alt.localeCompare(b.alt, undefined, { numeric: true, sensitivity: 'base' }))
 
 export const instagramAccount = 'nefas.jpg'
 

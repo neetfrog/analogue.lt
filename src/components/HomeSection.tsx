@@ -16,7 +16,7 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   useEffect(() => {
     const interval = window.setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % homeSlides.length)
-    }, 7000)
+    }, 5000)
 
     return () => window.clearInterval(interval)
   }, [])
@@ -121,6 +121,22 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
             />
           </div>
         </motion.div>
+      </div>
+
+      <div className="absolute left-1/2 bottom-8 z-10 flex -translate-x-1/2 items-center gap-2">
+        {homeSlides.map((slide, index) => (
+          <button
+            key={slide.src}
+            type="button"
+            onClick={() => setCurrentSlide(index)}
+            aria-label={`Go to slide ${index + 1}`}
+            className={`h-2.5 rounded-full transition-all duration-300 ${
+              currentSlide === index
+                ? 'w-8 bg-white/90'
+                : 'w-2.5 bg-white/30 hover:bg-white/60'
+            }`}
+          />
+        ))}
       </div>
     </section>
   )

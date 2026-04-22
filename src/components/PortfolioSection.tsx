@@ -135,7 +135,7 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
                     alt={item.title}
                     loading="lazy"
                     decoding="async"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:translate-x-1"
+                    className={`absolute inset-0 w-full h-full object-cover portfolio-image-animate portfolio-image-animate-${(i % 4) + 1} transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:translate-x-1`}
                   />
                 </motion.button>
               ))}
