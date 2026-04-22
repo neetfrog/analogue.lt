@@ -627,8 +627,8 @@ export const gearItems = [
     price: '€250',
     condition: 'Good',
     category: 'lenses',
-    manufacturer: 'KMZ',
-    description: 'KMZ Mir-1 37mm f/2.8 Brussels Grand Prix lens in M39 SLR mount, easily adaptable to M42.',
+    manufacturer: 'ZOMZ',
+    description: 'ZOMZ Mir-1 37mm f/2.8 Brussels Grand Prix lens in M39 SLR mount, easily adaptable to M42.',
     sold: false,
     image: new URL('../../images/gear/mir-1-37mm-f28-brussels-grand-prix/mir-1-37mm-f28-brussels-grand-prix-1.jpg', import.meta.url).href,
     details: 'This special Brussels Grand Prix edition of the KMZ Mir-1 is a 37mm f/2.8 wide-angle lens in M39 SLR mount. It offers compact handling, pleasing retro colors and contrast, and can be adapted to M42 with a simple adapter for use on a wider range of vintage and modern bodies.',
@@ -676,6 +676,26 @@ export const gearItems = [
     moreImages: [
       new URL('../../images/gear/lomo-lc-a/lomo-lc-a-2.jpg', import.meta.url).href,
       new URL('../../images/gear/lomo-lc-a/lomo-lc-a-3.jpg', import.meta.url).href
+    ]
+  },
+  {
+    id: 40,
+    name: 'Kiev II + Jupiter-3 50mm f/1.5',
+    price: '€450',
+    condition: 'Good',
+    category: 'cameras',
+    manufacturer: 'Arsenal',
+    description: 'Rare Kiev II SLR with Jupiter-3 50mm f/1.5 lens, a classic 1950s Contax copy from Arsenal.',
+    sold: false,
+    image: new URL('../../images/gear/kiev-ii-jupiter-3-50mm-f15/kiev-ii-jupiter-3-50mm-f15-1.jpg', import.meta.url).href,
+    details: 'A rare and historic Kiev II with Jupiter-3 50mm f/1.5 lens, produced by Arsenal in 1955. The Kiev II is a true Contax II copy and was built from 1950–1956, with early examples featuring Cyrillic-only engraving and a stabilizing foot on the bottom plate. This example is an early-style 1955 production and is increasingly hard to find, especially among collectors of early Soviet cameras.',
+    specs: ['1955 Kiev II', 'Jupiter-3 50mm f/1.5', 'M39 Contax-style mount', 'Arsenal production', 'Rare collector item'],
+    tags: ['kiev-ii','jupiter-3','50mm','f1.5','arsenal','35mm','slr'],
+    wikiUrl: 'https://en.wikipedia.org/wiki/Kiev_II',
+    moreImages: [
+      new URL('../../images/gear/kiev-ii-jupiter-3-50mm-f15/kiev-ii-jupiter-3-50mm-f15-2.jpg', import.meta.url).href,
+      new URL('../../images/gear/kiev-ii-jupiter-3-50mm-f15/kiev-ii-jupiter-3-50mm-f15-3.jpg', import.meta.url).href,
+      new URL('../../images/gear/kiev-ii-jupiter-3-50mm-f15/kiev-ii-jupiter-3-50mm-f15-4.jpg', import.meta.url).href
     ]
   }
 ]
