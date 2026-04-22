@@ -45,18 +45,46 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
     }
   }
 
-  const activeIndex = activeImage ? eventImages.findIndex((item) => item.image === activeImage) : -1
+  const shuffleArray = <T,>(array: T[]) => {
+    const copy = [...array]
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[copy[i], copy[j]] = [copy[j], copy[i]]
+    }
+    return copy
+  }
+
+  const [shuffledImages] = useState(() => shuffleArray(eventImages))
+
+  const animationVariants = [
+    'portfolio-image-animate-1',
+    'portfolio-image-animate-2',
+    'portfolio-image-animate-3',
+    'portfolio-image-animate-4',
+    'portfolio-image-animate-5',
+    'portfolio-image-animate-6'
+  ]
+
+  const [imageAnimationClasses] = useState(() =>
+    shuffledImages.map(() => animationVariants[Math.floor(Math.random() * animationVariants.length)])
+  )
+
+  const [imageAnimationDelays] = useState(() =>
+    shuffledImages.map(() => -Math.random() * 18)
+  )
+
+  const activeIndex = activeImage ? shuffledImages.findIndex((item) => item.image === activeImage) : -1
 
   const goToPreviousImage = () => {
     if (activeIndex > 0) {
-      setActiveImage(eventImages[activeIndex - 1].image)
+      setActiveImage(shuffledImages[activeIndex - 1].image)
       setZoomed(false)
     }
   }
 
   const goToNextImage = () => {
-    if (activeIndex >= 0 && activeIndex < eventImages.length - 1) {
-      setActiveImage(eventImages[activeIndex + 1].image)
+    if (activeIndex >= 0 && activeIndex < shuffledImages.length - 1) {
+      setActiveImage(shuffledImages[activeIndex + 1].image)
       setZoomed(false)
     }
   }
@@ -128,7 +156,7 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
 
           <motion.div variants={fadeInUp} className="grid gap-4 auto-rows-min">
             <div className="columns-2 md:columns-3 lg:columns-4 space-y-1" style={{ columnGap: '0.6rem' }}>
-              {eventImages.map((item, i) => (
+              {shuffledImages.map((item, i) => (
                 <motion.button
                   type="button"
                   key={item.id}
@@ -144,7 +172,8 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
                     alt={item.title}
                     loading="lazy"
                     decoding="async"
-                    className={`absolute inset-0 w-full h-full object-cover portfolio-image-animate portfolio-image-animate-${(i % 4) + 1} transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:translate-x-1`}
+                    style={{ animationDelay: `${imageAnimationDelays[i]}s` }}
+                    className={`absolute inset-0 w-full h-full object-cover portfolio-image-animate ${imageAnimationClasses[i]} transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:translate-x-1`}
                   />
                 </motion.button>
               ))}
