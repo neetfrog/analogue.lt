@@ -45,7 +45,7 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   }
 
   return (
-    <section className="w-full h-[100svh] min-h-screen max-h-[100svh] flex items-center justify-center px-6 relative overflow-hidden text-center bg-black">
+    <section className="w-full min-h-screen flex items-center justify-center px-6 relative overflow-hidden text-center bg-black">
       <div className="absolute inset-0 overflow-hidden bg-black">
         <AnimatePresence>
           <motion.img
@@ -123,7 +123,10 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
         </motion.div>
       </div>
 
-      <div className="absolute left-1/2 bottom-8 z-10 flex -translate-x-1/2 items-center gap-2">
+      <div
+        className="absolute left-1/2 z-10 flex -translate-x-1/2 items-center gap-2"
+        style={{ bottom: 'calc(2rem + env(safe-area-inset-bottom, 0px))' }}
+      >
         {homeSlides.map((slide, index) => (
           <button
             key={slide.src}
