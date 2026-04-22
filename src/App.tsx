@@ -400,6 +400,8 @@ function App() {
     backgroundColor: isHomeSection || isDarkTheme ? '#ffffff' : '#111827'
   }
 
+  const homeLogoSrc = new URL('../images/logos/newlogo.png', import.meta.url).href
+
   return (
     <div className="w-full min-h-screen bg-stone-50 text-stone-900 antialiased">
       <motion.nav
@@ -409,7 +411,23 @@ function App() {
         className={`fixed top-0 left-0 w-full z-50 px-6 py-4 ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}
       >
         <div className="relative mx-auto flex w-full max-w-7xl flex-col items-center gap-3 md:flex-row md:justify-center md:items-center">
-          <div className={`flex flex-wrap justify-center items-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor}`}>
+          {!isHomeSection && (
+            <button
+              type="button"
+              onClick={() => scrollToSection(0)}
+              aria-label="Go to home"
+              className="absolute left-1/2 top-4 -translate-x-1/2 p-0"
+            >
+              <img
+                src={homeLogoSrc}
+                alt="analogue.lt"
+                className="h-8 w-auto object-contain"
+                style={isDarkTheme ? { filter: 'brightness(0) invert(1)' } : undefined}
+              />
+            </button>
+          )}
+
+          <div className={`flex flex-wrap justify-center items-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor} ${!isHomeSection ? 'pt-14 md:pt-16' : ''}`}>
             {navSectionItems.map((section) => {
               const sectionIndex = sectionIndexById.get(section.id) ?? 0
               const isActive = activeSection === sectionIndex
@@ -486,7 +504,7 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: reduceMotion ? 0 : -20 }}
             transition={{ duration: reduceMotion ? 0.25 : 0.4 }}
-            className="w-full"
+            className={`w-full ${isHomeSection ? '' : 'pt-24 md:pt-28'}`}
           >
             {sectionItems[activeSection]?.render()}
           </motion.div>

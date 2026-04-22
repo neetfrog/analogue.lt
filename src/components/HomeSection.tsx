@@ -88,7 +88,12 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
         </div>
 
         <h1 className="text-[clamp(3.75rem,8vw,5.5rem)] md:text-[clamp(4.5rem,7vw,6.75rem)] lg:text-[clamp(5.25rem,6vw,8rem)] font-bold tracking-tight leading-none mb-6 text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
-          analogue.lt
+          <img
+            src={new URL('../../images/logos/newlogo.png', import.meta.url).href}
+            alt="analogue.lt"
+            className="mx-auto h-24 max-w-[min(80vw,28rem)] object-contain"
+            style={{ filter: 'brightness(0) invert(1)' }}
+          />
         </h1>
 
         <div className="text-base sm:text-lg md:text-xl text-stone-100/80 max-w-[min(80vw,44rem)] mx-auto mb-12 font-light leading-relaxed">
