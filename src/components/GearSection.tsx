@@ -516,14 +516,16 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                 }`}
               >
                   {item.manufacturer && manufacturerLogoMap[item.manufacturer] ? (
-                  <div className="mb-4 flex items-center justify-center">
-                    <img
-                      src={manufacturerLogoMap[item.manufacturer].src}
-                      alt={manufacturerLogoMap[item.manufacturer].alt}
-                      className="manufacturer-logo h-10 w-auto object-contain opacity-90"
-                    />
-                  </div>
-                ) : null}
+                    <div className="mb-4 flex items-center justify-center">
+                      <img
+                        src={manufacturerLogoMap[item.manufacturer].src}
+                        alt={manufacturerLogoMap[item.manufacturer].alt}
+                        className="manufacturer-logo h-10 w-auto object-contain opacity-90"
+                      />
+                    </div>
+                  ) : (
+                    <div className="mb-4 h-10" />
+                  )}
                 <button
                   type="button"
                   onClick={() => setSelectedGear(item)}
