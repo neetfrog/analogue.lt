@@ -282,6 +282,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
   }
 
   const handleTagPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    event.preventDefault()
     const target = event.currentTarget
     isTagDraggingRef.current = true
     dragStartXRef.current = event.clientX
@@ -294,6 +295,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
       return
     }
 
+    event.preventDefault()
     const target = event.currentTarget
     const deltaX = event.clientX - dragStartXRef.current
     target.scrollLeft = dragScrollLeftRef.current - deltaX
@@ -562,7 +564,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                   {item.tags?.length ? (
                     <div
                       ref={tagScrollRef}
-                      className="mt-4 flex gap-2 overflow-x-auto pb-2 min-w-0 cursor-grab touch-pan-x hide-scrollbar"
+                      className="mt-4 flex gap-2 overflow-x-auto pb-2 min-w-0 cursor-grab touch-pan-x hide-scrollbar select-none"
                       onPointerDown={handleTagPointerDown}
                       onPointerMove={handleTagPointerMove}
                       onPointerUp={handleTagPointerEnd}
@@ -572,7 +574,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                       {item.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="inline-flex flex-shrink-0 items-center rounded-full bg-stone-100 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.2em] text-stone-600"
+                          className="inline-flex flex-shrink-0 items-center rounded-full bg-stone-100 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.2em] text-stone-600 select-none"
                         >
                           {tag.replace(/-/g, ' ')}
                         </span>

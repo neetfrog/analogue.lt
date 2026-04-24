@@ -88,7 +88,7 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   }
 
   return (
-    <section className="w-full min-h-screen flex items-center justify-center px-6 relative overflow-hidden text-center bg-black" style={{ overscrollBehavior: 'none', minHeight: '100svh' }}>
+    <section className="w-full h-screen min-h-screen flex items-center justify-center px-6 pt-14 md:pt-20 relative overflow-hidden text-center bg-black" style={{ overscrollBehavior: 'none', minHeight: '100svh', height: '100svh' }}>
       <div className="absolute inset-0 overflow-hidden bg-black">
         <AnimatePresence mode="sync">
           <motion.img
@@ -134,16 +134,20 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
           />
         </h1>
 
-        <div className="text-base sm:text-lg md:text-xl text-stone-100/80 max-w-[min(80vw,44rem)] mx-auto mb-12 font-light leading-relaxed">
+        <div className="text-stone-100/80 max-w-[min(80vw,44rem)] mx-auto mb-12 leading-relaxed">
           <motion.span
             initial="hidden"
             animate={isReducedMotion ? 'visible' : pageLoaded ? 'visible' : 'hidden'}
             variants={textRevealVariants}
             transition={{ duration: isReducedMotion ? 1.2 : 2, delay: pageLoaded ? 0.15 : 0 }}
-            className="inline-block overflow-hidden align-middle"
+            className="inline-block text-base sm:text-lg md:text-xl font-medium tracking-tight"
           >
             {t.description}
           </motion.span>
+          <div className="mx-auto my-6 h-px w-16 rounded-full bg-white/20" />
+          <p className="text-sm md:text-base text-stone-200/85 max-w-[min(80vw,44rem)] mx-auto leading-7">
+            {t.aboutDescription}
+          </p>
           <span className="sr-only">
             Juostinė fotografija, juostine fotografija, analoginė fotografija, vestuvių fotografija, Vilnius
           </span>

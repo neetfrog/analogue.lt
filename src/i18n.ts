@@ -12,6 +12,8 @@ export type HomeTranslations = {
   description: string
   location: string
   locationAlt: string
+  aboutTitle: string
+  aboutDescription: string
 }
 
 export type PortfolioTranslations = {
@@ -122,9 +124,11 @@ export const translations: Record<Locale, Translations> = {
     },
     home: {
       tagline: 'Timeless. Authentic. Forever.',
-      description: 'Preserving your most meaningful moments on film',
+      description: 'Your memories deserve something better than a digital filter',
       location: 'Based in Vilnius, Lithuania',
-      locationAlt: 'Vilnius'
+      locationAlt: 'Vilnius',
+      aboutTitle: 'About analogue.lt',
+      aboutDescription: 'I preserve life stories on film, creating images that feel like flipping through your grandparents\' photo album — timeless, warm, and deeply yours.'
     },
     portfolio: {
       eyebrow: 'Selected Work',
@@ -211,9 +215,11 @@ export const translations: Record<Locale, Translations> = {
     },
     home: {
       tagline: 'Autentiška. Amžina. Nepavaldu laikui.',
-      description: 'Išsaugau jūsų brangiausias akimirkas juostoje',
+      description: 'Jūsų prisiminimai nusipelno ko nors daugiau nei skaitmeninis filtras.',
       location: 'Vilnius, Lietuva',
-      locationAlt: 'Vilnius'
+      locationAlt: 'Vilnius',
+      aboutTitle: 'Apie analogue.lt',
+      aboutDescription: 'Fiksuoju gyvenimo istorijas ant juostos, kuriant vaizdus, kuriuos jaučiate tarsi peržvelgdami senelių fotoalbumą — amžinus, šiltus ir išties jūsų.'
     },
     portfolio: {
       eyebrow: 'Atrinkti darbai',
