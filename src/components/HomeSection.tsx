@@ -12,6 +12,7 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [pageLoaded, setPageLoaded] = useState(false)
   const isReducedMotion = reduceMotion ?? false
+  const shouldAnimateSlide = true
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -62,17 +63,21 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
               ...(currentSlide === 2 ? { objectPosition: '70% center' } : { objectPosition: 'center' }),
             }}
             initial={{ opacity: 0, scale: 1.03, x: 0, y: 0 }}
-            animate={isReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1.12, x: '1%', y: '-0.5%' }}
+            animate={
+              shouldAnimateSlide
+                ? { opacity: 1, scale: 1.12, x: '1%', y: '-0.5%' }
+                : { opacity: 1, scale: 1 }
+            }
             exit={{ opacity: 0, transition: { duration: 0.8 } }}
             transition={
-              isReducedMotion
-                ? { duration: 1.2 }
-                : {
+              shouldAnimateSlide
+                ? {
                     opacity: { duration: 0.8, ease: 'easeInOut' },
                     scale: { duration: 8, ease: 'easeInOut' },
                     x: { duration: 8, ease: 'easeInOut' },
                     y: { duration: 8, ease: 'easeInOut' },
                   }
+                : { duration: 1.2 }
             }
           />
         </AnimatePresence>
