@@ -5,14 +5,10 @@ import { gearItems, type GearItem } from './data/content'
 import { HomeSection } from './components/HomeSection'
 import { PortfolioSection } from './components/PortfolioSection'
 import { GearSection } from './components/GearSection'
-import { AdminSection } from './components/AdminSection'
 import { ContactSection } from './components/ContactSection'
 import { useReducedMotionMobile } from './hooks/useReducedMotionMobile'
 import { slugify } from './utils/slugify'
 import { translations, type Locale, localeOptions, languageLabels, getInitialLocale } from './i18n'
-
-const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD ?? ''
-const ADMIN_ROUTE = import.meta.env.VITE_ADMIN_ROUTE ?? ''
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 60 },
@@ -59,14 +55,10 @@ function App() {
 
     return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   })
-  const [adminUnlocked, setAdminUnlocked] = useState<boolean>(false)
-  const [adminPasswordInput, setAdminPasswordInput] = useState('')
-  const [adminError, setAdminError] = useState<string | null>(null)
   const [gearItemsState, setGearItemsState] = useState<GearItem[]>(gearItems)
 
   const t = translations[locale]
   const reduceMotion = useReducedMotionMobile()
-  const adminEnabled = Boolean(ADMIN_ROUTE)
 
 
   const unlockAdmin = async () => {
@@ -109,25 +101,6 @@ function App() {
       credentials: 'include'
     })
     setAdminUnlocked(false)
-  }
-
-  const saveItems = async (items: GearItem[]) => {
-    const response = await fetch('/api/items', {
-      method: 'PUT',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ items })
-    })
-
-    if (!response.ok) {
-      const data = await response.json()
-      throw new Error(data?.message || 'Failed to save items')
-    }
-
-    const data = await response.json()
-    setGearItemsState(Array.isArray(data.items) ? data.items : gearItems)
   }
 
   useEffect(() => {
@@ -191,62 +164,11 @@ function App() {
           t={t.contact}
         />
       )
-    },
-    ...(adminEnabled
-      ? [
-          {
-            id: ADMIN_ROUTE,
-            label: 'Admin',
-            render: () =>
-              adminUnlocked ? (
-                <div className="w-full min-h-screen px-6 md:px-12 lg:px-24 py-16 pt-24">
-                  <div className="mb-6 flex items-center justify-between gap-4 rounded-[2rem] border border-stone-200 bg-white p-6 shadow-sm">
-                    <div>
-                      <h2 className="text-3xl font-semibold">Admin dashboard</h2>
-                      <p className="text-sm text-stone-500">Manage items securely.</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={lockAdmin}
-                      className="rounded-3xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm font-medium text-stone-700 transition hover:bg-stone-100"
-                    >
-                      Log out
-                    </button>
-                  </div>
-                  <AdminSection items={gearItemsState} onSaveItems={saveItems} />
-                </div>
-              ) : (
-                <section className="w-full min-h-screen flex items-center px-6 md:px-12 lg:px-24 py-16 pt-24">
-                  <div className="mx-auto w-full max-w-md rounded-[2rem] border border-stone-200 bg-white p-8 shadow-lg">
-                    <h2 className="text-3xl font-semibold mb-4">Admin login</h2>
-                    <p className="text-sm text-stone-500 mb-6">Enter your admin password to access the dashboard.</p>
-                    <label className="block mb-4 text-sm font-medium text-stone-700">
-                      Password
-                      <input
-                        type="password"
-                        value={adminPasswordInput}
-                        onChange={(event) => setAdminPasswordInput(event.target.value)}
-                        className="mt-2 w-full rounded-3xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-200"
-                      />
-                    </label>
-                    {adminError ? <p className="mb-4 text-sm text-red-600">{adminError}</p> : null}
-                    <button
-                      type="button"
-                      onClick={unlockAdmin}
-                      className="w-full rounded-3xl bg-stone-900 px-4 py-3 text-sm font-medium text-white transition hover:bg-stone-800"
-                    >
-                      Unlock admin
-                    </button>
-                  </div>
-                </section>
-              )
-          }
-        ]
-      : []),
+    }
   ]
 
   const sectionIndexById = new Map(sectionItems.map((section, index) => [section.id, index]))
-  const navSectionItems = sectionItems.filter((section) => section.id !== ADMIN_ROUTE)
+  const navSectionItems = sectionItems
 
   useEffect(() => {
     const handleScroll = () => {
