@@ -219,7 +219,7 @@ export const translations: Record<Locale, Translations> = {
       location: 'Vilnius, Lietuva',
       locationAlt: 'Vilnius',
       aboutTitle: 'Apie analogue.lt',
-      aboutDescription: 'Fiksuoju gyvenimo istorijas ant juostos, kuriant vaizdus, kuriuos jaučiate tarsi peržvelgdami senelių fotoalbumą — amžinus, šiltus ir išties jūsų.'
+      aboutDescription: 'Fiksuoju gyvenimo istorijas juostoje, kurios jaučiasi tarsi žiūrėtum senelių fotoalbumą — amžinas, šiltas ir išties jūsų.'
     },
     portfolio: {
       eyebrow: 'Atrinkti darbai',
