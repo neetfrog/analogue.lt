@@ -47,7 +47,7 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   return (
     <section className="w-full min-h-screen flex items-center justify-center px-6 relative overflow-hidden text-center bg-black" style={{ overscrollBehavior: 'none', minHeight: '100svh' }}>
       <div className="absolute inset-0 overflow-hidden bg-black">
-        <AnimatePresence>
+        <AnimatePresence mode="sync">
           <motion.img
             key={homeSlides[currentSlide].src}
             src={homeSlides[currentSlide].src}
@@ -62,9 +62,18 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
               ...(currentSlide === 2 ? { objectPosition: '70% center' } : { objectPosition: 'center' }),
             }}
             initial={{ opacity: 0, scale: 1.03, x: 0, y: 0 }}
-            animate={isReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1.1, x: '1.5%', y: '-1%' }}
+            animate={isReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1.12, x: '1%', y: '-0.5%' }}
             exit={{ opacity: 0, transition: { duration: 0.8 } }}
-            transition={isReducedMotion ? { duration: 1.2 } : { duration: 5, ease: 'easeOut' }}
+            transition={
+              isReducedMotion
+                ? { duration: 1.2 }
+                : {
+                    opacity: { duration: 0.8, ease: 'easeInOut' },
+                    scale: { duration: 8, ease: 'easeInOut' },
+                    x: { duration: 8, ease: 'easeInOut' },
+                    y: { duration: 8, ease: 'easeInOut' },
+                  }
+            }
           />
         </AnimatePresence>
         <div className="absolute inset-0 bg-black/50" />
