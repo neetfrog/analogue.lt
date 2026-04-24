@@ -13,6 +13,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scrollbar-gutter: stable;
+    font-kerning: normal;
+    font-feature-settings: "liga" 1, "kern" 1, "clig" 1;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
@@ -23,6 +26,8 @@
     line-height: 1.75;
     letter-spacing: 0.02em;
     color: #111827;
+    font-variant-ligatures: common-ligatures discretionary-ligatures;
+    text-decoration-skip-ink: auto;
   }
 
   .bg-white {
@@ -158,8 +163,10 @@
   h6 {
     font-family: 'Bodoni Moda', 'Playfair Display', Georgia, serif;
     letter-spacing: -0.03em;
-    line-height: 1.05;
+    line-height: 1.1;
     font-weight: 800;
+    font-feature-settings: "liga" 1, "kern" 1;
+    text-rendering: optimizeLegibility;
   }
 
   h1 {
@@ -189,6 +196,9 @@
   p,
   li {
     font-family: inherit;
+    font-variant-ligatures: common-ligatures discretionary-ligatures;
+    font-kerning: normal;
+    text-decoration-skip-ink: auto;
   }
 
   .tech-specs-list {
