@@ -81,9 +81,10 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
             alt={homeSlides[currentSlide].alt}
             loading="eager"
             decoding="async"
-            className="absolute inset-0 w-full h-full object-cover opacity-80"
+            className="absolute inset-0 w-full h-full object-cover opacity-90"
             style={{
               backgroundColor: '#000',
+              filter: 'brightness(0.78)',
               willChange: 'opacity, transform',
               transformOrigin: 'center center',
               ...(currentSlide === 2 ? { objectPosition: '70% center' } : { objectPosition: 'center' }),
@@ -94,19 +95,7 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
             transition={{ duration: 5.8, ease: 'linear' }}
           />
         </AnimatePresence>
-        <div className="absolute inset-0 bg-black/50" />
       </div>
-
-      <motion.div
-        className="absolute -top-20 -right-20 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl"
-        animate={isReducedMotion ? undefined : { scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={isReducedMotion ? undefined : { duration: 8, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute -bottom-20 -left-20 w-80 h-80 bg-rose-200/20 rounded-full blur-3xl"
-        animate={isReducedMotion ? undefined : { scale: [1, 1.15, 1], opacity: [0.3, 0.45, 0.3] }}
-        transition={isReducedMotion ? undefined : { duration: 6, repeat: Infinity, delay: 1 }}
-      />
 
       <div className="relative z-10 max-w-[min(92vw,72rem)] mx-auto h-full flex flex-col items-center justify-center text-center">
         <div>
