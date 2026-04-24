@@ -81,18 +81,23 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
             alt={homeSlides[currentSlide].alt}
             loading="eager"
             decoding="async"
-            className="absolute inset-0 w-full h-full object-cover opacity-90"
+            className="absolute inset-0 w-full h-full object-cover opacity-80"
             style={{
               backgroundColor: '#000',
-              filter: 'brightness(0.78)',
+              filter: 'brightness(0.72)',
               willChange: 'opacity, transform',
               transformOrigin: 'center center',
               ...(currentSlide === 2 ? { objectPosition: '70% center' } : { objectPosition: 'center' }),
             }}
             initial={{ opacity: 0, scale: 1.02, x: panOffset.xStart, y: panOffset.yStart }}
             animate={{ opacity: 1, scale: 1.06, x: panOffset.xEnd, y: panOffset.yEnd }}
-            exit={{ opacity: 0, transition: { duration: 0.8 } }}
-            transition={{ duration: 5.8, ease: 'linear' }}
+            exit={{ opacity: 0, transition: { duration: 0.8, ease: 'linear' } }}
+            transition={{
+              opacity: { duration: 0.8, ease: 'linear' },
+              scale: { duration: 6, ease: 'linear' },
+              x: { duration: 6, ease: 'linear' },
+              y: { duration: 6, ease: 'linear' }
+            }}
           />
         </AnimatePresence>
       </div>
