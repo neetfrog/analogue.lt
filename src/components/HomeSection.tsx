@@ -98,7 +98,7 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
             className="absolute inset-0 w-full h-full object-cover opacity-80"
             style={{
               backgroundColor: '#000',
-              filter: 'brightness(0.55)',
+              filter: 'brightness(0.72)',
               willChange: 'opacity, transform',
               transformOrigin: 'center center',
               ...(currentSlide === 2 ? { objectPosition: '70% center' } : { objectPosition: 'center' }),
