@@ -12,6 +12,7 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [pageLoaded, setPageLoaded] = useState(false)
   const isReducedMotion = reduceMotion ?? false
+  const [isMobile, setIsMobile] = useState(false)
   const [panOffset, setPanOffset] = useState(() => {
     const x = (Math.random() * 4 - 2).toFixed(2)
     const y = (Math.random() * 2.6 - 1.3).toFixed(2)
@@ -24,8 +25,8 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   })
 
   const getRandomPan = () => {
-    const x = (Math.random() * 4 - 2).toFixed(2)
-    const y = (Math.random() * 2.6 - 1.3).toFixed(2)
+    const x = (Math.random() * (isMobile ? 6 : 4) - (isMobile ? 3 : 2)).toFixed(2)
+    const y = (Math.random() * (isMobile ? 4.2 : 2.6) - (isMobile ? 2.1 : 1.3)).toFixed(2)
     return {
       xEnd: `${x}%`,
       yEnd: `${y}%`
@@ -49,6 +50,19 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
     const handleLoad = () => setPageLoaded(true)
     window.addEventListener('load', handleLoad)
     return () => window.removeEventListener('load', handleLoad)
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    const query = window.matchMedia('(max-width: 768px)')
+    const update = () => setIsMobile(query.matches)
+
+    update()
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
   }, [])
 
   useEffect(() => {
@@ -84,19 +98,19 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
             className="absolute inset-0 w-full h-full object-cover opacity-80"
             style={{
               backgroundColor: '#000',
-              filter: 'brightness(0.72)',
+              filter: 'brightness(0.55)',
               willChange: 'opacity, transform',
               transformOrigin: 'center center',
               ...(currentSlide === 2 ? { objectPosition: '70% center' } : { objectPosition: 'center' }),
             }}
             initial={{ opacity: 0, scale: 1.02, x: panOffset.xStart, y: panOffset.yStart }}
-            animate={{ opacity: 1, scale: 1.06, x: panOffset.xEnd, y: panOffset.yEnd }}
+            animate={{ opacity: 1, scale: isMobile ? 1.08 : 1.06, x: panOffset.xEnd, y: panOffset.yEnd }}
             exit={{ opacity: 0, transition: { duration: 0.8, ease: 'linear' } }}
             transition={{
               opacity: { duration: 0.8, ease: 'linear' },
-              scale: { duration: 6, ease: 'linear' },
-              x: { duration: 6, ease: 'linear' },
-              y: { duration: 6, ease: 'linear' }
+              scale: { duration: isMobile ? 5 : 6, ease: 'linear' },
+              x: { duration: isMobile ? 5 : 6, ease: 'linear' },
+              y: { duration: isMobile ? 5 : 6, ease: 'linear' }
             }}
           />
         </AnimatePresence>
