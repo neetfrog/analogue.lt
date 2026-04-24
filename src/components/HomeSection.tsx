@@ -12,7 +12,25 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [pageLoaded, setPageLoaded] = useState(false)
   const isReducedMotion = reduceMotion ?? false
-  const shouldAnimateSlide = true
+  const [panOffset, setPanOffset] = useState(() => {
+    const x = (Math.random() * 4 - 2).toFixed(2)
+    const y = (Math.random() * 2.6 - 1.3).toFixed(2)
+    return {
+      xStart: '0%',
+      yStart: '0%',
+      xEnd: `${x}%`,
+      yEnd: `${y}%`
+    }
+  })
+
+  const getRandomPan = () => {
+    const x = (Math.random() * 4 - 2).toFixed(2)
+    const y = (Math.random() * 2.6 - 1.3).toFixed(2)
+    return {
+      xEnd: `${x}%`,
+      yEnd: `${y}%`
+    }
+  }
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -40,6 +58,14 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
     })
   }, [])
 
+  useEffect(() => {
+    setPanOffset((current) => ({
+      xStart: current.xEnd,
+      yStart: current.yEnd,
+      ...getRandomPan()
+    }))
+  }, [currentSlide])
+
   const textRevealVariants = {
     hidden: { clipPath: 'inset(0 100% 0 0)' },
     visible: { clipPath: 'inset(0 0% 0 0)' }
@@ -62,23 +88,10 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
               transformOrigin: 'center center',
               ...(currentSlide === 2 ? { objectPosition: '70% center' } : { objectPosition: 'center' }),
             }}
-            initial={{ opacity: 0, scale: 1.03, x: 0, y: 0 }}
-            animate={
-              shouldAnimateSlide
-                ? { opacity: 1, scale: 1.12, x: '1%', y: '-0.5%' }
-                : { opacity: 1, scale: 1 }
-            }
+            initial={{ opacity: 0, scale: 1.02, x: panOffset.xStart, y: panOffset.yStart }}
+            animate={{ opacity: 1, scale: 1.06, x: panOffset.xEnd, y: panOffset.yEnd }}
             exit={{ opacity: 0, transition: { duration: 0.8 } }}
-            transition={
-              shouldAnimateSlide
-                ? {
-                    opacity: { duration: 0.8, ease: 'easeInOut' },
-                    scale: { duration: 8, ease: 'easeInOut' },
-                    x: { duration: 8, ease: 'easeInOut' },
-                    y: { duration: 8, ease: 'easeInOut' },
-                  }
-                : { duration: 1.2 }
-            }
+            transition={{ duration: 5.8, ease: 'linear' }}
           />
         </AnimatePresence>
         <div className="absolute inset-0 bg-black/50" />
