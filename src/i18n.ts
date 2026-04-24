@@ -124,7 +124,7 @@ export const translations: Record<Locale, Translations> = {
     },
     home: {
       tagline: 'Timeless. Authentic. Forever.',
-      description: 'Your memories deserve something better than a digital filter',
+      description: 'Your memories deserve something more than a digital filter',
       location: 'Based in Vilnius, Lithuania',
       locationAlt: 'Vilnius',
       aboutTitle: 'About analogue.lt',

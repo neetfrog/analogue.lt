@@ -1,14 +1,16 @@
-﻿import { useState, useEffect, useRef, type ReactNode } from 'react'
+﻿import { lazy, Suspense, useState, useEffect, useRef, useMemo, type ReactNode } from 'react'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { Moon, Sun } from 'lucide-react'
 import { gearItems, type GearItem } from './data/content'
 import { HomeSection } from './components/HomeSection'
-import { PortfolioSection } from './components/PortfolioSection'
-import { GearSection } from './components/GearSection'
-import { ContactSection } from './components/ContactSection'
+const PortfolioSection = lazy(() => import('./components/PortfolioSection').then((module) => ({ default: module.PortfolioSection })))
+const GearSection = lazy(() => import('./components/GearSection').then((module) => ({ default: module.GearSection })))
+const ContactSection = lazy(() => import('./components/ContactSection').then((module) => ({ default: module.ContactSection })))
 import { useReducedMotionMobile } from './hooks/useReducedMotionMobile'
 import { slugify } from './utils/slugify'
 import { translations, type Locale, localeOptions, languageLabels, getInitialLocale } from './i18n'
+
+const HOME_LOGO_SRC = new URL('../images/logos/newlogo.png', import.meta.url).href
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 60 },
@@ -60,6 +62,64 @@ function App() {
   const t = translations[locale]
   const reduceMotion = useReducedMotionMobile()
 
+  const sectionFallback = (
+    <div className="w-full min-h-screen flex items-center justify-center pt-24">
+      <p className="text-stone-500">Loading...</p>
+    </div>
+  )
+
+  const sectionItems = useMemo<SectionItem[]>(() => [
+    { id: 'home', label: t.nav.sections.home, render: () => <HomeSection t={t.home} reduceMotion={reduceMotion} /> },
+    {
+      id: 'portfolio',
+      label: t.nav.sections.portfolio,
+      render: () => (
+        <Suspense fallback={sectionFallback}>
+          <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} reduceMotion={reduceMotion} t={t.portfolio} />
+        </Suspense>
+      )
+    },
+    {
+      id: 'shop',
+      label: t.nav.sections.gear,
+      render: () => (
+        <Suspense fallback={sectionFallback}>
+          <GearSection
+            items={gearItemsState}
+            fadeInUp={fadeInUp}
+            staggerContainer={staggerContainer}
+            initialGearId={initialGearId}
+            reduceMotion={reduceMotion}
+            t={t.gear}
+            onAskAbout={(itemName) => {
+              const contactIndex = sectionIndexById.get('contact')
+              if (typeof contactIndex === 'number') {
+                setActiveSection(contactIndex)
+              }
+            }}
+          />
+        </Suspense>
+      )
+    },
+    {
+      id: 'contact',
+      label: t.nav.sections.contact,
+      render: () => (
+        <Suspense fallback={sectionFallback}>
+          <ContactSection
+            fadeInUp={fadeInUp}
+            reduceMotion={reduceMotion}
+            instagramActive={instagramActive}
+            t={t.contact}
+          />
+        </Suspense>
+      )
+    }
+  ], [t, reduceMotion, gearItemsState, initialGearId, instagramActive])
+
+  const sectionIndexById = useMemo(() => new Map(sectionItems.map((section, index) => [section.id, index])), [sectionItems])
+
+  const navSectionItems = sectionItems
 
   const unlockAdmin = async () => {
     if (!adminEnabled) {
@@ -125,50 +185,6 @@ function App() {
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
   }
-
-  const sectionItems: SectionItem[] = [
-    { id: 'home', label: t.nav.sections.home, render: () => <HomeSection t={t.home} reduceMotion={reduceMotion} /> },
-    {
-      id: 'portfolio',
-      label: t.nav.sections.portfolio,
-      render: () => <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} reduceMotion={reduceMotion} t={t.portfolio} />
-    },
-    {
-      id: 'shop',
-      label: t.nav.sections.gear,
-      render: () => (
-        <GearSection
-          items={gearItemsState}
-          fadeInUp={fadeInUp}
-          staggerContainer={staggerContainer}
-          initialGearId={initialGearId}
-          reduceMotion={reduceMotion}
-          t={t.gear}
-          onAskAbout={(itemName) => {
-            const contactIndex = sectionIndexById.get('contact')
-            if (typeof contactIndex === 'number') {
-              setActiveSection(contactIndex)
-            }
-          }}
-        />
-      )
-    },
-    {
-      id: 'contact',
-      label: t.nav.sections.contact,
-      render: () => (
-        <ContactSection
-          fadeInUp={fadeInUp}
-          reduceMotion={reduceMotion}
-          instagramActive={instagramActive}
-          t={t.contact}
-        />
-      )
-    }
-  ]
-
-  const sectionIndexById = new Map(sectionItems.map((section, index) => [section.id, index]))
-  const navSectionItems = sectionItems
 
   useEffect(() => {
     const handleScroll = () => {
@@ -322,8 +338,6 @@ function App() {
     backgroundColor: isHomeSection || isDarkTheme ? '#ffffff' : '#111827'
   }
 
-  const homeLogoSrc = new URL('../images/logos/newlogo.png', import.meta.url).href
-
   return (
     <div className="w-full min-h-screen bg-stone-50 text-stone-900 antialiased">
       <motion.nav
@@ -343,7 +357,7 @@ function App() {
               className="absolute left-1/2 top-4 -translate-x-1/2 p-0"
             >
               <img
-                src={homeLogoSrc}
+                src={HOME_LOGO_SRC}
                 alt="analogue.lt"
                 className="h-8 w-auto object-contain"
                 style={isDarkTheme ? { filter: 'brightness(0) invert(1)' } : undefined}

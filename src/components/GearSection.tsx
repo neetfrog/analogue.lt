@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type PointerEvent, type TouchEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type PointerEvent, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import { X, Check, Link2, Camera, Aperture, Grid, Package, Type, DollarSign, ChevronUp } from 'lucide-react'
 import type { GearItem } from '../data/content'
@@ -55,6 +55,13 @@ const formatPrice = (value: string | number) => {
 
   return value
 }
+
+const categories = [
+  { value: 'All', icon: Grid },
+  { value: 'cameras', icon: Camera },
+  { value: 'lenses', icon: Aperture },
+  { value: 'accessories', icon: Package }
+]
 
 type SpecRule = {
   test: RegExp | ((value: string) => boolean)
@@ -310,38 +317,6 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
     event.currentTarget.releasePointerCapture(event.pointerId)
   }
 
-  const manufacturers = Array.from(
-    new Set(
-      items
-        .map((item) => item.manufacturer)
-        .filter((manufacturer): manufacturer is string =>
-          Boolean(manufacturer) && manufacturer !== 'Generic' && manufacturer !== 'Various'
-        )
-    )
-  ).sort((a, b) => a.localeCompare(b))
-
-  const categories = [
-    { value: 'All', label: t.categories.All, icon: Grid },
-    { value: 'cameras', label: t.categories.cameras, icon: Camera },
-    { value: 'lenses', label: t.categories.lenses, icon: Aperture },
-    { value: 'accessories', label: t.categories.accessories, icon: Package }
-  ]
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && selectedGear) {
-        setSelectedGear(null)
-      }
-    }
-
-    if (selectedGear) {
-      window.addEventListener('keydown', handleKeyDown)
-      return () => window.removeEventListener('keydown', handleKeyDown)
-    }
-
-    return undefined
-  }, [selectedGear])
-
   const parsePriceForSort = (value: string | number) => {
     if (typeof value === 'number') {
       return value
@@ -378,16 +353,54 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
     return sortOrder === 'asc' ? comparison : -comparison
   }
 
-  const filteredGearItems = items
-    .filter((item) =>
-      (selectedCategory === 'All' || item.category === selectedCategory.toLowerCase()) &&
-      (!selectedManufacturer || item.manufacturer === selectedManufacturer)
-    )
-    .sort(compareGearItems)
+  const manufacturers = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          items
+            .map((item) => item.manufacturer)
+            .filter((manufacturer): manufacturer is string =>
+              Boolean(manufacturer) && manufacturer !== 'Generic' && manufacturer !== 'Various'
+            )
+        )
+      ).sort((a, b) => a.localeCompare(b)),
+    [items]
+  )
 
-  const selectedImages = selectedGear
-    ? Array.from(new Set([selectedGear.image, ...(selectedGear.moreImages ?? [])]))
-    : []
+  const filteredGearItems = useMemo(
+    () =>
+      items
+        .filter(
+          (item) =>
+            (selectedCategory === 'All' || item.category === selectedCategory.toLowerCase()) &&
+            (!selectedManufacturer || item.manufacturer === selectedManufacturer)
+        )
+        .sort(compareGearItems),
+    [items, selectedCategory, selectedManufacturer, sortField, sortOrder]
+  )
+
+  const selectedImages = useMemo(
+    () =>
+      selectedGear
+        ? Array.from(new Set([selectedGear.image, ...(selectedGear.moreImages ?? [])]))
+        : [],
+    [selectedGear]
+  )
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedGear) {
+        setSelectedGear(null)
+      }
+    }
+
+    if (selectedGear) {
+      window.addEventListener('keydown', handleKeyDown)
+      return () => window.removeEventListener('keydown', handleKeyDown)
+    }
+
+    return undefined
+  }, [selectedGear])
 
   return (
     <section className="w-full min-h-screen flex flex-col px-6 md:px-12 lg:px-24 py-16 pt-24 relative">
@@ -444,7 +457,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                   }`}
                 >
                   <Icon className="h-4 w-4" aria-hidden="true" />
-                  {category.label}
+                  {t.categories[category.value as keyof typeof t.categories]}
                 </button>
               )
             })}

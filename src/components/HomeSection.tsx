@@ -8,6 +8,11 @@ type HomeSectionProps = {
   reduceMotion?: boolean
 }
 
+const textRevealVariants = {
+  hidden: { clipPath: 'inset(0 100% 0 0)' },
+  visible: { clipPath: 'inset(0 0% 0 0)' }
+}
+
 export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [pageLoaded, setPageLoaded] = useState(false)
@@ -68,11 +73,12 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
   }, [])
 
   useEffect(() => {
-    homeSlides.forEach((slide) => {
+    const nextSlide = homeSlides[(currentSlide + 1) % homeSlides.length]
+    if (nextSlide) {
       const image = new Image()
-      image.src = slide.src
-    })
-  }, [])
+      image.src = nextSlide.src
+    }
+  }, [currentSlide])
 
   useEffect(() => {
     setPanOffset((current) => ({
@@ -95,7 +101,7 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
             key={homeSlides[currentSlide].src}
             src={homeSlides[currentSlide].src}
             alt={homeSlides[currentSlide].alt}
-            loading="eager"
+            loading={currentSlide === 0 ? 'eager' : 'lazy'}
             decoding="async"
             className="absolute inset-0 w-full h-full object-cover opacity-80"
             style={{
