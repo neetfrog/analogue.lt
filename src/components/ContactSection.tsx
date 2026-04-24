@@ -24,6 +24,8 @@ export function ContactSection({
     ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.6 } } }
     : fadeInUp
 
+  const mailtoHref = `mailto:ignasnefas@gmail.com?subject=${encodeURIComponent('Inquiry from analogue.lt')}`
+
   return (
     <section className="w-full min-h-full flex flex-col items-center px-6 pt-24 py-12 relative">
       <div className="max-w-4xl mx-auto w-full space-y-12">
@@ -48,7 +50,7 @@ export function ContactSection({
         >
           <div className="mx-auto flex max-w-xs flex-col items-center gap-4">
             <a
-              href="mailto:ignasnefas@gmail.com?subject=Inquiry from analogue.lt"
+              href={mailtoHref}
               aria-label={t.sendInquiry}
               className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-stone-200 text-stone-700 transition hover:bg-stone-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 dark:bg-stone-900 dark:text-white dark:hover:bg-stone-700"
             >

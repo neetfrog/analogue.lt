@@ -91,7 +91,7 @@ export const gearItems = [
   {
     id: 9,
     name: 'Jupiter-12 35mm f/2.8',
-    price: '€55',
+    price: '€80',
     condition: 'Good',
     category: 'lenses',
     manufacturer: 'KMZ',
@@ -109,7 +109,7 @@ export const gearItems = [
   {
     id: 10,
     name: 'Jupiter-9 85mm f/2',
-    price: '€110',
+    price: '€160',
     condition: 'Good',
     category: 'lenses',
     manufacturer: 'KMZ',
@@ -163,7 +163,7 @@ export const gearItems = [
   {
     id: 13,
     name: 'Zenitar-M 50mm f/1.7',
-    price: '€90',
+    price: '€120',
     condition: 'Very Good',
     category: 'lenses',
     manufacturer: 'KMZ',
@@ -181,7 +181,7 @@ export const gearItems = [
   {
     id: 14,
     name: 'Vivitar 21mm f/3.8',
-    price: '€90',
+    price: '€120',
     condition: 'Good',
     category: 'lenses',
     manufacturer: 'Vivitar',
@@ -290,7 +290,7 @@ export const gearItems = [
   {
     id: 20,
     name: 'FED NKVD',
-    price: '€180',
+    price: '€220',
     condition: 'Good',
     category: 'cameras',
     manufacturer: 'FED',
