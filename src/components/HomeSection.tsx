@@ -33,10 +33,12 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
     }
   }
 
+  const slideDurationSeconds = 5
+
   useEffect(() => {
     const interval = window.setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % homeSlides.length)
-    }, 5000)
+    }, slideDurationSeconds * 1000)
 
     return () => window.clearInterval(interval)
   }, [])
@@ -108,9 +110,9 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
             exit={{ opacity: 0, transition: { duration: 0.8, ease: 'linear' } }}
             transition={{
               opacity: { duration: 0.8, ease: 'linear' },
-              scale: { duration: isMobile ? 5 : 6, ease: 'linear' },
-              x: { duration: isMobile ? 5 : 6, ease: 'linear' },
-              y: { duration: isMobile ? 5 : 6, ease: 'linear' }
+              scale: { duration: slideDurationSeconds, ease: 'linear' },
+              x: { duration: slideDurationSeconds, ease: 'linear' },
+              y: { duration: slideDurationSeconds, ease: 'linear' }
             }}
           />
         </AnimatePresence>
