@@ -452,7 +452,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                   onClick={() => setSelectedCategory(category.value)}
                   className={`rounded-full border px-4 py-2 text-sm transition flex items-center gap-2 ${
                     selectedCategory === category.value
-                      ? 'bg-stone-900 text-white border-stone-900'
+                      ? 'bg-amber-50 text-stone-900 border border-amber-400'
                       : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-100'
                   }`}
                 >
