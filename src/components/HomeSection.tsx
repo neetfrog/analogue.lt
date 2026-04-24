@@ -58,12 +58,13 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
             style={{
               backgroundColor: '#000',
               willChange: 'opacity, transform',
+              transformOrigin: 'center center',
               ...(currentSlide === 2 ? { objectPosition: '70% center' } : { objectPosition: 'center' }),
             }}
-            initial={{ opacity: 0, scale: 1.01 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.99, transition: { duration: 0.8 } }}
-            transition={{ duration: 1.2 }}
+            initial={{ opacity: 0, scale: 1.03, x: 0, y: 0 }}
+            animate={isReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1.1, x: '1.5%', y: '-1%' }}
+            exit={{ opacity: 0, transition: { duration: 0.8 } }}
+            transition={isReducedMotion ? { duration: 1.2 } : { duration: 5, ease: 'easeOut' }}
           />
         </AnimatePresence>
         <div className="absolute inset-0 bg-black/50" />
