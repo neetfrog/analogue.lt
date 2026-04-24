@@ -144,10 +144,20 @@ export function HomeSection({ t, reduceMotion }: HomeSectionProps) {
           >
             {t.description}
           </motion.span>
-          <div className="mx-auto my-6 h-px w-16 rounded-full bg-white/20" />
-          <p className="text-sm md:text-base text-stone-200/85 max-w-[min(80vw,44rem)] mx-auto leading-7">
+          <motion.div
+            initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: isReducedMotion ? 0.5 : 0.6, delay: isReducedMotion ? 0.2 : 1.8 }}
+            className="mx-auto my-6 h-px w-16 rounded-full bg-white/20"
+          />
+          <motion.p
+            initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: isReducedMotion ? 0.5 : 0.6, delay: isReducedMotion ? 0.2 : 1.8 }}
+            className="text-sm md:text-base text-stone-200/85 max-w-[min(80vw,44rem)] mx-auto leading-7"
+          >
             {t.aboutDescription}
-          </p>
+          </motion.p>
           <span className="sr-only">
             Juostinė fotografija, juostine fotografija, analoginė fotografija, vestuvių fotografija, Vilnius
           </span>
