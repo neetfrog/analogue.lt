@@ -22,6 +22,7 @@ export type GearItem = {
   vintedUrl?: string
   wikiUrl?: string
   inquiryEmail?: string
+  multipleItems?: boolean
 }
 
 type EventImage = {
@@ -96,14 +97,15 @@ export const gearItems = [
     category: 'lenses',
     manufacturer: 'KMZ',
     sold: false,
-    image: new URL('../../images/gear/jupiter-12/jupiter-12-1.webp', import.meta.url).href,
+    image: new URL('../../images/gear/jupiter-12/jupiter-12-1.jpg', import.meta.url).href,
     details: 'This Jupiter-12 lens is derived from the Soviet Biogon design and features six elements in four groups. It has a 35mm focal length and f/2.8 maximum aperture, with clean glass and smooth focusing.',
     specs: ['35mm focal length', 'f/2.8 maximum aperture', 'Kiev Contax mount', 'Biogon-derived optical design'],
     tags: ['kiev-contax','wide','prime'],
     vintedUrl: 'https://www.vinted.lt/items/6980403296-jupiter-12-35mm-f28-kiev-contax',
     wikiUrl: 'https://en.wikipedia.org/wiki/Jupiter_(lenses)#Jupiter-12',
     moreImages: [
-      new URL('../../images/gear/jupiter-12/jupiter-12-2.webp', import.meta.url).href
+      new URL('../../images/gear/jupiter-12/jupiter-12-2.jpg', import.meta.url).href,
+      new URL('../../images/gear/jupiter-12/jupiter-12-3.jpg', import.meta.url).href
     ]
   },
   {
@@ -114,14 +116,16 @@ export const gearItems = [
     category: 'lenses',
     manufacturer: 'KMZ',
     sold: false,
-    image: new URL('../../images/gear/jupiter-9/jupiter-9-1.webp', import.meta.url).href,
+    image: new URL('../../images/gear/jupiter-9/jupiter-9-1.jpg', import.meta.url).href,
     details: 'The Jupiter-9 is an 85mm f/2 Soviet telephoto lens based on the Zeiss Sonnar design. This example is clean, focuses smoothly, and comes in Kiev Contax mount, making it ideal for vintage portrait and street work.',
     specs: ['85mm focal length', 'f/2 maximum aperture', 'Kiev Contax mount', 'Sonnar-derived optical design'],
     tags: ['kiev-contax','telephoto','prime'],
     vintedUrl: 'https://www.vinted.lt/items/6980327785',
     wikiUrl: 'https://camera-wiki.org/wiki/Jupiter-9',
     moreImages: [
-      new URL('../../images/gear/jupiter-9/jupiter-9-2.webp', import.meta.url).href
+      new URL('../../images/gear/jupiter-9/jupiter-9-2.jpg', import.meta.url).href,
+      new URL('../../images/gear/jupiter-9/jupiter-9-3.jpg', import.meta.url).href,
+      new URL('../../images/gear/jupiter-9/jupiter-9-4.jpg', import.meta.url).href
     ]
   },
   {
@@ -295,15 +299,17 @@ export const gearItems = [
     category: 'cameras',
     manufacturer: 'FED',
     sold: false,
-    image: new URL('../../images/gear/fed-nkvd-1935/fed-nkvd-1935-1.webp', import.meta.url).href,
+    image: new URL('../../images/gear/fed-nkvd-1935/fed-nkvd-1935-1.jpg', import.meta.url).href,
     details: 'The FED NKVD is a rare early Soviet FED camera made between 1939 and 1941. This type 1d/4 example is fully working and historically significant, featuring a solid Soviet-era build and unique provenance tied to the NKVD lineage.',
     specs: ['35mm film', 'M39 lens mount', 'Manual focus', 'Fully working'],
     tags: ['rangefinder','35mm', 'rare'],
     vintedUrl: 'https://www.vinted.lt/items/6960847627-fed-nkvd-1935',
     wikiUrl: 'https://camerapedia.fandom.com/wiki/FED_(Original)_(FED_NKVD,_FED-S,_FED-1)',
     moreImages: [
-      new URL('../../images/gear/fed-nkvd-1935/fed-nkvd-1935-2.webp', import.meta.url).href,
-      new URL('../../images/gear/fed-nkvd-1935/fed-nkvd-1935-3.webp', import.meta.url).href
+      new URL('../../images/gear/fed-nkvd-1935/fed-nkvd-1935-2.jpg', import.meta.url).href,
+      new URL('../../images/gear/fed-nkvd-1935/fed-nkvd-1935-3.jpg', import.meta.url).href,
+      new URL('../../images/gear/fed-nkvd-1935/fed-nkvd-1935-4.jpg', import.meta.url).href,
+      new URL('../../images/gear/fed-nkvd-1935/fed-nkvd-1935-5.jpg', import.meta.url).href
     ]
   },
   {
@@ -555,6 +561,7 @@ export const gearItems = [
     sold: false,
     image: new URL('../../images/gear/soviet-lens-caps/soviet-lens-caps-1.jpg', import.meta.url).href,
     inquiryEmail: 'ignasnefas@gmail.com',
+    multipleItems: true,
     details: 'A selection of Soviet-era chrome and silver lens caps for vintage lenses. Prices vary by size, type and condition, so please inquire for exact availability and pricing.',
     specs: ['Chrome finish', 'Silver finish', 'Vintage Soviet accessory', 'Varied sizes', 'Mixed condition'],
     tags: ['lens cap','soviet','accessory'],
@@ -571,6 +578,7 @@ export const gearItems = [
     sold: false,
     image: new URL('../../images/gear/non-soviet-lens-caps/non-soviet-lens-caps-1.jpg', import.meta.url).href,
     inquiryEmail: 'ignasnefas@gmail.com',
+    multipleItems: true,
     details: 'A selection of non-Soviet lens caps for vintage and modern cameras. Prices vary by size, type and condition, so please inquire for availability and exact pricing.',
     specs: ['Non-Soviet models', 'Varied sizes', 'Mixed condition'],
     tags: ['lens cap','non-soviet','accessory'],
@@ -587,6 +595,7 @@ export const gearItems = [
     sold: false,
     image: new URL('../../images/gear/various-adapters-ky-canon-exakta-pentacon/various-adapters-1.jpg', import.meta.url).href,
     inquiryEmail: 'ignasnefas@gmail.com',
+    multipleItems: true,
     details: 'Various mount adapters for Kiev, Pentacon, Exakta, Contax-Yashica and Canon EF systems. Prices range from €10 to €100 depending on the specific adapter and condition, so please inquire for availability and exact pricing.',
     specs: ['Kiev mount', 'Pentacon mount', 'Exakta mount', 'Contax-Yashica mount', 'Canon EF mount'],
     tags: ['adapter','mount','accessory'],
@@ -655,7 +664,7 @@ export const gearItems = [
   {
     id: 40,
     name: 'Kiev II + Jupiter-3 50mm f/1.5',
-    price: '€450',
+    price: '€400',
     condition: 'Good',
     category: 'cameras',
     manufacturer: 'Arsenal',
@@ -670,6 +679,49 @@ export const gearItems = [
       new URL('../../images/gear/kiev-ii-jupiter-3-50mm-f15/kiev-ii-jupiter-3-50mm-f15-2.jpg', import.meta.url).href,
       new URL('../../images/gear/kiev-ii-jupiter-3-50mm-f15/kiev-ii-jupiter-3-50mm-f15-3.jpg', import.meta.url).href,
       new URL('../../images/gear/kiev-ii-jupiter-3-50mm-f15/kiev-ii-jupiter-3-50mm-f15-4.jpg', import.meta.url).href
+    ]
+  },
+  {
+    id: 41,
+    name: 'Iskra',
+    price: '€150',
+    condition: 'Good',
+    category: 'cameras',
+    manufacturer: 'KMZ',
+    sold: false,
+    image: new URL('../../images/gear/iskra/iskra-1.jpg', import.meta.url).href,
+    details: 'The Iskra is a beautifully engineered Soviet folding medium format camera produced between 1961 and 1963 by KMZ (Krasnogorsky Mekhanichesky Zavod). Built during the height of the USSR’s drive for high-quality domestic optics, it stands out as one of the finest cameras to come out of that era. Designed as a close copy of the Agfa Super Isolette, it features a coupled rangefinder system that is unusually well executed for a Soviet camera. The result is a compact folding body that never compromises on precision, offering accurate focusing through its bright rangefinder patch. It is fitted with the Industar-58 75mm f/3.5 lens, a Tessar-type design known for sharpness and classic rendering, paired with the quiet FXCh-18 leaf shutter (1s–1/500 + Bulb) and full flash sync at all speeds. Shooting 6x6 images on 120 film, the Iskra delivers detailed square negatives and a true medium format look, while its solid metal construction still folds down to a compact, portable form. A unique feature is the exposure value (EV) coupling system for quick shutter/aperture adjustments, though shutter speed can also be set independently. Like many Soviet designs, it has some quirks—most notably the need to set shutter speed before cocking the shutter. “Iskra” means “spark” in Russian, a nod to the revolutionary newspaper, adding a subtle layer of cultural history to this fascinating camera.',
+    specs: ['120 film', 'Coupled rangefinder', 'Industar-58 75mm f/3.5 lens', 'FXCh-18 leaf shutter', 'Medium format'],
+    tags: ['rangefinder','medium-format','vintage'],
+    vintedUrl: 'https://www.vinted.lt/items/8791287981-iskra-medium-format-120-6x6',
+    wikiUrl: 'https://camera-wiki.org/wiki/Iskra',
+    inquiryEmail: 'ignasnefas@gmail.com',
+    moreImages: [
+      new URL('../../images/gear/iskra/iskra-2.jpg', import.meta.url).href,
+      new URL('../../images/gear/iskra/iskra-3.jpg', import.meta.url).href,
+      new URL('../../images/gear/iskra/iskra-4.jpg', import.meta.url).href,
+      new URL('../../images/gear/iskra/iskra-5.jpg', import.meta.url).href
+    ]
+  },
+  {
+    id: 42,
+    name: 'Yashicaflex B',
+    price: '€160',
+    condition: 'Fully working',
+    category: 'cameras',
+    manufacturer: 'Yashica',
+    sold: false,
+    image: new URL('../../images/gear/yashicaflex-b/yashicaflex-b-1.jpg', import.meta.url).href,
+    details: 'The Yashicaflex B (new model) is a classic Japanese twin-lens reflex camera released in 1957 by Yashica, when medium format photography was becoming more accessible to enthusiasts. It refines the earlier Yashicaflex AS with improved mechanics and a more modernized design, borrowing visual cues from the higher-end Yashica D in its nameplate and control wheel styling. Equipped with a Copal MXV shutter offering speeds from Bulb to 1/500, it is a strong performer in its class. The camera uses matching Yashikor 80mm f/3.5 lenses for viewing and taking, delivering sharp, detailed medium format images with smooth tonal transitions. Its bright waist-level viewing experience makes shooting deliberate and enjoyable, and it remains a well-built, reliable TLR capable of beautiful results today.',
+    specs: ['120 film', 'Medium format', 'TLR', 'Copal MXV shutter', 'Yashikor 80mm f/3.5 lenses'],
+    tags: ['tlr','medium-format','vintage'],
+    vintedUrl: 'https://www.vinted.lt/items/8791255916-yashicaflex-b-medium-format-120-6x6',
+    wikiUrl: 'https://camerapedia.fandom.com/wiki/Yashica_Yashimaflex/Yashicaflex',
+    inquiryEmail: 'ignasnefas@gmail.com',
+    moreImages: [
+      new URL('../../images/gear/yashicaflex-b/yashicaflex-b-2.jpg', import.meta.url).href,
+      new URL('../../images/gear/yashicaflex-b/yashicaflex-b-3.jpg', import.meta.url).href,
+      new URL('../../images/gear/yashicaflex-b/yashicaflex-b-4.jpg', import.meta.url).href
     ]
   }
 ]

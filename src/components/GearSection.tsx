@@ -754,7 +754,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                           />
                         </a>
                       )}
-                      {selectedGear.inquiryEmail && !selectedGear.sold && (
+                      {selectedGear.inquiryEmail && selectedGear.multipleItems && !selectedGear.sold && (
                         <a
                           href={`mailto:${selectedGear.inquiryEmail}?subject=${encodeURIComponent(`Inquiry about ${selectedGear.name}`)}`}
                           className="inline-flex w-full items-center justify-center rounded-2xl bg-amber-600 px-5 py-3 text-white hover:bg-amber-500 transition font-sans"
