@@ -221,35 +221,38 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                     </div>
 
                     <div className="max-w-3xl space-y-8">
-                      <p>{selectedArticle.body[0]}</p>
+                      {selectedArticle.body.map((paragraph, index) => (
+                        <div key={index} className="space-y-6">
+                          <p>{paragraph}</p>
+                          {selectedArticle.moreImages?.[index] ? (
+                            <div className="relative overflow-hidden rounded-3xl bg-stone-100">
+                              <img
+                                src={selectedArticle.moreImages[index]}
+                                alt={`${selectedArticle.title} image ${index + 1}`}
+                                className="w-full h-full object-cover"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                            </div>
+                          ) : null}
+                        </div>
+                      ))}
 
-                      {selectedArticle.moreImages?.[0] ? (
-                        <div className="relative overflow-hidden rounded-3xl bg-stone-100">
-                          <img
-                            src={selectedArticle.moreImages[0]}
-                            alt={`${selectedArticle.title} image 1`}
-                            className="w-full h-full object-cover"
-                            loading="lazy"
-                            decoding="async"
-                          />
+                      {selectedArticle.moreImages && selectedArticle.moreImages.length > selectedArticle.body.length ? (
+                        <div className="grid gap-4 md:grid-cols-2">
+                          {selectedArticle.moreImages.slice(selectedArticle.body.length).map((src, index) => (
+                            <div key={index} className="relative overflow-hidden rounded-3xl bg-stone-100">
+                              <img
+                                src={src}
+                                alt={`${selectedArticle.title} extra image ${selectedArticle.body.length + index + 1}`}
+                                className="w-full h-full object-cover"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                            </div>
+                          ))}
                         </div>
                       ) : null}
-
-                      <p>{selectedArticle.body[1]}</p>
-
-                      {selectedArticle.moreImages?.[1] ? (
-                        <div className="relative overflow-hidden rounded-3xl bg-stone-100">
-                          <img
-                            src={selectedArticle.moreImages[1]}
-                            alt={`${selectedArticle.title} image 2`}
-                            className="w-full h-full object-cover"
-                            loading="lazy"
-                            decoding="async"
-                          />
-                        </div>
-                      ) : null}
-
-                      <p>{selectedArticle.body[2]}</p>
                     </div>
                   </article>
                 </div>

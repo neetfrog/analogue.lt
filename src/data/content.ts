@@ -79,6 +79,28 @@ const printsImageModules = import.meta.glob('../../images/prints/*.{jpg,jpeg,png
   import: 'default'
 }) as Record<string, string>
 
+const horizontImageModules = import.meta.glob('../../images/articles/horizont/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  query: '?url',
+  import: 'default'
+}) as Record<string, string>
+
+const snowboardingImageModules = import.meta.glob('../../images/articles/snowboarding/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  query: '?url',
+  import: 'default'
+}) as Record<string, string>
+
+const sortImageModules = (modules: Record<string, string>) =>
+  Object.entries(modules)
+    .sort(([pathA], [pathB]) =>
+      pathA.localeCompare(pathB, undefined, { numeric: true, sensitivity: 'base' })
+    )
+    .map(([, image]) => image)
+
+const horizontImages = sortImageModules(horizontImageModules)
+const snowboardingImages = sortImageModules(snowboardingImageModules)
+
 export const printsImages: EventImage[] = Object.entries(printsImageModules)
   .map(([path, image], index) => {
     const filename = path.split('/').pop() ?? `print-${index + 1}`
@@ -115,11 +137,8 @@ export const articles: Article[] = [
     ],
     date: '2024-01-15',
     category: 'Equipment',
-    image: new URL('../../images/articles/articles (1).jpg', import.meta.url).href,
-    moreImages: [
-      new URL('../../images/articles/articles (4).jpg', import.meta.url).href,
-      new URL('../../images/articles/articles (2).jpg', import.meta.url).href
-    ]
+    image: horizontImages[0],
+    moreImages: horizontImages.slice(1)
   },
   {
     id: 2,
@@ -132,11 +151,8 @@ export const articles: Article[] = [
     ],
     date: '2024-01-10',
     category: 'Photography',
-    image: new URL('../../images/articles/articles (2).jpg', import.meta.url).href,
-    moreImages: [
-      new URL('../../images/articles/articles (3).jpg', import.meta.url).href,
-      new URL('../../images/articles/articles (4).jpg', import.meta.url).href
-    ]
+    image: snowboardingImages[0],
+    moreImages: snowboardingImages.slice(1)
   },
   {
     id: 3,
@@ -149,10 +165,22 @@ export const articles: Article[] = [
     ],
     date: '2024-01-05',
     category: 'Workflow',
-    image: new URL('../../images/articles/articles (3).jpg', import.meta.url).href,
+    image: new URL('../../images/articles/backlog/backlog (1).jpg', import.meta.url).href,
     moreImages: [
-      new URL('../../images/articles/articles (1).jpg', import.meta.url).href,
-      new URL('../../images/articles/articles (4).jpg', import.meta.url).href
+      new URL('../../images/articles/backlog/backlog (2).jpg', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (3).jpg', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (4).jpg', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (5).jpg', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (6).jpg', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (7).jpg', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (8).jpg', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (9).jpg', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (10).jpg', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (11).jpg', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (12).jpg', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (13).jpg', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (14).jpg', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (15).jpg', import.meta.url).href
     ]
   }
 ]
