@@ -39,6 +39,7 @@ type EventImage = {
 const normalizePath = (value: string) => value.replace(/\\/g, '/')
 const getFilename = (path: string) => normalizePath(path).split('/').pop() ?? ''
 const getBaseName = (filename: string) => filename.replace(/\.[^/.]+$/, '')
+const getThumbName = (filename: string) => getBaseName(filename).replace(/-thumb$/, '')
 const stripThumbSegment = (relativePath: string) =>
   normalizePath(relativePath)
     .split('/')
@@ -49,7 +50,7 @@ const buildThumbnailMap = (modules: Record<string, string>, rootDir: string) =>
   Object.entries(modules).reduce<Record<string, string>>((acc, [path, image]) => {
     const normalized = normalizePath(path)
     const relative = normalized.split(`${rootDir}/`).pop() ?? normalized
-    const key = getBaseName(stripThumbSegment(relative))
+    const key = getThumbName(stripThumbSegment(relative))
     acc[key] = image
     return acc
   }, {})
