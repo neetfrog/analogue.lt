@@ -19,7 +19,7 @@ type ArticlesSectionProps = {
 export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }: ArticlesSectionProps) {
   const [selectedArticle, setSelectedArticle] = useState<ArticleItem | null>(null)
   const [activeImage, setActiveImage] = useState<string | null>(null)
-  const [zoomed, setZoomed] = useState(false)
+  const [zoomLevel, setZoomLevel] = useState(0)
   const [descriptionComplete, setDescriptionComplete] = useState(false)
   const isReducedMotion = reduceMotion ?? false
   const lastTapRef = useRef<number>(0)
@@ -48,23 +48,23 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
 
   const openImageFullscreen = (image: string) => {
     setActiveImage(image)
-    setZoomed(false)
+    setZoomLevel(0)
   }
 
   const closeImageFullscreen = () => {
     setActiveImage(null)
-    setZoomed(false)
+    setZoomLevel(0)
   }
 
-  const toggleImageZoom = () => {
-    setZoomed((prev) => !prev)
+  const cycleImageZoomLevel = () => {
+    setZoomLevel((prev) => (prev + 1) % 3)
   }
 
   const handleImageTouchEnd = (event: TouchEvent<HTMLImageElement>) => {
     const now = Date.now()
     if (now - lastTapRef.current < 300) {
       event.preventDefault()
-      setZoomed((prev) => !prev)
+      cycleImageZoomLevel()
       lastTapRef.current = 0
     } else {
       lastTapRef.current = now
@@ -74,14 +74,14 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
   const goToPreviousImage = () => {
     if (activeImageIndex > 0) {
       setActiveImage(articleImages[activeImageIndex - 1])
-      setZoomed(false)
+      setZoomLevel(0)
     }
   }
 
   const goToNextImage = () => {
     if (activeImageIndex >= 0 && activeImageIndex < articleImages.length - 1) {
       setActiveImage(articleImages[activeImageIndex + 1])
-      setZoomed(false)
+      setZoomLevel(0)
     }
   }
 
@@ -129,7 +129,7 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
   useEffect(() => {
     if (!selectedArticle) {
       setActiveImage(null)
-      setZoomed(false)
+      setZoomLevel(0)
       return undefined
     }
 
@@ -367,13 +367,12 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
           <ImageLightbox
             image={activeImage}
             alt={t.enlargedAlt ?? selectedArticle?.title ?? ''}
-            zoomed={zoomed}
+            zoomLevel={zoomLevel}
             reduceMotion={isReducedMotion}
             onClose={closeImageFullscreen}
-            onToggleZoom={toggleImageZoom}
+            onToggleZoom={cycleImageZoomLevel}
+            onSetZoomLevel={setZoomLevel}
             onTouchEnd={handleImageTouchEnd}
-            onPrev={goToPreviousImage}
-            onNext={goToNextImage}
           />
         )}
       </AnimatePresence>

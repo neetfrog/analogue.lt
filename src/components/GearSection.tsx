@@ -184,7 +184,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
   }
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [copiedLink, setCopiedLink] = useState(false)
-  const [zoomed, setZoomed] = useState(false)
+  const [zoomLevel, setZoomLevel] = useState(0)
   const [descriptionComplete, setDescriptionComplete] = useState(false)
   const [hasAppliedInitialGear, setHasAppliedInitialGear] = useState(false)
   const imageWrapperRef = useRef<HTMLDivElement | null>(null)
@@ -205,11 +205,11 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
     if (selectedGear) {
       setActiveImage(selectedGear.image)
       setCopiedLink(false)
-      setZoomed(false)
+      setZoomLevel(0)
     } else {
       setActiveImage(null)
       setCopiedLink(false)
-      setZoomed(false)
+      setZoomLevel(0)
     }
   }, [selectedGear])
 
@@ -276,15 +276,15 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
     }
   }, [initialGearId, selectedGear, hasAppliedInitialGear, items])
 
-  const handleMainImageDoubleClick = () => {
-    setZoomed((prev) => !prev)
+  const cycleMainImageZoomLevel = () => {
+    setZoomLevel((prev) => (prev + 1) % 3)
   }
 
   const handleMainImageTouchEnd = (event: TouchEvent<HTMLImageElement>) => {
     const now = Date.now()
     if (now - lastTapRef.current < 300) {
       event.preventDefault()
-      setZoomed((prev) => !prev)
+      cycleMainImageZoomLevel()
       lastTapRef.current = 0
     } else {
       lastTapRef.current = now
@@ -701,13 +701,12 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                   <div className="space-y-4 min-w-0">
                     <div ref={imageWrapperRef} className="relative aspect-square overflow-hidden rounded-3xl bg-stone-100">
                       <motion.img
-                        key={zoomed ? 'zoomed' : 'default'}
                         src={activeImage || selectedGear.image}
                         alt={selectedGear.name}
-                        initial={{ scale: 1, x: 0, y: 0 }}
-                        animate={{ scale: zoomed ? 1.8 : 1, x: 0, y: 0 }}
+                        initial={false}
+                        animate={{ scale: zoomLevel === 2 ? 2.8 : zoomLevel === 1 ? 1.8 : 1, x: 0, y: 0 }}
                         transition={{ duration: 0.3 }}
-                        drag={zoomed}
+                        drag={zoomLevel > 0}
                         dragMomentum={false}
                         dragElastic={0.3}
                         dragConstraints={{ left: -220, right: 220, top: -220, bottom: 220 }}
@@ -715,7 +714,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                         style={{ transformOrigin: 'center center' }}
                         loading="lazy"
                         decoding="async"
-                        onDoubleClick={handleMainImageDoubleClick}
+                        onDoubleClick={cycleMainImageZoomLevel}
                         onTouchEnd={handleMainImageTouchEnd}
                       />
                     </div>
