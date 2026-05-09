@@ -124,7 +124,8 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                     alt={article.title}
                     loading="lazy"
                     decoding="async"
-                    className="ken-burns absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    onClick={() => setSelectedArticle(article)}
+                    className="cursor-pointer ken-burns absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     style={{
                       '--ken-burns-duration': `${18 + (i % 3) * 2}s`,
                       '--ken-burns-offset': `${i % 3}`
@@ -194,27 +195,63 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                   </button>
                 </div>
 
-                <div className="grid gap-6 px-6 py-6 lg:grid-cols-[1.2fr_0.8fr] max-h-[calc(100vh-12rem)] overflow-y-auto overflow-x-hidden min-w-0">
-                  <div className="space-y-4 min-w-0">
+                <div className="space-y-6 px-6 py-6 max-h-[calc(100vh-12rem)] overflow-y-auto overflow-x-hidden min-w-0">
+                  <div className="space-y-4">
                     <div className="relative aspect-[5/4] overflow-hidden rounded-3xl bg-stone-100">
                       <img
                         src={selectedArticle.image}
                         alt={t.enlargedAlt ?? selectedArticle.title}
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-5 min-w-0">
-                    <div>
-                      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-600 mb-3">
-                        {t.eyebrow}
-                      </p>
-                      <p className="text-stone-600 leading-relaxed">
+                  <article className="space-y-8 text-stone-600 leading-relaxed">
+                    <div className="max-w-3xl space-y-4">
+                      <div className="flex flex-wrap items-center gap-3 text-sm text-stone-500">
+                        <span>{formatDate(selectedArticle.date)}</span>
+                        <span>·</span>
+                        <span>{selectedArticle.category}</span>
+                      </div>
+                      <p className="text-lg md:text-xl leading-relaxed">
                         {selectedArticle.excerpt}
                       </p>
                     </div>
-                  </div>
+
+                    <div className="max-w-3xl space-y-8">
+                      <p>{selectedArticle.body[0]}</p>
+
+                      {selectedArticle.moreImages?.[0] ? (
+                        <div className="relative overflow-hidden rounded-3xl bg-stone-100">
+                          <img
+                            src={selectedArticle.moreImages[0]}
+                            alt={`${selectedArticle.title} image 1`}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </div>
+                      ) : null}
+
+                      <p>{selectedArticle.body[1]}</p>
+
+                      {selectedArticle.moreImages?.[1] ? (
+                        <div className="relative overflow-hidden rounded-3xl bg-stone-100">
+                          <img
+                            src={selectedArticle.moreImages[1]}
+                            alt={`${selectedArticle.title} image 2`}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </div>
+                      ) : null}
+
+                      <p>{selectedArticle.body[2]}</p>
+                    </div>
+                  </article>
                 </div>
               </motion.div>
             </div>

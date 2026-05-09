@@ -96,35 +96,64 @@ type Article = {
   id: number
   title: string
   excerpt: string
+  body: string[]
   date: string
   category: string
   image: string
+  moreImages?: string[]
 }
 
 export const articles: Article[] = [
   {
     id: 1,
-    title: 'The Art of Film Photography',
-    excerpt: 'Exploring the timeless beauty of analog film, this piece dives into the tactile process, the colors and grain, and the way film photography invites a slower, more deliberate approach to picture-making. It also considers why modern creators still reach for film for its emotional texture and storytelling power.',
+    title: 'Going Wide - Shooting with KMZ Horizont',
+    excerpt: 'A hands-on look at shooting panoramic film with the iconic KMZ Horizont, from mastering its distinctive viewfinder to framing wide landscapes and cityscapes. Discover the practical workflow and creative possibilities that make this Soviet-era camera a favorite for bold analog storytelling.',
+    body: [
+      'The Horizont’s curved panorama format turns otherwise ordinary streets and fields into cinematic frames. Learning how to load the camera, estimate distance, and compose across its wide sweep is part of the appeal.',
+      'Once you understand the parallax and the slow, deliberate pace of the Horizont, you begin to see the world differently: long horizons, layered skies, and the tension between foreground detail and distant light.',
+      'Shooting with this camera is a reminder that great analog work often comes from embracing limitation, trusting the process, and enjoying the unexpected edges that film brings.'
+    ],
     date: '2024-01-15',
-    category: 'Photography',
-    image: new URL('../../images/articles/articles (1).jpg', import.meta.url).href
+    category: 'Equipment',
+    image: new URL('../../images/articles/articles (1).jpg', import.meta.url).href,
+    moreImages: [
+      new URL('../../images/articles/articles (4).jpg', import.meta.url).href,
+      new URL('../../images/articles/articles (2).jpg', import.meta.url).href
+    ]
   },
   {
     id: 2,
-    title: 'Shooting with Soviet Cameras',
-    excerpt: 'A deep dive into vintage Soviet cameras and their remarkable engineering, exploring how rugged design and distinctive optics continue to influence creators today. The article also covers practical tips for shooting film with these classics and why they remain treasured by collectors and photographers alike.',
+    title: 'Remembering the Winter - Snowboarding in Vilnius',
+    excerpt: 'A reflective story of snowboarding days around Vilnius, capturing winter light, empty slopes, and the quiet mood of the city in cold weather. This article pairs analog photographs with the feeling of moving through early mornings, powder turns, and the glow of urban frost.',
+    body: [
+      'Winter in Vilnius feels especially quiet through a film lens — the city softens under snow, and ordinary corners take on a wistful stillness.',
+      'On the slopes and in the parks, I looked for moments where motion met silence: the line of a board track, breath fogging in the air, and the glow of streetlamps against fresh powder.',
+      'These photographs are less about action than memory, preserving the way light and cold changed the city’s textures and made even small journeys feel cinematic.'
+    ],
     date: '2024-01-10',
-    category: 'Equipment',
-    image: new URL('../../images/articles/articles (2).jpg', import.meta.url).href
+    category: 'Photography',
+    image: new URL('../../images/articles/articles (2).jpg', import.meta.url).href,
+    moreImages: [
+      new URL('../../images/articles/articles (3).jpg', import.meta.url).href,
+      new URL('../../images/articles/articles (4).jpg', import.meta.url).href
+    ]
   },
   {
     id: 3,
-    title: 'Wedding Photography Philosophy',
-    excerpt: 'How to capture authentic moments that tell the story of your special day through the lens of film, balancing emotion, atmosphere, and light. This article shares a film-first philosophy for wedding photography, from framing intimate gestures to preserving the atmosphere of a day that deserves to be remembered beautifully.',
+    title: 'Picking Through Your Backlog - Tips Not to Get You Overwhelmed',
+    excerpt: 'Practical advice for film shooters and creatives on organizing old rolls, revisiting unfinished projects, and staying inspired without feeling buried. Learn a calmer approach to your archive so you can turn backlog into meaningful work rather than a source of stress.',
+    body: [
+      'Climbing back into your backlog doesn’t need to be overwhelming; it can be a way of rediscovering work you already made and finding new stories there.',
+      'I recommend separating the archive into manageable batches, revisiting projects with fresh eyes, and letting the images themselves tell you which ones deserve a second pass.',
+      'A more patient approach means the most meaningful frames can become the start of new sessions instead of another task on a never-ending list.'
+    ],
     date: '2024-01-05',
-    category: 'Weddings',
-    image: new URL('../../images/articles/articles (3).jpg', import.meta.url).href
+    category: 'Workflow',
+    image: new URL('../../images/articles/articles (3).jpg', import.meta.url).href,
+    moreImages: [
+      new URL('../../images/articles/articles (1).jpg', import.meta.url).href,
+      new URL('../../images/articles/articles (4).jpg', import.meta.url).href
+    ]
   }
 ]
 
