@@ -4,7 +4,7 @@ import { Moon, Sun } from 'lucide-react'
 import { gearItems, type GearItem } from './data/content'
 import { HomeSection } from './components/HomeSection'
 import { WeddingsSection } from './components/WeddingsSection'
-const StreetPhotographySection = lazy(() => import('./components/StreetPhotographySection').then((module) => ({ default: module.StreetPhotographySection })))
+import { StreetPhotographySection } from './components/StreetPhotographySection'
 const PrintsSection = lazy(() => import('./components/PrintsSection').then((module) => ({ default: module.PrintsSection })))
 const ArticlesSection = lazy(() => import('./components/ArticlesSection').then((module) => ({ default: module.ArticlesSection })))
 const GearSection = lazy(() => import('./components/GearSection').then((module) => ({ default: module.GearSection })))
@@ -113,9 +113,7 @@ function App() {
       id: 'street',
       label: t.nav.sections.street,
       render: () => (
-        <Suspense fallback={sectionFallback}>
-          <StreetPhotographySection fadeInUp={fadeInUp} staggerContainer={staggerContainer} t={t.street} />
-        </Suspense>
+        <StreetPhotographySection fadeInUp={fadeInUp} staggerContainer={staggerContainer} t={t.street} />
       )
     },
     {
