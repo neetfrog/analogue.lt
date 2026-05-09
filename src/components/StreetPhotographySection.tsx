@@ -14,7 +14,7 @@ type StreetPhotographySectionProps = {
 
 export function StreetPhotographySection({ fadeInUp, staggerContainer, reduceMotion, t }: StreetPhotographySectionProps) {
   return (
-    <section className="w-full min-h-screen flex items-center px-4 md:px-6 lg:px-8 py-16 pt-24 relative">
+    <section className="w-full min-h-screen flex items-start px-4 md:px-6 lg:px-8 pt-16 pb-16 relative">
       <div className="max-w-none mx-auto w-full">
         <ImageGallery
           images={streetPhotographyImages}

@@ -166,7 +166,7 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
   }, [t.description])
 
   return (
-    <section className="w-full min-h-screen flex items-center px-4 md:px-6 lg:px-8 py-16 pt-24 relative">
+    <section className="w-full min-h-screen flex items-start px-4 md:px-6 lg:px-8 pt-16 pb-16 relative">
       <div className="max-w-5xl mx-auto w-full">
         <motion.div variants={reducedStagger} initial="hidden" animate="visible">
           <motion.div variants={reducedFadeIn} className="text-center mb-16">
