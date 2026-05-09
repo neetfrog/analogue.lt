@@ -203,7 +203,7 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
                   className={`group relative inline-block w-full overflow-hidden rounded-3xl bg-stone-200 ${itemLayouts[i % itemLayouts.length]} cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400 break-inside-avoid`}
                 >
                   <img
-                    src={item.image}
+                    src={item.thumbnail ?? item.image}
                     alt={item.title}
                     loading="lazy"
                     decoding="async"

@@ -33,42 +33,83 @@ type EventImage = {
   title: string
   location: string
   image: string
+  thumbnail?: string
 }
 
-const portfolioImageModules = import.meta.glob('../../images/events/*.{jpg,jpeg,png,webp}', {
+const normalizePath = (value: string) => value.replace(/\\/g, '/')
+const getFilename = (path: string) => normalizePath(path).split('/').pop() ?? ''
+const getBaseName = (filename: string) => filename.replace(/\.[^/.]+$/, '')
+const stripThumbSegment = (relativePath: string) =>
+  normalizePath(relativePath)
+    .split('/')
+    .filter((segment) => segment !== 'thumbs')
+    .join('/')
+
+const buildThumbnailMap = (modules: Record<string, string>, rootDir: string) =>
+  Object.entries(modules).reduce<Record<string, string>>((acc, [path, image]) => {
+    const normalized = normalizePath(path)
+    const relative = normalized.split(`${rootDir}/`).pop() ?? normalized
+    const key = getBaseName(stripThumbSegment(relative))
+    acc[key] = image
+    return acc
+  }, {})
+
+const eventImageModules = import.meta.glob('../../images/events/**/*.{jpg,jpeg,png,webp}', {
   eager: true,
   query: '?url',
   import: 'default'
 }) as Record<string, string>
 
-export const eventImages: EventImage[] = Object.entries(portfolioImageModules)
+const eventThumbnailModules = import.meta.glob('../../images/events/**/thumbs/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  query: '?url',
+  import: 'default'
+}) as Record<string, string>
+
+const eventThumbnailMap = buildThumbnailMap(eventThumbnailModules, 'images/events')
+
+export const eventImages: EventImage[] = Object.entries(eventImageModules)
+  .filter(([path]) => !normalizePath(path).includes('/thumbs/'))
   .map(([path, image], index) => {
-    const filename = path.split('/').pop() ?? `portfolio-${index + 1}`
-    const title = filename.replace(/\.[^/.]+$/, '').replace(/[-_]+/g, ' ').trim()
+    const filename = getFilename(path)
+    const title = getBaseName(filename).replace(/[-_]+/g, ' ').trim()
+    const basename = getBaseName(stripThumbSegment(normalizePath(path).split('images/events/').pop() ?? filename))
     return {
       id: index + 1,
       title: title.charAt(0).toUpperCase() + title.slice(1),
-      location: 'Portfolio',
-      image
+      location: 'Events',
+      image,
+      thumbnail: eventThumbnailMap[basename]
     }
   })
   .sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }))
 
-const streetImageModules = import.meta.glob('../../images/street/*.{jpg,jpeg,png,webp}', {
+const streetImageModules = import.meta.glob('../../images/street/**/*.{jpg,jpeg,png,webp}', {
   eager: true,
   query: '?url',
   import: 'default'
 }) as Record<string, string>
 
+const streetThumbnailModules = import.meta.glob('../../images/street/**/thumbs/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  query: '?url',
+  import: 'default'
+}) as Record<string, string>
+
+const streetThumbnailMap = buildThumbnailMap(streetThumbnailModules, 'images/street')
+
 export const streetPhotographyImages: EventImage[] = Object.entries(streetImageModules)
+  .filter(([path]) => !normalizePath(path).includes('/thumbs/'))
   .map(([path, image], index) => {
-    const filename = path.split('/').pop() ?? `street-${index + 1}`
-    const title = filename.replace(/\.[^/.]+$/, '').replace(/[-_]+/g, ' ').trim()
+    const filename = getFilename(path) || `street-${index + 1}`
+    const title = getBaseName(filename).replace(/[-_]+/g, ' ').trim()
+    const basename = getBaseName(stripThumbSegment(normalizePath(path).split('images/street/').pop() ?? filename))
     return {
       id: index + 1,
       title: title.charAt(0).toUpperCase() + title.slice(1),
       location: 'Street',
-      image
+      image,
+      thumbnail: streetThumbnailMap[basename]
     }
   })
   .sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }))

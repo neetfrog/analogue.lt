@@ -11,6 +11,7 @@ type ImageItem = {
   title: string
   location: string
   image: string
+  thumbnail?: string
 }
 
 type ImageGalleryProps = {
@@ -112,7 +113,7 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
 
     images.forEach((item) => {
       const img = new Image()
-      img.src = item.image
+      img.src = item.thumbnail ?? item.image
       img.onload = () => {
         const orientation: Orientation = img.naturalWidth > img.naturalHeight ? 'landscape' : img.naturalWidth < img.naturalHeight ? 'portrait' : 'square'
         setImageOrientations((prev) => {
@@ -249,9 +250,9 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
                 className={`group relative inline-block w-full overflow-hidden rounded-3xl bg-stone-200 ${getLayoutClass(item, i)} cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400 break-inside-avoid`}
               >
                 <img
-                  src={item.image}
+                  src={item.thumbnail ?? item.image}
                   alt={item.title}
-                  loading="eager"
+                  loading="lazy"
                   decoding="async"
                   className="ken-burns absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
                   style={imageAnimationStyles[item.id]}
