@@ -267,10 +267,11 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (activeSection === 3) {
+    const contactIndex = sectionIndexById.get('contact')
+    if (typeof contactIndex === 'number' && activeSection === contactIndex) {
       setInstagramActive(true)
     }
-  }, [activeSection])
+  }, [activeSection, sectionIndexById])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
