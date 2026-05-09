@@ -59,6 +59,11 @@
     overscroll-behavior: none !important;
   }
 
+  body[data-lightbox-open='true'] .ken-burns,
+  body[data-lightbox-open='true'] .group:hover .ken-burns {
+    animation: none !important;
+  }
+
   .dark {
     color-scheme: dark;
   }

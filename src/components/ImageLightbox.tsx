@@ -27,7 +27,7 @@ export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onTog
     >
       <button
         type="button"
-        className="absolute top-6 right-6 z-10 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"
+        className="absolute top-6 right-6 z-20 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"
         onClick={(event) => {
           event.stopPropagation()
           onClose()
@@ -40,7 +40,7 @@ export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onTog
       <div className="relative max-h-[90vh] max-w-full overflow-visible rounded-3xl bg-black">
         <button
           type="button"
-          className="absolute left-[-3rem] top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/40 p-3 text-white transition hover:bg-black/60"
+          className="absolute left-[-3rem] top-1/2 z-0 -translate-y-1/2 rounded-full bg-black/40 p-3 text-white transition hover:bg-black/60"
           onClick={(event) => {
             event.stopPropagation()
             onPrev()
@@ -52,7 +52,7 @@ export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onTog
 
         <button
           type="button"
-          className="absolute right-[-3rem] top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/40 p-3 text-white transition hover:bg-black/60"
+          className="absolute right-[-3rem] top-1/2 z-0 -translate-y-1/2 rounded-full bg-black/40 p-3 text-white transition hover:bg-black/60"
           onClick={(event) => {
             event.stopPropagation()
             onNext()
@@ -77,7 +77,7 @@ export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onTog
             dragMomentum={false}
             dragElastic={0.3}
             dragConstraints={{ left: -220, right: 220, top: -220, bottom: 220 }}
-            className="relative max-h-[90vh] w-full rounded-3xl object-contain shadow-2xl bg-black"
+            className="relative z-10 max-h-[90vh] w-full rounded-3xl object-contain shadow-2xl bg-black"
             style={{ transformOrigin: 'center center' }}
             onClick={(event) => event.stopPropagation()}
             onDoubleClick={(event) => {
