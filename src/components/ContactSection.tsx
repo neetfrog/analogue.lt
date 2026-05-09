@@ -34,7 +34,7 @@ export function ContactSection({
   }, [t.description])
 
   return (
-    <section className="w-full min-h-full flex flex-col items-center px-6 pt-24 pb-8 relative">
+    <section className="w-full min-h-full flex flex-col items-center px-6 pt-16 pb-16 relative">
       <div className="max-w-4xl mx-auto w-full space-y-1">
         <motion.div variants={reducedFadeIn} initial="hidden" animate="visible" className="text-center">
           <p className="text-amber-600 text-xs tracking-[0.3em] uppercase mb-2 font-medium">{t.eyebrow}</p>
