@@ -37,7 +37,13 @@ type EventImage = {
 }
 
 const normalizePath = (value: string) => value.replace(/\\/g, '/')
-const getFilename = (path: string) => normalizePath(path).split('/').pop() ?? ''
+const getFilename = (path: string) => {
+  try {
+    return normalizePath(decodeURIComponent(path)).split('/').pop() ?? ''
+  } catch {
+    return normalizePath(path).split('/').pop() ?? ''
+  }
+}
 const getBaseName = (filename: string) => filename.replace(/\.[^/.]+$/, '')
 const getThumbName = (filename: string) => getBaseName(filename).replace(/-thumb$/, '')
 const stripThumbSegment = (relativePath: string) =>
@@ -170,7 +176,26 @@ type Article = {
   date: string
   category: string
   image: string
+  thumbnail?: string
   moreImages?: string[]
+}
+
+const articleThumbnailModules = import.meta.glob('../../images/articles/**/thumbs/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  query: '?url',
+  import: 'default'
+}) as Record<string, string>
+
+const articleThumbnailMap = buildThumbnailMap(articleThumbnailModules, 'images/articles')
+
+export const getImageThumbnail = (imageUrl: string) => {
+  try {
+    const pathname = new URL(imageUrl).pathname
+    const filename = getFilename(pathname)
+    return articleThumbnailMap[getThumbName(filename)]
+  } catch {
+    return undefined
+  }
 }
 
 export const articles: Article[] = [
@@ -186,6 +211,7 @@ export const articles: Article[] = [
     date: '2024-01-15',
     category: 'Equipment',
     image: horizontImages[0],
+    thumbnail: getImageThumbnail(horizontImages[0]),
     moreImages: horizontImages.slice(1)
   },
   {
@@ -200,6 +226,7 @@ export const articles: Article[] = [
     date: '2024-01-10',
     category: 'Photography',
     image: snowboardingImages[0],
+    thumbnail: getImageThumbnail(snowboardingImages[0]),
     moreImages: snowboardingImages.slice(1)
   },
   {
@@ -214,6 +241,7 @@ export const articles: Article[] = [
     date: '2024-01-05',
     category: 'Workflow',
     image: new URL('../../images/articles/backlog/backlog (1).webp', import.meta.url).href,
+    thumbnail: getImageThumbnail(new URL('../../images/articles/backlog/backlog (1).webp', import.meta.url).href),
     moreImages: [
       new URL('../../images/articles/backlog/backlog (2).webp', import.meta.url).href,
       new URL('../../images/articles/backlog/backlog (3).webp', import.meta.url).href,

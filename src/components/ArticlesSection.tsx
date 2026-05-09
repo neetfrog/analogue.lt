@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
-import { articles } from '../data/content'
+import { articles, getImageThumbnail } from '../data/content'
 import { ImageLightbox } from './ImageLightbox'
 import { TypewriterText } from './TypewriterText'
 import type { ArticleTranslations } from '../i18n'
@@ -206,7 +206,7 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                   className="relative aspect-[4/5] w-full overflow-hidden bg-stone-200 focus:outline-none"
                 >
                   <img
-                    src={article.image}
+                    src={article.thumbnail ?? article.image}
                     alt={article.title}
                     loading="lazy"
                     decoding="async"
@@ -324,7 +324,7 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                               className={`relative overflow-hidden rounded-3xl bg-stone-100 text-left focus:outline-none ${getHorizontWrapperClass(selectedArticle.moreImages[index]) || 'w-full aspect-[5/4]'}`}
                             >
                               <img
-                                src={selectedArticle.moreImages[index]}
+                                src={getImageThumbnail(selectedArticle.moreImages[index]) ?? selectedArticle.moreImages[index]}
                                 alt={`${selectedArticle.title} image ${index + 1}`}
                                 className={`cursor-zoom-in transition-transform duration-300 hover:scale-105 ${getHorizontImageClass(selectedArticle.moreImages[index])}`}
                                 loading="lazy"
@@ -346,7 +346,7 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                               className={`relative overflow-hidden rounded-3xl bg-stone-100 text-left focus:outline-none ${getHorizontWrapperClass(src) || 'w-full aspect-[5/4]'}`}
                             >
                               <img
-                                src={src}
+                                src={getImageThumbnail(src) ?? src}
                                 alt={`${selectedArticle.title} extra image ${selectedArticle.body.length + index + 1}`}
                                 className={`cursor-zoom-in transition-transform duration-300 hover:scale-105 ${getHorizontImageClass(src)}`}
                                 loading="lazy"

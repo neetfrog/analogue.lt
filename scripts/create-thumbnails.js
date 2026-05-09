@@ -3,7 +3,11 @@ import path from 'node:path'
 import sharp from 'sharp'
 import chokidar from 'chokidar'
 
-const defaultDirs = [path.resolve('images', 'events'), path.resolve('images', 'street')]
+const defaultDirs = [
+  path.resolve('images', 'events'),
+  path.resolve('images', 'street'),
+  path.resolve('images', 'articles')
+]
 const allowedExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp'])
 const thumbDirName = 'thumbs'
 const thumbExt = '.webp'
@@ -43,7 +47,7 @@ async function walk(dir) {
 async function createThumbnail(filePath, { skipIfExists = false } = {}) {
   const parsed = path.parse(filePath)
   const outputDir = path.join(parsed.dir, thumbDirName)
-  const outputPath = path.join(outputDir, `${parsed.name}${thumbExt}`)
+  const outputPath = path.join(outputDir, `${parsed.name}-thumb${thumbExt}`)
 
   try {
     await fs.mkdir(outputDir, { recursive: true })
