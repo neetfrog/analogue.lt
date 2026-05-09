@@ -19,6 +19,36 @@ const fadeInUp: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
 }
 
+const sectionIds = ['home', 'weddings', 'street', 'prints', 'shop', 'contact'] as const
+
+type SectionId = (typeof sectionIds)[number]
+
+const getInitialHashState = () => {
+  if (typeof window === 'undefined') {
+    return { activeSection: 0, initialGearId: null }
+  }
+
+  const hash = window.location.hash.replace('#', '')
+  const normalizedHash = hash === 'gear' ? 'shop' : hash
+  const sectionIndex = sectionIds.indexOf(normalizedHash as SectionId)
+
+  if (sectionIndex !== -1) {
+    return { activeSection: sectionIndex, initialGearId: null }
+  }
+
+  const gearId = findGearIdBySlug(hash, gearItems)
+  if (gearId) {
+    return { activeSection: sectionIds.indexOf('shop'), initialGearId: String(gearId) }
+  }
+
+  const legacyMatch = hash.match(/^item-(\d+)(?:-[a-z0-9-]+)?$/)
+  if (legacyMatch) {
+    return { activeSection: sectionIds.indexOf('shop'), initialGearId: legacyMatch[1] }
+  }
+
+  return { activeSection: 0, initialGearId: null }
+}
+
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -40,11 +70,12 @@ const findGearIdBySlug = (slug: string, items: GearItem[]) => {
 }
 
 function App() {
-  const [activeSection, setActiveSection] = useState(0)
+  const initialHashState = getInitialHashState()
+  const [activeSection, setActiveSection] = useState(initialHashState.activeSection)
   const [navVisible, setNavVisible] = useState(true)
   const [showBlackOverlay, setShowBlackOverlay] = useState(true)
   const [instagramActive, setInstagramActive] = useState(false)
-  const [initialGearId, setInitialGearId] = useState<string | null>(null)
+  const [initialGearId, setInitialGearId] = useState<string | null>(initialHashState.initialGearId)
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
   const [locale, setLocale] = useState<Locale>(() => getInitialLocale())
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
