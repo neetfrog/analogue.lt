@@ -136,9 +136,9 @@ export const translations: Record<Locale, Translations> = {
       sections: {
         home: 'Home',
         weddings: 'Events',
-        street: 'Street',
+        street: 'Streets',
         prints: 'Prints',
-        articles: 'Articles',
+        articles: 'Texts',
         portfolio: 'Portfolio',
         gear: 'Shop',
         contact: 'Contact'
@@ -175,8 +175,8 @@ export const translations: Record<Locale, Translations> = {
       contactForPrints: 'Inquire About Prints'
     },
     articles: {
-      eyebrow: 'Insights',
-      title: 'Articles',
+      eyebrow: 'Enjoy reading?',
+      title: 'Texts',
       description: 'my own analogue substack',
       readMore: 'Read More',
       openImage: 'Open {title}',
@@ -263,7 +263,7 @@ export const translations: Record<Locale, Translations> = {
         weddings: 'Renginiai',
         street: 'Gatvė',
         prints: 'Printai',
-        articles: 'Straipsniai',
+        articles: 'Tekstai',
         portfolio: 'Portfolio',
         gear: 'Shopas',
         contact: 'Kontaktai'
@@ -300,8 +300,8 @@ export const translations: Record<Locale, Translations> = {
       contactForPrints: 'Sudomino? Parašyk!'
     },
     articles: {
-      eyebrow: 'šiek tiek teksto',
-      title: 'Straipsniai',
+      eyebrow: 'mėgsti skaityti?',
+      title: 'Tekstai',
       description: 'mano paties analoginis Substackas',
       readMore: 'Skaityti toliau',
       openImage: 'Atidaryti {title}',

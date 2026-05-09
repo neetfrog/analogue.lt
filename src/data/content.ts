@@ -1,9 +1,9 @@
 export const sections = [
   { id: 'home', label: 'Home' },
   { id: 'weddings', label: 'Events' },
-  { id: 'street', label: 'Street' },
+  { id: 'street', label: 'Streets' },
   { id: 'prints', label: 'Prints' },
-  { id: 'articles', label: 'Articles' },
+  { id: 'articles', label: 'Texts' },
   { id: 'gear', label: 'Shop' },
   { id: 'contact', label: 'Contact' }
 ]
@@ -191,11 +191,11 @@ export const articles: Article[] = [
   {
     id: 2,
     title: 'Remembering the Winter - Snowboarding in Vilnius',
-    excerpt: 'A reflective story of snowboarding days around Vilnius, capturing winter light, empty slopes, and the quiet mood of the city in cold weather. This article pairs analog photographs with the feeling of moving through early mornings, powder turns, and the glow of urban frost.',
+    excerpt: 'A reflective story of snowboarding days around Vilnius, capturing winter light, empty slopes, and the quiet mood of the city in cold weather. Shot on Canon 5D Mark III with a 105mm f/2.5 Nikkor-P, these images pair a digital warmth with the feeling of moving through early mornings, powder turns, and the glow of urban frost.',
     body: [
-      'Winter in Vilnius feels especially quiet through a film lens — the city softens under snow, and ordinary corners take on a wistful stillness.',
+      'Winter in Vilnius feels especially quiet when you slow down for details — the city softens under snow, and ordinary corners take on a wistful stillness.',
       'On the slopes and in the parks, I looked for moments where motion met silence: the line of a board track, breath fogging in the air, and the glow of streetlamps against fresh powder.',
-      'These photographs are less about action than memory, preserving the way light and cold changed the city’s textures and made even small journeys feel cinematic.'
+      'These photographs are less about action than memory, preserving the way cold light changed the city’s textures and made even small journeys feel cinematic.'
     ],
     date: '2024-01-10',
     category: 'Photography',

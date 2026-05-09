@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, type TouchEvent, type ReactNode, type CSSProperties } from 'react'
+import { useState, useRef, useEffect, type TouchEvent, type CSSProperties } from 'react'
 import { motion, type Variants } from 'framer-motion'
 import { ImageLightbox } from './ImageLightbox'
 import { TypewriterText } from './TypewriterText'
@@ -22,13 +22,10 @@ type ImageGalleryProps = {
   t: PortfolioTranslations
 }
 
-type Orientation = 'portrait' | 'landscape' | 'square'
-
 export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion, t }: ImageGalleryProps) {
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [zoomed, setZoomed] = useState(false)
   const [descriptionComplete, setDescriptionComplete] = useState(false)
-  const [imageOrientations, setImageOrientations] = useState<Record<number, Orientation>>({})
   const lastTapRef = useRef<number>(0)
   const isReducedMotion = reduceMotion ?? false
   const reducedFadeIn: MotionVariants = isReducedMotion
@@ -105,49 +102,11 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
     'aspect-[4/3]'
   ]
 
-  const portraitLayouts = ['aspect-[4/5]', 'aspect-[3/4]']
-  const landscapeLayouts = ['aspect-[5/4]', 'aspect-[5/3]', 'aspect-[4/3]']
+  const handleImageLoad = () => {
+    // Preserve the initially assigned aspect ratio to avoid layout shifts when images load.
+  }
 
-  useEffect(() => {
-    const imageElements: HTMLImageElement[] = []
-
-    images.forEach((item) => {
-      const img = new Image()
-      img.src = item.thumbnail ?? item.image
-      img.onload = () => {
-        const orientation: Orientation = img.naturalWidth > img.naturalHeight ? 'landscape' : img.naturalWidth < img.naturalHeight ? 'portrait' : 'square'
-        setImageOrientations((prev) => {
-          if (prev[item.id] === orientation) {
-            return prev
-          }
-          return { ...prev, [item.id]: orientation }
-        })
-      }
-      imageElements.push(img)
-    })
-
-    return () => {
-      imageElements.forEach((img) => {
-        img.onload = null
-      })
-    }
-  }, [images])
-
-  const getLayoutClass = (item: ImageItem, index: number) => {
-    const orientation = imageOrientations[item.id]
-
-    if (orientation === 'portrait') {
-      return portraitLayouts[index % portraitLayouts.length]
-    }
-
-    if (orientation === 'square') {
-      return 'aspect-square'
-    }
-
-    if (orientation === 'landscape') {
-      return landscapeLayouts[index % landscapeLayouts.length]
-    }
-
+  const getLayoutClass = (_item: ImageItem, index: number) => {
     return itemLayouts[index % itemLayouts.length]
   }
 
@@ -254,6 +213,7 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
                   alt={item.title}
                   loading="lazy"
                   decoding="async"
+                  onLoad={(event) => handleImageLoad(event, item)}
                   className="ken-burns absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
                   style={imageAnimationStyles[item.id]}
                 />
