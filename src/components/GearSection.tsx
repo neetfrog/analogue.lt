@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
-import { X, Check, Link2, Camera, Aperture, Grid, Package, Type, DollarSign, ChevronUp } from 'lucide-react'
+import { X, Check, Link2, Camera, Aperture, Grid, Package, DollarSign, ChevronUp } from 'lucide-react'
 import type { GearItem } from '../data/content'
 import { TypewriterText } from './TypewriterText'
 import { slugify } from '../utils/slugify'
@@ -493,14 +493,14 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
               <button
                 type="button"
                 onClick={() => toggleSortField('name')}
-                aria-label={`Sort by name, ${sortOrder}`}
-                className={`flex h-12 w-12 items-center justify-center rounded-full border p-2 transition ${
+                aria-label={`Sort alphabetically by name, ${sortOrder}`}
+                className={`flex h-12 w-12 items-center justify-center rounded-full border text-[0.75rem] font-semibold transition ${
                   sortField === 'name'
                     ? 'border-amber-400 bg-amber-100 text-stone-900'
                     : 'border-stone-200 bg-white text-stone-500 hover:bg-stone-50'
                 }`}
               >
-                <Type className="h-5 w-5" aria-hidden="true" />
+                <span className="whitespace-nowrap">{sortField === 'name' && sortOrder === 'desc' ? 'Z–A' : 'A–Z'}</span>
               </button>
               <div className="h-4 flex items-center justify-center">
                 {sortField === 'name' ? (
