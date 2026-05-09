@@ -24,6 +24,7 @@ const manufacturerLogoMap: Record<string, { src: string; alt: string }> = {
   FED: { src: new URL('../../images/logos/manufacturers/fed.png', import.meta.url).href, alt: 'FED' },
   GOMZ: { src: new URL('../../images/logos/manufacturers/gomz.png', import.meta.url).href, alt: 'GOMZ' },
   KMZ: { src: new URL('../../images/logos/manufacturers/kmz.png', import.meta.url).href, alt: 'KMZ' },
+  Aires: { src: new URL('../../images/logos/manufacturers/aires.png', import.meta.url).href, alt: 'Aires' },
   Lomo: { src: new URL('../../images/logos/manufacturers/lomo.png', import.meta.url).href, alt: 'Lomo' },
   Arsenal: { src: new URL('../../images/logos/manufacturers/arsenal.png', import.meta.url).href, alt: 'Arsenal' },
   ZOMZ: { src: new URL('../../images/logos/manufacturers/zomz.png', import.meta.url).href, alt: 'ZOMZ' },
@@ -767,7 +768,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                       </ul>
                     </div>
                     <div className="flex flex-col gap-3">
-                      {selectedGear.vintedUrl && !selectedGear.sold && (
+                      {selectedGear.vintedUrl && (
                         <a
                           href={selectedGear.vintedUrl}
                           target="_blank"

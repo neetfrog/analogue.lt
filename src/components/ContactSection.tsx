@@ -34,16 +34,16 @@ export function ContactSection({
   }, [t.description])
 
   return (
-    <section className="w-full min-h-full flex flex-col items-center px-6 pt-24 py-12 relative">
-      <div className="max-w-4xl mx-auto w-full space-y-12">
+    <section className="w-full min-h-full flex flex-col items-center px-6 pt-24 pb-8 relative">
+      <div className="max-w-4xl mx-auto w-full space-y-1">
         <motion.div variants={reducedFadeIn} initial="hidden" animate="visible" className="text-center">
-          <p className="text-amber-600 text-xs tracking-[0.3em] uppercase mb-3 font-medium">{t.eyebrow}</p>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">{t.title}</h2>
+          <p className="text-amber-600 text-xs tracking-[0.3em] uppercase mb-2 font-medium">{t.eyebrow}</p>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-2">{t.title}</h2>
           <motion.p
             initial={isReducedMotion ? { opacity: 0 } : { clipPath: 'inset(0 100% 0 0)' }}
             animate={isReducedMotion ? { opacity: 1 } : { clipPath: 'inset(0 0% 0 0)' }}
             transition={isReducedMotion ? { duration: 0.8, delay: 0.15 } : { duration: 1.8, delay: 0.15 }}
-            className="text-stone-500 text-lg font-light max-w-2xl mx-auto"
+            className="text-stone-500 text-lg font-light max-w-2xl mx-auto mb-0"
           >
             <TypewriterText
               text={t.description}
@@ -60,17 +60,15 @@ export function ContactSection({
           initial={{ opacity: 0 }}
           animate={{ opacity: descriptionComplete ? 1 : 0 }}
           transition={{ duration: isReducedMotion ? 0.25 : 0.35, delay: descriptionComplete ? 0.1 : 0 }}
-          className="mx-auto w-full max-w-2xl overflow-hidden rounded-[2rem] bg-transparent p-6 md:p-8 text-center"
+          className="mx-auto w-full max-w-xs text-center mb-8"
         >
-          <div className="mx-auto flex max-w-xs flex-col items-center gap-4">
-            <a
-              href={mailtoHref}
-              aria-label={t.sendInquiry}
-              className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-stone-200 text-stone-700 transition hover:bg-stone-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 dark:bg-stone-900 dark:text-white dark:hover:bg-stone-700"
-            >
-              <Mail size={20} aria-hidden="true" />
-            </a>
-          </div>
+          <a
+            href={mailtoHref}
+            aria-label={t.sendInquiry}
+            className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-stone-200 text-stone-700 transition hover:bg-stone-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 dark:bg-stone-900 dark:text-white dark:hover:bg-stone-700"
+          >
+            <Mail size={20} aria-hidden="true" />
+          </a>
         </motion.div>
 
         <motion.div

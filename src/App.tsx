@@ -64,9 +64,7 @@ function App() {
   const t = translations[locale]
 
   const sectionFallback = (
-    <div className="w-full min-h-screen flex items-center justify-center pt-24">
-      <p className="text-stone-500">Loading...</p>
-    </div>
+    <div className="w-full min-h-screen pt-24" />
   )
 
   const sectionItems = useMemo<SectionItem[]>(() => [
@@ -359,10 +357,12 @@ function App() {
   }
 
   const isHomeSection = activeSection === 0
+  const isPrintsSection = sectionItems[activeSection]?.id === 'prints'
   const isDarkTheme = theme === 'dark'
-  const navTextColor = isHomeSection || isDarkTheme ? 'text-white' : 'text-stone-900'
+  const isDarkModeNav = isHomeSection || isDarkTheme || isPrintsSection
+  const navTextColor = isDarkModeNav ? 'text-white' : 'text-stone-900'
   const underlineStyle = {
-    backgroundColor: isHomeSection || isDarkTheme ? '#ffffff' : '#111827'
+    backgroundColor: isDarkModeNav ? '#ffffff' : '#111827'
   }
 
   return (
@@ -387,7 +387,7 @@ function App() {
                 src={HOME_LOGO_SRC}
                 alt="analogue.lt"
                 className="h-8 w-auto object-contain"
-                style={isDarkTheme ? { filter: 'brightness(0) invert(1)' } : undefined}
+                style={isDarkModeNav ? { filter: 'brightness(0) invert(1)' } : undefined}
               />
             </button>
           )}
@@ -436,7 +436,7 @@ function App() {
             ))}
           </div>
 
-          {!isHomeSection && (
+          {!isHomeSection && !isPrintsSection && (
             <button
               type="button"
               onClick={toggleTheme}

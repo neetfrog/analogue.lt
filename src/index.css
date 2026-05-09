@@ -218,9 +218,14 @@
 @layer utilities {
 @layer utilities {
   .ken-burns {
-    animation: ken-burns-effect var(--ken-burns-duration, 22s) linear infinite;
+    animation: ken-burns-effect var(--ken-burns-duration, 22s) linear infinite paused;
     transform-origin: center center;
     will-change: transform;
+  }
+
+  .group:hover .ken-burns,
+  .ken-burns:hover {
+    animation-play-state: running;
   }
 
   .typewriter-text-wrapper {

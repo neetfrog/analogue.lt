@@ -161,7 +161,7 @@ export function PrintsSection({ t, reduceMotion }: PrintsSectionProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: descriptionComplete ? 1 : 0 }}
             transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.15 : 0 }}
-            className="inline-block rounded-full border border-amber-400/60 px-5 py-2 text-amber-400/80 transition duration-200 hover:border-amber-400 hover:text-amber-400 hover:bg-amber-400/5"
+            className="inline-block rounded-full border border-amber-400/60 bg-white/10 px-5 py-2 text-amber-200 transition duration-200 hover:border-amber-400 hover:text-amber-100 hover:bg-amber-400/20"
           >
             {t.contactForPrints || 'Inquire'}
           </motion.a>

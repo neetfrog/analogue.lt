@@ -376,7 +376,7 @@ export const translations: Record<Locale, Translations> = {
       optional: 'neprivaloma',
       sendInquiry: 'Siųsti užklausą',
       inquirySent: 'Užklausa išsiųsta!',
-      instagram: 'Mano Instagram srautas',
+      instagram: 'Mano Instagramo feedas',
       crafted: 'sukurta su meile'
     }
   })

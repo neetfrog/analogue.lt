@@ -211,7 +211,7 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                     loading="lazy"
                     decoding="async"
                     onClick={() => setSelectedArticle(article)}
-                    className="cursor-pointer ken-burns absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="cursor-pointer ken-burns absolute inset-0 h-full w-full object-cover transition-transform duration-500"
                     style={{
                       '--ken-burns-duration': `${18 + (i % 3) * 2}s`,
                       '--ken-burns-offset': `${i % 3}`

@@ -863,6 +863,150 @@ export const gearItems = [
       new URL('../../images/gear/yashicaflex-b/yashicaflex-b-3.webp', import.meta.url).href,
       new URL('../../images/gear/yashicaflex-b/yashicaflex-b-4.webp', import.meta.url).href
     ]
+  },
+  {
+    id: 43,
+    name: '35KP 140mm f/1.8',
+    price: '€110',
+    condition: 'Good',
+    category: 'lenses',
+    manufacturer: 'Lomo',
+    sold: true,
+    image: new URL('../../images/gear/SOLD/35kp/1756632452.webp', import.meta.url).href,
+    details: 'A good-condition 35KP 140mm f/1.8 adapted projector lens made by Lomo. It is a rare adapted projector optic with black metal finish and smooth focus, well suited for characterful vintage rendering on M42 or Canon EF adapters.',
+    specs: ['140mm focal length', 'f/1.8 maximum aperture', 'Adapted projector lens', 'M42/Canon EF compatible'],
+    tags: ['lens','projector','adapted','sold'],
+    wikiUrl: 'https://cjo.info/outlandish-lenses/projector-lenses/35mm-cine-projector-lenses/belomo-35kp-1,8-100/',
+    vintedUrl: 'https://www.vinted.lt/items/6980248471-35kp-140mm-f18-adapted-projector-lens',
+    moreImages: [
+      new URL('../../images/gear/SOLD/35kp/1756632452 (1).webp', import.meta.url).href
+    ]
+  },
+  {
+    id: 44,
+    name: 'Exakta RTL 1000',
+    price: '€15',
+    condition: 'Good',
+    category: 'cameras',
+    manufacturer: 'Exakta',
+    sold: true,
+    image: new URL('../../images/gear/SOLD/exaktartl/1756388659.webp', import.meta.url).href,
+    details: 'A good-condition Exakta RTL 1000 35mm SLR with Exakta bayonet and mechanical operation. It is a compact, fully mechanical camera with a distinctive front-mounted shutter release and solid vintage build.',
+    specs: ['35mm film', 'Exakta bayonet', 'Fully mechanical', 'Good condition'],
+    tags: ['slr','vintage','sold'],
+    wikiUrl: 'https://camera-wiki.org/wiki/Exakta_RTL_1000',
+    vintedUrl: 'https://www.vinted.lt/items/6960799514-exakta-rtl1000',
+    moreImages: [
+      new URL('../../images/gear/SOLD/exaktartl/1756388660.webp', import.meta.url).href
+    ]
+  },
+  {
+    id: 45,
+    name: 'Jupiter-21M 200mm f/4 M42',
+    price: '€90',
+    condition: 'Very good',
+    category: 'lenses',
+    manufacturer: 'KMZ',
+    sold: true,
+    image: new URL('../../images/gear/SOLD/jupiter200/1756632763.webp', import.meta.url).href,
+    details: 'A very good Jupiter-21M 200mm f/4 M42 telephoto lens, complete with retractable hood and clean glass. This long-tele lens is a classic Soviet portrait and landscape optic with solid build quality.',
+    specs: ['200mm focal length', 'f/4 maximum aperture', 'M42 mount', 'Very good condition'],
+    tags: ['telephoto','lens','sold'],
+    wikiUrl: 'https://allphotolenses.com/lenses/item/c_160.html',
+    vintedUrl: 'https://www.vinted.lt/items/6980305592-jupiter-21m-200mm-f4-m42',
+    moreImages: [
+      new URL('../../images/gear/SOLD/jupiter200/1756632763 (1).webp', import.meta.url).href
+    ]
+  },
+  {
+    id: 46,
+    name: 'Mir [1959]',
+    price: '€30',
+    condition: 'Good',
+    category: 'cameras',
+    manufacturer: 'KMZ',
+    sold: true,
+    image: new URL('../../images/gear/SOLD/mir/1756389993.webp', import.meta.url).href,
+    details: 'A good-condition Mir rangefinder camera from 1959, made by KMZ. This simplified Soviet Leica-style body is fully mechanical and a nice example of mid-century USSR 35mm design.',
+    specs: ['35mm film', 'Rangefinder', 'Fully mechanical', 'Good condition'],
+    tags: ['rangefinder','soviet','sold'],
+    wikiUrl: 'https://camera-wiki.org/wiki/Mir_(camera)',
+    vintedUrl: 'https://www.vinted.lt/items/6961002696-mir-1959',
+    moreImages: [
+      new URL('../../images/gear/SOLD/mir/1756389993 (1).webp', import.meta.url).href
+    ]
+  },
+  {
+    id: 47,
+    name: 'Aires Viscount [1959] 45mm f/1.9',
+    price: '€40',
+    condition: 'Good',
+    category: 'cameras',
+    manufacturer: 'Aires',
+    sold: true,
+    image: new URL('../../images/gear/SOLD/viscount/1756387957.webp', import.meta.url).href,
+    details: 'A good-condition Aires Viscount 35mm rangefinder camera from 1959, fitted with a 45mm f/1.9 lens. It is a quiet, mechanical Soviet-era camera with a clean exterior and characterful styling.',
+    specs: ['35mm film', '45mm f/1.9 lens', 'Rangefinder', 'Good condition'],
+    tags: ['rangefinder','vintage','sold'],
+    wikiUrl: 'https://camera-wiki.org/wiki/Aires_Viscount',
+    vintedUrl: 'https://www.vinted.lt/items/6960692207-aires-viscount-1959-45mm-f19',
+    moreImages: [
+      new URL('../../images/gear/SOLD/viscount/1756387958.webp', import.meta.url).href
+    ]
+  },
+  {
+    id: 48,
+    name: 'Zarya [1959]',
+    price: '€20',
+    condition: 'Good',
+    category: 'cameras',
+    manufacturer: 'FED',
+    sold: true,
+    image: new URL('../../images/gear/SOLD/zarya/1756390224.webp', import.meta.url).href,
+    details: 'A good-condition Zarya 35mm viewfinder camera from 1959. This Russian rangefinder-style body is a simple and reliable Soviet snapshot camera with classic styling.',
+    specs: ['35mm film', 'Viewfinder camera', 'Good condition'],
+    tags: ['viewfinder','soviet','sold'],
+    wikiUrl: 'https://camera-wiki.org/wiki/Zarya',
+    vintedUrl: 'https://www.vinted.lt/items/6961037983-zarya-1959',
+    moreImages: [
+      new URL('../../images/gear/SOLD/zarya/1756390224 (1).webp', import.meta.url).href
+    ]
+  },
+  {
+    id: 49,
+    name: 'Zenit-122 [1990] & Helios 44M-4 58mm f/2',
+    price: '€70',
+    condition: 'Very good',
+    category: 'cameras',
+    manufacturer: 'KMZ',
+    sold: true,
+    image: new URL('../../images/gear/SOLD/zenit122/1756390981.webp', import.meta.url).href,
+    details: 'A very good-condition Zenit-122 35mm SLR from 1990, offered with a Helios 44M-4 58mm f/2 lens. This model features an electronic TTL meter and a classic Soviet metal body.',
+    specs: ['35mm film', 'Zenit-122', 'Helios 44M-4 58mm f/2', 'Very good condition'],
+    tags: ['slr','soviet','sold'],
+    wikiUrl: 'https://camera-wiki.org/wiki/Zenit_122',
+    vintedUrl: 'https://www.vinted.lt/items/6961133541-zenit-122-1990-helios-44m-4-58mm-f2',
+    moreImages: [
+      new URL('../../images/gear/SOLD/zenit122/1756390981 (1).webp', import.meta.url).href
+    ]
+  },
+  {
+    id: 50,
+    name: 'Zorki-1 [c. 1950]',
+    price: '€27',
+    condition: 'Satisfactory',
+    category: 'cameras',
+    manufacturer: 'KMZ',
+    sold: true,
+    image: new URL('../../images/gear/SOLD/zorki1/1756391102.webp', import.meta.url).href,
+    details: 'A satisfactory-condition Zorki-1 camera from around 1950. This early Soviet Leica-style rangefinder has a classic steel body and is a great example of early post-war Zorki design.',
+    specs: ['35mm film', 'Rangefinder', 'Satisfactory condition'],
+    tags: ['rangefinder','vintage','sold'],
+    wikiUrl: 'https://camera-wiki.org/wiki/Zorki_1',
+    vintedUrl: 'https://www.vinted.lt/items/6961152168-zorki-1-c-1950',
+    moreImages: [
+      new URL('../../images/gear/SOLD/zorki1/1756391102 (1).webp', import.meta.url).href
+    ]
   }
 ]
 

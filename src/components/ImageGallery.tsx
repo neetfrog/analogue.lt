@@ -21,10 +21,13 @@ type ImageGalleryProps = {
   t: PortfolioTranslations
 }
 
+type Orientation = 'portrait' | 'landscape' | 'square'
+
 export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion, t }: ImageGalleryProps) {
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [zoomed, setZoomed] = useState(false)
   const [descriptionComplete, setDescriptionComplete] = useState(false)
+  const [imageOrientations, setImageOrientations] = useState<Record<number, Orientation>>({})
   const lastTapRef = useRef<number>(0)
   const isReducedMotion = reduceMotion ?? false
   const reducedFadeIn: MotionVariants = isReducedMotion
@@ -90,6 +93,52 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
     'aspect-[3/4]',
     'aspect-[4/3]'
   ]
+
+  const portraitLayouts = ['aspect-[4/5]', 'aspect-[3/4]']
+  const landscapeLayouts = ['aspect-[5/4]', 'aspect-[5/3]', 'aspect-[4/3]']
+
+  useEffect(() => {
+    const imageElements: HTMLImageElement[] = []
+
+    images.forEach((item) => {
+      const img = new Image()
+      img.src = item.image
+      img.onload = () => {
+        const orientation: Orientation = img.naturalWidth > img.naturalHeight ? 'landscape' : img.naturalWidth < img.naturalHeight ? 'portrait' : 'square'
+        setImageOrientations((prev) => {
+          if (prev[item.id] === orientation) {
+            return prev
+          }
+          return { ...prev, [item.id]: orientation }
+        })
+      }
+      imageElements.push(img)
+    })
+
+    return () => {
+      imageElements.forEach((img) => {
+        img.onload = null
+      })
+    }
+  }, [images])
+
+  const getLayoutClass = (item: ImageItem, index: number) => {
+    const orientation = imageOrientations[item.id]
+
+    if (orientation === 'portrait') {
+      return portraitLayouts[index % portraitLayouts.length]
+    }
+
+    if (orientation === 'square') {
+      return 'aspect-square'
+    }
+
+    if (orientation === 'landscape') {
+      return landscapeLayouts[index % landscapeLayouts.length]
+    }
+
+    return itemLayouts[index % itemLayouts.length]
+  }
 
   useEffect(() => {
     if (isReducedMotion) {
@@ -187,14 +236,14 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
                 initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05, duration: isReducedMotion ? 0.25 : 0.35 }}
-                className={`group relative inline-block w-full overflow-hidden rounded-3xl bg-stone-200 ${itemLayouts[i % itemLayouts.length]} cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400 break-inside-avoid`}
+                className={`group relative inline-block w-full overflow-hidden rounded-3xl bg-stone-200 ${getLayoutClass(item, i)} cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400 break-inside-avoid`}
               >
                 <img
                   src={item.image}
                   alt={item.title}
                   loading="lazy"
                   decoding="async"
-                  className="ken-burns absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:translate-x-1"
+                  className="ken-burns absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
                   style={{
                     animationDelay: `${-Math.random() * 18}s`,
                     '--ken-burns-duration': `${19 + Math.random() * 5}s`,

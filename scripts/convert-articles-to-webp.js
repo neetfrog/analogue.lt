@@ -2,7 +2,8 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import sharp from 'sharp'
 
-const rootDir = path.resolve('images', 'articles')
+const defaultRootDir = path.resolve('images', 'articles')
+const targetDir = process.argv[2] ? path.resolve(process.argv[2]) : defaultRootDir
 const allowedExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp'])
 
 async function walk(dir) {
@@ -40,15 +41,15 @@ async function convertImage(filePath) {
 
 async function main() {
   try {
-    const exists = await fs.stat(rootDir).then(() => true).catch(() => false)
+    const exists = await fs.stat(targetDir).then(() => true).catch(() => false)
     if (!exists) {
-      throw new Error(`Directory not found: ${rootDir}`)
+      throw new Error(`Directory not found: ${targetDir}`)
     }
 
-    const files = await walk(rootDir)
+    const files = await walk(targetDir)
     const imageFiles = files.filter((file) => file.toLowerCase().endsWith('.jpg') || file.toLowerCase().endsWith('.jpeg') || file.toLowerCase().endsWith('.png'))
     if (!imageFiles.length) {
-      console.log('No article JPG/PNG images found to convert.')
+      console.log(`No JPG/PNG images found to convert in ${targetDir}.`)
       return
     }
 
@@ -56,7 +57,7 @@ async function main() {
       await convertImage(file)
     }
 
-    console.log(`Converted ${imageFiles.length} article image${imageFiles.length === 1 ? '' : 's'} to WebP.`)
+    console.log(`Converted ${imageFiles.length} image${imageFiles.length === 1 ? '' : 's'} to WebP in ${targetDir}.`)
   } catch (error) {
     console.error('Error converting images:', error.message)
     process.exit(1)

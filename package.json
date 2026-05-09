@@ -9,7 +9,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "trim-article-frames": "node scripts/trim-frames.js",
-    "convert-articles-to-webp": "node scripts/convert-articles-to-webp.js"
+    "convert-articles-to-webp": "node scripts/convert-articles-to-webp.js",
+    "convert-prints-to-webp": "node scripts/convert-articles-to-webp.js images/prints"
   },
   "dependencies": {
     "clsx": "2.1.1",
