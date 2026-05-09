@@ -24,7 +24,7 @@ type ImageGalleryProps = {
 
 export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion, t }: ImageGalleryProps) {
   const [activeImage, setActiveImage] = useState<string | null>(null)
-  const [zoomed, setZoomed] = useState(false)
+  const [zoomLevel, setZoomLevel] = useState(0)
   const [descriptionComplete, setDescriptionComplete] = useState(false)
   const lastTapRef = useRef<number>(0)
   const isReducedMotion = reduceMotion ?? false
@@ -37,18 +37,22 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
 
   const handleImageOpen = (image: string) => {
     setActiveImage(image)
-    setZoomed(false)
+    setZoomLevel(0)
+  }
+
+  const cycleZoomLevel = () => {
+    setZoomLevel((prev) => (prev + 1) % 3)
   }
 
   const handleImageDoubleClick = () => {
-    setZoomed((prev) => !prev)
+    cycleZoomLevel()
   }
 
   const handleImageTouchEnd = (event: TouchEvent<HTMLImageElement>) => {
     const now = Date.now()
     if (now - lastTapRef.current < 300) {
       event.preventDefault()
-      setZoomed((prev) => !prev)
+      cycleZoomLevel()
       lastTapRef.current = 0
     } else {
       lastTapRef.current = now
@@ -82,14 +86,14 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
   const goToPreviousImage = () => {
     if (activeIndex > 0) {
       setActiveImage(shuffledImages[activeIndex - 1].image)
-      setZoomed(false)
+      setZoomLevel(0)
     }
   }
 
   const goToNextImage = () => {
     if (activeIndex >= 0 && activeIndex < shuffledImages.length - 1) {
       setActiveImage(shuffledImages[activeIndex + 1].image)
-      setZoomed(false)
+      setZoomLevel(0)
     }
   }
 
@@ -226,13 +230,12 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
         <ImageLightbox
           image={activeImage}
           alt={t.enlargedAlt}
-          zoomed={zoomed}
+          zoomLevel={zoomLevel}
           reduceMotion={isReducedMotion}
           onClose={() => setActiveImage(null)}
           onToggleZoom={handleImageDoubleClick}
+          onSetZoomLevel={setZoomLevel}
           onTouchEnd={handleImageTouchEnd}
-          onPrev={goToPreviousImage}
-          onNext={goToNextImage}
         />
       )}
     </>

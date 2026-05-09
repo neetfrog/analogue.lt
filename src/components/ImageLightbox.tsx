@@ -6,21 +6,22 @@ import { X } from 'lucide-react'
 type ImageLightboxProps = {
   image: string
   alt: string
-  zoomed: boolean
+  zoomLevel: number
   reduceMotion?: boolean
   onClose: () => void
   onToggleZoom: () => void
+  onSetZoomLevel: (level: number) => void
   onTouchEnd: (event: TouchEvent<HTMLImageElement>) => void
-  onPrev: () => void
-  onNext: () => void
 }
 
-export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onToggleZoom, onTouchEnd }: ImageLightboxProps) {
+export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, onToggleZoom, onSetZoomLevel, onTouchEnd }: ImageLightboxProps) {
   const isReducedMotion = reduceMotion ?? false
   const controls = useAnimationControls()
   const [pinchInitialDistance, setPinchInitialDistance] = useState<number | null>(null)
   const [pinchScale, setPinchScale] = useState(1)
   const [isPinching, setIsPinching] = useState(false)
+  const scaleLevels = [1, 1.8, 2.8] as const
+  const currentScale = scaleLevels[zoomLevel] ?? 1
 
   const getPinchDistance = (
     firstTouch: { clientX: number; clientY: number },
@@ -32,7 +33,7 @@ export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onTog
   }
 
   useEffect(() => {
-    const targetScale = isPinching ? pinchScale : zoomed ? 1.8 : 1
+    const targetScale = isPinching ? pinchScale : currentScale
     controls.start({
       opacity: 1,
       scale: targetScale,
@@ -40,13 +41,13 @@ export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onTog
       y: 0,
       transition: { duration: isReducedMotion ? 0.18 : 0.25 }
     })
-  }, [controls, image, zoomed, isReducedMotion, isPinching, pinchScale])
+  }, [controls, currentScale, image, isReducedMotion, isPinching, pinchScale])
 
   const handleTouchStart = (event: TouchEvent<HTMLImageElement>) => {
     if (event.touches.length === 2) {
       setIsPinching(true)
       setPinchInitialDistance(getPinchDistance(event.touches[0], event.touches[1]))
-      setPinchScale(zoomed ? 1.8 : 1)
+      setPinchScale(currentScale)
     }
   }
 
@@ -57,24 +58,24 @@ export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onTog
 
     event.preventDefault()
     const distance = getPinchDistance(event.touches[0], event.touches[1])
-    const scale = Math.max(1, Math.min((zoomed ? 1.8 : 1) * (distance / pinchInitialDistance), 3))
+    const scale = Math.max(1, Math.min(currentScale * (distance / pinchInitialDistance), 3))
     setPinchScale(scale)
   }
 
   const handleTouchEnd = (event: TouchEvent<HTMLImageElement>) => {
     if (isPinching) {
       const finalScale = pinchScale
-      const shouldZoom = finalScale > 1.2
+      const targetLevel = finalScale < 1.4 ? 0 : finalScale < 2.3 ? 1 : 2
 
-      if (shouldZoom !== zoomed) {
-        onToggleZoom()
+      if (targetLevel !== zoomLevel) {
+        onSetZoomLevel(targetLevel)
       }
 
       setIsPinching(false)
       setPinchInitialDistance(null)
       setPinchScale(1)
       controls.start({
-        scale: shouldZoom ? 1.8 : 1,
+        scale: scaleLevels[targetLevel],
         x: 0,
         y: 0,
         transition: { duration: isReducedMotion ? 0.18 : 0.25 }
@@ -117,7 +118,7 @@ export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onTog
             initial={{ opacity: 0, scale: 1, x: 0, y: 0 }}
             animate={controls}
             exit={{ opacity: 0 }}
-            drag={zoomed}
+            drag={zoomLevel > 0}
             dragMomentum={false}
             dragElastic={0.3}
             dragConstraints={{ left: -220, right: 220, top: -220, bottom: 220 }}
