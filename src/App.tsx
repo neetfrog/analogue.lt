@@ -496,9 +496,9 @@ function App() {
         <AnimatePresence mode="wait">
           <motion.div
             key={activeSection}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            initial={isPrintsSection ? { opacity: 0 } : { opacity: 0, y: 20 }}
+            animate={isPrintsSection ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            exit={isPrintsSection ? { opacity: 0 } : { opacity: 0, y: -20 }}
             transition={{ duration: 0.4 }}
             className={`w-full ${isHomeSection ? '' : 'pt-24 md:pt-28'}`}
           >

@@ -235,9 +235,11 @@
 
   .typewriter-text-wrapper {
     display: inline-grid;
+    align-items: start;
   }
 
   .typewriter-measure {
+    grid-area: 1 / 1;
     visibility: hidden;
     white-space: pre-wrap;
     word-break: break-word;
@@ -246,7 +248,7 @@
   .typewriter-text {
     grid-area: 1 / 1;
     justify-self: start;
-    display: inline-flex;
+    display: inline-block;
     white-space: pre-wrap;
     word-break: break-word;
   }
