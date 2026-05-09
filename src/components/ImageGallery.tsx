@@ -198,9 +198,9 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
           initial={{ opacity: 0 }}
           animate={{ opacity: descriptionComplete ? 1 : 0 }}
           transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.1 : 0 }}
-          className="columns-2 md:columns-3 lg:columns-4 space-y-1"
-          style={{ columnGap: '0.6rem' }}
+          className="grid gap-4 auto-rows-min"
         >
+          <div className="columns-2 md:columns-3 lg:columns-4 space-y-1" style={{ columnGap: '0.6rem' }}>
             {shuffledImages.map((item, i) => (
               <motion.button
                 type="button"
@@ -218,12 +218,13 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
                   loading="lazy"
                   decoding="async"
                   onLoad={(event) => handleImageLoad(event, item)}
-                  className="ken-burns absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
+                  className="ken-burns absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:translate-x-1"
                   style={imageAnimationStyles[item.id]}
                 />
               </motion.button>
             ))}
-          </motion.div>
+          </div>
+        </motion.div>
         </motion.div>
 
       {activeImage && (
