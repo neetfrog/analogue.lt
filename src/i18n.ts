@@ -350,7 +350,7 @@ export const translations: Record<Locale, Translations> = {
         focalLength: 'Fokusavimo nuotolis',
         aperture: 'Diafragma',
         mount: 'Maitinimo jungtis',
-        filmType: 'Filmo tipas',
+        filmType: 'Juostos tipas',
         format: 'Formatas',
         focus: 'Fokusas',
         condition: 'Būsena',
