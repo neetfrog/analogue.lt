@@ -1,11 +1,4 @@
-export type Locale = 'en' | 'lt'
-
-export const localeOptions: Locale[] = ['en', 'lt']
-
-export const languageLabels: Record<Locale, string> = {
-  en: 'EN',
-  lt: 'LT'
-}
+export type Locale = 'en'
 
 export type HomeTranslations = {
   tagline: string
@@ -129,7 +122,7 @@ export type Translations = {
 
 const buildTranslations = (values: Translations): Translations => values
 
-export const translations: Record<Locale, Translations> = {
+export const translations: Record<'en' | 'lt', Translations> = {
   en: buildTranslations({
     nav: {
       mainNavigation: 'Main navigation',
@@ -382,21 +375,3 @@ export const translations: Record<Locale, Translations> = {
   })
 }
 
-export function getInitialLocale(): Locale {
-  if (typeof window === 'undefined') {
-    return 'en'
-  }
-
-  const savedLocale = localStorage.getItem('locale')
-  if (savedLocale === 'en' || savedLocale === 'lt') {
-    return savedLocale
-  }
-
-  const urlParams = new URLSearchParams(window.location.search)
-  const queryLocale = urlParams.get('lang')
-  if (queryLocale === 'lt') {
-    return 'lt'
-  }
-
-  return 'en'
-}

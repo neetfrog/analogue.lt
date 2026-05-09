@@ -10,7 +10,7 @@ const ArticlesSection = lazy(() => import('./components/ArticlesSection').then((
 const GearSection = lazy(() => import('./components/GearSection').then((module) => ({ default: module.GearSection })))
 const ContactSection = lazy(() => import('./components/ContactSection').then((module) => ({ default: module.ContactSection })))
 import { slugify } from './utils/slugify'
-import { translations, type Locale, localeOptions, languageLabels, getInitialLocale } from './i18n'
+import { translations, type Locale } from './i18n'
 
 const HOME_LOGO_SRC = new URL('../images/logos/newlogo.png', import.meta.url).href
 
@@ -77,7 +77,7 @@ function App() {
   const [instagramActive, setInstagramActive] = useState(false)
   const [initialGearId, setInitialGearId] = useState<string | null>(initialHashState.initialGearId)
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
-  const [locale, setLocale] = useState<Locale>(() => getInitialLocale())
+  const locale: Locale = 'en'
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window === 'undefined') {
       return 'light'
@@ -223,7 +223,6 @@ function App() {
       return
     }
 
-    localStorage.setItem('locale', locale)
     document.documentElement.lang = locale
   }, [locale])
 
@@ -453,19 +452,7 @@ function App() {
             })}
           </div>
 
-          <div className={`flex flex-wrap justify-center gap-2 text-xs md:text-sm font-medium ${navTextColor} md:absolute md:right-20 md:top-1/2 md:-translate-y-1/2`}>
-            {activeSection === 0 && localeOptions.map((language) => (
-              <button
-                key={language}
-                type="button"
-                onClick={() => setLocale(language)}
-                className={`rounded-full border px-2.5 py-1.5 transition duration-200 ${language === locale ? 'border-amber-400 bg-amber-400/10 text-amber-400' : 'border-stone-300/70 text-stone-100/80 hover:border-stone-100/80 hover:text-stone-100'}`}
-                aria-label={languageLabels[language]}
-              >
-                {languageLabels[language]}
-              </button>
-            ))}
-          </div>
+          <div className={`flex flex-wrap justify-center gap-2 text-xs md:text-sm font-medium ${navTextColor} md:absolute md:right-20 md:top-1/2 md:-translate-y-1/2`} />
 
           {!isHomeSection && !isPrintsSection && (
             <button
