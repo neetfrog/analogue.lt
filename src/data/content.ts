@@ -1,6 +1,9 @@
 export const sections = [
   { id: 'home', label: 'Home' },
-  { id: 'portfolio', label: 'Portfolio' },
+  { id: 'weddings', label: 'Events' },
+  { id: 'street', label: 'Street' },
+  { id: 'prints', label: 'Prints' },
+  { id: 'articles', label: 'Articles' },
   { id: 'gear', label: 'Shop' },
   { id: 'contact', label: 'Contact' }
 ]
@@ -50,6 +53,80 @@ export const eventImages: EventImage[] = Object.entries(portfolioImageModules)
     }
   })
   .sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }))
+
+const streetImageModules = import.meta.glob('../../images/street/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  query: '?url',
+  import: 'default'
+}) as Record<string, string>
+
+export const streetPhotographyImages: EventImage[] = Object.entries(streetImageModules)
+  .map(([path, image], index) => {
+    const filename = path.split('/').pop() ?? `street-${index + 1}`
+    const title = filename.replace(/\.[^/.]+$/, '').replace(/[-_]+/g, ' ').trim()
+    return {
+      id: index + 1,
+      title: title.charAt(0).toUpperCase() + title.slice(1),
+      location: 'Street',
+      image
+    }
+  })
+  .sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }))
+
+const printsImageModules = import.meta.glob('../../images/prints/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  query: '?url',
+  import: 'default'
+}) as Record<string, string>
+
+export const printsImages: EventImage[] = Object.entries(printsImageModules)
+  .map(([path, image], index) => {
+    const filename = path.split('/').pop() ?? `print-${index + 1}`
+    const title = filename.replace(/\.[^/.]+$/, '').replace(/[-_]+/g, ' ').trim()
+    return {
+      id: index + 1,
+      title: title.charAt(0).toUpperCase() + title.slice(1),
+      location: 'Prints',
+      image
+    }
+  })
+  .sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }))
+
+type Article = {
+  id: number
+  title: string
+  excerpt: string
+  date: string
+  category: string
+  image: string
+}
+
+export const articles: Article[] = [
+  {
+    id: 1,
+    title: 'The Art of Film Photography',
+    excerpt: 'Exploring the timeless beauty of analog film and why photographers continue to choose it in the digital age.',
+    date: '2024-01-15',
+    category: 'Photography',
+    image: new URL('../../images/articles/articles (1).jpg', import.meta.url).href
+  },
+  {
+    id: 2,
+    title: 'Shooting with Soviet Cameras',
+    excerpt: 'A deep dive into vintage Soviet cameras, their unique characteristics, and why collectors love them.',
+    date: '2024-01-10',
+    category: 'Equipment',
+    image: new URL('../../images/articles/articles (2).jpg', import.meta.url).href
+  },
+  {
+    id: 3,
+    title: 'Wedding Photography Philosophy',
+    excerpt: 'How to capture authentic moments that tell the story of your special day through the lens of film.',
+    date: '2024-01-05',
+    category: 'Weddings',
+    image: new URL('../../images/articles/articles (3).jpg', import.meta.url).href
+  }
+]
 
 const slideshowImageModules = import.meta.glob('../../images/slideshow/*.{jpg,jpeg,png,webp}', {
   eager: true,

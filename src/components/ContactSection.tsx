@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react'
 import { motion, type Variants } from 'framer-motion'
 import { Heart, Mail } from 'lucide-react'
 import { InstagramEmbed } from './InstagramEmbed'
 import { instagramAccount } from '../data/content'
+import { TypewriterText } from './TypewriterText'
 import type { ContactTranslations } from '../i18n'
 
 type MotionVariants = Variants
@@ -19,12 +21,17 @@ export function ContactSection({
   instagramActive,
   t,
 }: ContactSectionProps) {
+  const [descriptionComplete, setDescriptionComplete] = useState(false)
   const isReducedMotion = reduceMotion ?? false
   const reducedFadeIn: MotionVariants = isReducedMotion
     ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.6 } } }
     : fadeInUp
 
   const mailtoHref = `mailto:ignasnefas@gmail.com?subject=${encodeURIComponent('Inquiry from analogue.lt')}`
+
+  useEffect(() => {
+    setDescriptionComplete(false)
+  }, [t.description])
 
   return (
     <section className="w-full min-h-full flex flex-col items-center px-6 pt-24 py-12 relative">
@@ -38,14 +45,21 @@ export function ContactSection({
             transition={isReducedMotion ? { duration: 0.8, delay: 0.15 } : { duration: 1.8, delay: 0.15 }}
             className="text-stone-500 text-lg font-light max-w-2xl mx-auto"
           >
-            {t.description}
+            <TypewriterText
+              text={t.description}
+              reduceMotion={isReducedMotion}
+              className="whitespace-pre-wrap"
+              delay={120}
+              speed={35}
+              onComplete={() => setDescriptionComplete(true)}
+            />
           </motion.p>
         </motion.div>
 
         <motion.div
-          initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: isReducedMotion ? 0.25 : 0.35 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: descriptionComplete ? 1 : 0 }}
+          transition={{ duration: isReducedMotion ? 0.25 : 0.35, delay: descriptionComplete ? 0.1 : 0 }}
           className="mx-auto w-full max-w-2xl overflow-hidden rounded-[2rem] bg-transparent p-6 md:p-8 text-center"
         >
           <div className="mx-auto flex max-w-xs flex-col items-center gap-4">
@@ -59,14 +73,24 @@ export function ContactSection({
           </div>
         </motion.div>
 
-        <motion.div variants={fadeInUp} className="mx-auto w-full max-w-4xl">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: descriptionComplete ? 1 : 0 }}
+          transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.15 : 0 }}
+          className="mx-auto w-full max-w-4xl"
+        >
           <div className="text-center mb-6">
             <p className="text-stone-500 text-sm uppercase tracking-[0.3em] mb-2">{t.instagram}</p>
           </div>
           <InstagramEmbed account={instagramAccount} active={instagramActive} />
         </motion.div>
 
-        <motion.div variants={fadeInUp} className="flex flex-col items-center gap-6">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: descriptionComplete ? 1 : 0 }}
+          transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.2 : 0 }}
+          className="flex flex-col items-center gap-6"
+        >
           <div className="flex items-center gap-2 text-stone-400 text-sm mt-4">
             <Heart size={16} />
             <a

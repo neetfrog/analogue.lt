@@ -1,20 +1,27 @@
-import { useState, useRef, useEffect, type TouchEvent } from 'react'
+import { useState, useRef, useEffect, type TouchEvent, type ReactNode } from 'react'
 import { motion, type Variants } from 'framer-motion'
-import { eventImages } from '../data/content'
 import { ImageLightbox } from './ImageLightbox'
 import { TypewriterText } from './TypewriterText'
 import type { PortfolioTranslations } from '../i18n'
 
 type MotionVariants = Variants
 
-type PortfolioSectionProps = {
+type ImageItem = {
+  id: number
+  title: string
+  location: string
+  image: string
+}
+
+type ImageGalleryProps = {
+  images: ImageItem[]
   fadeInUp: MotionVariants
   staggerContainer: MotionVariants
   reduceMotion?: boolean
   t: PortfolioTranslations
 }
 
-export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }: PortfolioSectionProps) {
+export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion, t }: ImageGalleryProps) {
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [zoomed, setZoomed] = useState(false)
   const [descriptionComplete, setDescriptionComplete] = useState(false)
@@ -47,7 +54,8 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
     }
   }
 
-  const shuffleArray = <T,>(array: T[]) => {
+
+  const shuffleArray = <T,>(array: T[]): T[] => {
     const copy = [...array]
     for (let i = copy.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
@@ -56,30 +64,9 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
     return copy
   }
 
-  const [shuffledImages] = useState(() => shuffleArray(eventImages))
-
-  const animationVariants = [
-    'portfolio-image-animate-1',
-    'portfolio-image-animate-2',
-    'portfolio-image-animate-3',
-    'portfolio-image-animate-4',
-    'portfolio-image-animate-5',
-    'portfolio-image-animate-6'
-  ]
-
-  const [imageAnimationClasses] = useState(() =>
-    shuffledImages.map(() => animationVariants[Math.floor(Math.random() * animationVariants.length)])
-  )
-
-  const [imageAnimationDelays] = useState(() =>
-    shuffledImages.map(() => -Math.random() * 18)
-  )
+  const [shuffledImages] = useState(() => shuffleArray(images))
 
   const activeIndex = activeImage ? shuffledImages.findIndex((item) => item.image === activeImage) : -1
-
-  useEffect(() => {
-    setDescriptionComplete(false)
-  }, [t.description])
 
   const goToPreviousImage = () => {
     if (activeIndex > 0) {
@@ -105,10 +92,17 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
   ]
 
   useEffect(() => {
+    if (isReducedMotion) {
+      setDescriptionComplete(true)
+      return
+    }
+
+    setDescriptionComplete(false)
+  }, [t.description, isReducedMotion])
+
+  useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!activeImage) {
-        return
-      }
+      if (!activeImage) return
 
       if (event.key === 'Escape') {
         setActiveImage(null)
@@ -161,61 +155,56 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
   }, [activeImage])
 
   return (
-    <section className="w-full min-h-screen flex items-center px-4 md:px-6 lg:px-8 py-16 pt-24 relative">
-      <div className="max-w-none mx-auto w-full">
-        <motion.div variants={reducedStagger} initial="hidden" animate="visible">
-          <motion.div variants={reducedFadeIn} className="text-center mb-12">
-            <p className="text-amber-600 text-sm tracking-[0.2em] uppercase mb-4 font-medium">{t.eyebrow}</p>
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">{t.title}</h2>
-            <motion.p
-              initial={{ clipPath: 'inset(0 100% 0 0)' }}
-              animate={{ clipPath: 'inset(0 0% 0 0)' }}
-              transition={{ duration: 1.8, delay: 0.15 }}
-              className="text-stone-500 text-lg font-light mt-4"
-            >
-              <TypewriterText
-                text={t.description}
-                reduceMotion={isReducedMotion}
-                className="whitespace-pre-wrap"
-                delay={120}
-                speed={35}
-                onComplete={() => setDescriptionComplete(true)}
-              />
-            </motion.p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: descriptionComplete ? 1 : 0 }}
-            transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.1 : 0 }}
-            className="grid gap-4 auto-rows-min"
-          >
-            <div className="columns-2 md:columns-3 lg:columns-4 space-y-1" style={{ columnGap: '0.6rem' }}>
-              {shuffledImages.map((item, i) => (
-                <motion.button
-                  type="button"
-                  key={item.id}
-                  onClick={() => handleImageOpen(item.image)}
-                  aria-label={t.openImage.replace('{title}', item.title)}
-                  initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05, duration: isReducedMotion ? 0.25 : 0.35 }}
-                  className={`group relative inline-block w-full overflow-hidden rounded-3xl bg-stone-200 ${itemLayouts[i % itemLayouts.length]} cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400 break-inside-avoid`}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    loading="lazy"
-                    decoding="async"
-                    style={{ animationDelay: `${imageAnimationDelays[i]}s` }}
-                    className={`absolute inset-0 w-full h-full object-cover portfolio-image-animate ${imageAnimationClasses[i]} transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:translate-x-1`}
-                  />
-                </motion.button>
-              ))}
-            </div>
+    <>
+      <motion.div variants={reducedStagger} initial="hidden" animate="visible">
+        <motion.div variants={reducedFadeIn} className="text-center mb-12">
+          <p className="text-amber-600 text-sm tracking-[0.2em] uppercase mb-4 font-medium">{t.eyebrow}</p>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">{t.title}</h2>
+          <p className="text-stone-500 text-lg font-light mt-4 whitespace-pre-wrap">
+            <TypewriterText
+              text={t.description}
+              reduceMotion={isReducedMotion}
+              className="whitespace-pre-wrap"
+              delay={120}
+              speed={35}
+              onComplete={() => setDescriptionComplete(true)}
+            />
+          </p>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: descriptionComplete ? 1 : 0 }}
+          transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.1 : 0 }}
+          className="columns-2 md:columns-3 lg:columns-4 space-y-1"
+          style={{ columnGap: '0.6rem' }}
+        >
+            {shuffledImages.map((item, i) => (
+              <motion.button
+                type="button"
+                key={item.id}
+                onClick={() => handleImageOpen(item.image)}
+                aria-label={t.openImage.replace('{title}', item.title)}
+                initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05, duration: isReducedMotion ? 0.25 : 0.35 }}
+                className={`group relative inline-block w-full overflow-hidden rounded-3xl bg-stone-200 ${itemLayouts[i % itemLayouts.length]} cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400 break-inside-avoid`}
+              >
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="ken-burns absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:translate-x-1"
+                  style={{
+                    animationDelay: `${-Math.random() * 18}s`,
+                    '--ken-burns-duration': `${19 + Math.random() * 5}s`,
+                    '--ken-burns-offset': `${i % 3}`,
+                  } as React.CSSProperties & { [key: string]: string }}
+                />
+              </motion.button>
+            ))}
           </motion.div>
         </motion.div>
-      </div>
 
       {activeImage && (
         <ImageLightbox
@@ -230,6 +219,6 @@ export function PortfolioSection({ fadeInUp, staggerContainer, reduceMotion, t }
           onNext={goToNextImage}
         />
       )}
-    </section>
+    </>
   )
 }

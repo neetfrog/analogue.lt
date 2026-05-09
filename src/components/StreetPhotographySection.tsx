@@ -1,23 +1,23 @@
 import { ImageGallery } from './ImageGallery'
-import { eventImages } from '../data/content'
+import { streetPhotographyImages } from '../data/content'
 import type { Variants } from 'framer-motion'
 import type { PortfolioTranslations } from '../i18n'
 
 type MotionVariants = Variants
 
-type WeddingsSectionProps = {
+type StreetPhotographySectionProps = {
   fadeInUp: MotionVariants
   staggerContainer: MotionVariants
   reduceMotion?: boolean
   t: PortfolioTranslations
 }
 
-export function WeddingsSection({ fadeInUp, staggerContainer, reduceMotion, t }: WeddingsSectionProps) {
+export function StreetPhotographySection({ fadeInUp, staggerContainer, reduceMotion, t }: StreetPhotographySectionProps) {
   return (
     <section className="w-full min-h-screen flex items-center px-4 md:px-6 lg:px-8 py-16 pt-24 relative">
       <div className="max-w-none mx-auto w-full">
         <ImageGallery
-          images={eventImages}
+          images={streetPhotographyImages}
           fadeInUp={fadeInUp}
           staggerContainer={staggerContainer}
           reduceMotion={reduceMotion}

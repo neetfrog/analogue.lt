@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, type PointerEvent, type TouchEven
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import { X, Check, Link2, Camera, Aperture, Grid, Package, Type, DollarSign, ChevronUp } from 'lucide-react'
 import type { GearItem } from '../data/content'
+import { TypewriterText } from './TypewriterText'
 import { slugify } from '../utils/slugify'
 import type { GearTranslations } from '../i18n'
 
@@ -183,6 +184,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
   const [activeImage, setActiveImage] = useState<string | null>(null)
   const [copiedLink, setCopiedLink] = useState(false)
   const [zoomed, setZoomed] = useState(false)
+  const [descriptionComplete, setDescriptionComplete] = useState(false)
   const [hasAppliedInitialGear, setHasAppliedInitialGear] = useState(false)
   const imageWrapperRef = useRef<HTMLDivElement | null>(null)
   const tagScrollRef = useRef<HTMLDivElement | null>(null)
@@ -415,11 +417,23 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
               transition={isReducedMotion ? { duration: 0.8, delay: 0.15 } : { duration: 1.8, delay: 0.15 }}
               className="text-stone-500 text-lg font-light"
             >
-              {t.description}
+              <TypewriterText
+                text={t.description}
+                reduceMotion={isReducedMotion}
+                className="whitespace-pre-wrap"
+                delay={120}
+                speed={35}
+                onComplete={() => setDescriptionComplete(true)}
+              />
             </motion.p>
           </motion.div>
 
-          <motion.div variants={reducedFadeIn} className="mb-8 flex flex-wrap items-center justify-center gap-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: descriptionComplete ? 1 : 0 }}
+            transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.1 : 0 }}
+            className="mb-8 flex flex-wrap items-center justify-center gap-4"
+          >
             {manufacturers.map((manufacturer) => (
               <button
                 key={manufacturer}
@@ -442,7 +456,12 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
             ))}
           </motion.div>
 
-          <motion.div variants={reducedFadeIn} className="flex flex-wrap items-center justify-center gap-3 mb-10">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: descriptionComplete ? 1 : 0 }}
+            transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.15 : 0 }}
+            className="flex flex-wrap items-center justify-center gap-3 mb-10"
+          >
             {categories.map((category) => {
               const Icon = category.icon
               return (
@@ -463,7 +482,12 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
             })}
           </motion.div>
 
-          <motion.div variants={reducedFadeIn} className="mb-8 flex items-center justify-center gap-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: descriptionComplete ? 1 : 0 }}
+            transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.15 : 0 }}
+            className="mb-8 flex items-center justify-center gap-6"
+          >
             <div className="flex flex-col items-center gap-2">
               <button
                 type="button"
@@ -515,7 +539,12 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
             </div>
           </motion.div>
 
-          <motion.div variants={reducedFadeIn} className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: descriptionComplete ? 1 : 0 }}
+            transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.2 : 0 }}
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-4"
+          >
             {filteredGearItems.map((item, index) => (
               <motion.div
                 key={item.id}

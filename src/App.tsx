@@ -3,10 +3,13 @@ import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { Moon, Sun } from 'lucide-react'
 import { gearItems, type GearItem } from './data/content'
 import { HomeSection } from './components/HomeSection'
+import { WeddingsSection } from './components/WeddingsSection'
+const StreetPhotographySection = lazy(() => import('./components/StreetPhotographySection').then((module) => ({ default: module.StreetPhotographySection })))
+const PrintsSection = lazy(() => import('./components/PrintsSection').then((module) => ({ default: module.PrintsSection })))
+const ArticlesSection = lazy(() => import('./components/ArticlesSection').then((module) => ({ default: module.ArticlesSection })))
 const PortfolioSection = lazy(() => import('./components/PortfolioSection').then((module) => ({ default: module.PortfolioSection })))
 const GearSection = lazy(() => import('./components/GearSection').then((module) => ({ default: module.GearSection })))
 const ContactSection = lazy(() => import('./components/ContactSection').then((module) => ({ default: module.ContactSection })))
-import { useReducedMotionMobile } from './hooks/useReducedMotionMobile'
 import { slugify } from './utils/slugify'
 import { translations, type Locale, localeOptions, languageLabels, getInitialLocale } from './i18n'
 
@@ -60,7 +63,6 @@ function App() {
   const [gearItemsState, setGearItemsState] = useState<GearItem[]>(gearItems)
 
   const t = translations[locale]
-  const reduceMotion = useReducedMotionMobile()
 
   const sectionFallback = (
     <div className="w-full min-h-screen flex items-center justify-center pt-24">
@@ -69,13 +71,49 @@ function App() {
   )
 
   const sectionItems = useMemo<SectionItem[]>(() => [
-    { id: 'home', label: t.nav.sections.home, render: () => <HomeSection t={t.home} reduceMotion={reduceMotion} /> },
+    { id: 'home', label: t.nav.sections.home, render: () => <HomeSection t={t.home} /> },
+    {
+      id: 'weddings',
+      label: t.nav.sections.weddings,
+      render: () => (
+        <Suspense fallback={sectionFallback}>
+          <WeddingsSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} t={t.weddings} />
+        </Suspense>
+      )
+    },
+    {
+      id: 'street',
+      label: t.nav.sections.street,
+      render: () => (
+        <Suspense fallback={sectionFallback}>
+          <StreetPhotographySection fadeInUp={fadeInUp} staggerContainer={staggerContainer} t={t.street} />
+        </Suspense>
+      )
+    },
+    {
+      id: 'prints',
+      label: t.nav.sections.prints,
+      render: () => (
+        <Suspense fallback={sectionFallback}>
+          <PrintsSection t={t.prints} />
+        </Suspense>
+      )
+    },
+    {
+      id: 'articles',
+      label: t.nav.sections.articles,
+      render: () => (
+        <Suspense fallback={sectionFallback}>
+          <ArticlesSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} t={t.articles} />
+        </Suspense>
+      )
+    },
     {
       id: 'portfolio',
       label: t.nav.sections.portfolio,
       render: () => (
         <Suspense fallback={sectionFallback}>
-          <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} reduceMotion={reduceMotion} t={t.portfolio} />
+          <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} t={t.portfolio} />
         </Suspense>
       )
     },
@@ -89,7 +127,6 @@ function App() {
             fadeInUp={fadeInUp}
             staggerContainer={staggerContainer}
             initialGearId={initialGearId}
-            reduceMotion={reduceMotion}
             t={t.gear}
             onAskAbout={(itemName) => {
               const contactIndex = sectionIndexById.get('contact')
@@ -108,14 +145,13 @@ function App() {
         <Suspense fallback={sectionFallback}>
           <ContactSection
             fadeInUp={fadeInUp}
-            reduceMotion={reduceMotion}
             instagramActive={instagramActive}
             t={t.contact}
           />
         </Suspense>
       )
     }
-  ], [t, reduceMotion, gearItemsState, initialGearId, instagramActive])
+  ], [t, gearItemsState, initialGearId, instagramActive])
 
   const sectionIndexById = useMemo(() => new Map(sectionItems.map((section, index) => [section.id, index])), [sectionItems])
 
@@ -365,7 +401,7 @@ function App() {
             </button>
           )}
 
-          <div className={`flex flex-wrap justify-center items-center gap-6 text-base md:text-lg font-medium tracking-wide ${navTextColor}`}>
+          <div className={`flex flex-wrap justify-center items-center gap-3 text-xs sm:text-sm md:text-base lg:text-lg font-medium tracking-wide ${navTextColor}`}>
             {navSectionItems.map((section) => {
               const sectionIndex = sectionIndexById.get(section.id) ?? 0
               const isActive = activeSection === sectionIndex
@@ -395,7 +431,7 @@ function App() {
             })}
           </div>
 
-          <div className={`flex flex-wrap justify-center gap-2 text-xs md:text-sm font-medium ${navTextColor} md:absolute md:right-6 md:top-1/2 md:-translate-y-1/2`}>
+          <div className={`flex flex-wrap justify-center gap-2 text-xs md:text-sm font-medium ${navTextColor} md:absolute md:right-20 md:top-1/2 md:-translate-y-1/2`}>
             {activeSection === 0 && localeOptions.map((language) => (
               <button
                 key={language}
@@ -407,18 +443,18 @@ function App() {
                 {languageLabels[language]}
               </button>
             ))}
-
-            {!isHomeSection && (
-              <button
-                type="button"
-                onClick={toggleTheme}
-                className="rounded-full border p-2 transition duration-200 border-stone-300 text-stone-900"
-                aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-              >
-                {theme === 'dark' ? <Sun className="h-4 w-4" aria-hidden="true" /> : <Moon className="h-4 w-4" aria-hidden="true" />}
-              </button>
-            )}
           </div>
+
+          {!isHomeSection && (
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="absolute right-6 top-4 rounded-full border p-2 transition duration-200 border-stone-300 text-stone-900"
+              aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            >
+              {theme === 'dark' ? <Sun className="h-4 w-4" aria-hidden="true" /> : <Moon className="h-4 w-4" aria-hidden="true" />}
+            </button>
+          )}
         </div>
       </motion.nav>
 
@@ -438,10 +474,10 @@ function App() {
         <AnimatePresence mode="wait">
           <motion.div
             key={activeSection}
-            initial={{ opacity: 0, y: reduceMotion ? 0 : 20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: reduceMotion ? 0 : -20 }}
-            transition={{ duration: reduceMotion ? 0.25 : 0.4 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
             className={`w-full ${isHomeSection ? '' : 'pt-24 md:pt-28'}`}
           >
             {sectionItems[activeSection]?.render()}

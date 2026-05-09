@@ -20,8 +20,18 @@ export type PortfolioTranslations = {
   eyebrow: string
   title: string
   description: string
-  openImage: string
-  enlargedAlt: string
+  openImage?: string
+  enlargedAlt?: string
+  contactForPrints?: string
+}
+
+export type ArticleTranslations = {
+  eyebrow: string
+  title: string
+  description: string
+  readMore: string
+  openImage?: string
+  enlargedAlt?: string
 }
 
 export type GearTranslations = {
@@ -95,6 +105,10 @@ export type NavTranslations = {
   mainNavigation: string
   sections: {
     home: string
+    weddings: string
+    street: string
+    prints: string
+    articles: string
     portfolio: string
     gear: string
     contact: string
@@ -104,6 +118,10 @@ export type NavTranslations = {
 export type Translations = {
   nav: NavTranslations
   home: HomeTranslations
+  weddings: PortfolioTranslations
+  street: PortfolioTranslations
+  prints: PortfolioTranslations
+  articles: ArticleTranslations
   portfolio: PortfolioTranslations
   gear: GearTranslations
   contact: ContactTranslations
@@ -117,6 +135,10 @@ export const translations: Record<Locale, Translations> = {
       mainNavigation: 'Main navigation',
       sections: {
         home: 'Home',
+        weddings: 'Events',
+        street: 'Street',
+        prints: 'Prints',
+        articles: 'Articles',
         portfolio: 'Portfolio',
         gear: 'Shop',
         contact: 'Contact'
@@ -130,10 +152,40 @@ export const translations: Record<Locale, Translations> = {
       aboutTitle: 'About analogue.lt',
       aboutDescription: 'I preserve life stories on film, creating images that feel like flipping through your grandparents\' photo album — timeless, warm, and deeply yours.'
     },
+    weddings: {
+      eyebrow: 'Special Moments',
+      title: 'Weddings & Events',
+      description: 'Capturing timeless moments for couples and celebrations',
+      openImage: 'Open {title}',
+      enlargedAlt: 'Enlarged wedding photo'
+    },
+    street: {
+      eyebrow: 'Urban Stories',
+      title: 'Street Photography',
+      description: 'Life as it unfolds on the streets',
+      openImage: 'Open {title}',
+      enlargedAlt: 'Enlarged street photograph'
+    },
+    prints: {
+      eyebrow: 'Physical Art',
+      title: 'Prints',
+      description: 'Handcrafted analog prints available for collectors',
+      openImage: 'Open {title}',
+      enlargedAlt: 'Enlarged print',
+      contactForPrints: 'Inquire About Prints'
+    },
+    articles: {
+      eyebrow: 'Insights',
+      title: 'Articles',
+      description: 'my own analogue substack',
+      readMore: 'Read More',
+      openImage: 'Open {title}',
+      enlargedAlt: 'Enlarged article image'
+    },
     portfolio: {
       eyebrow: 'Selected Work',
       title: 'Portfolio',
-      description: 'A small selection of my recent work',
+      description: 'A collection of my previous work',
       openImage: 'Open {title}',
       enlargedAlt: 'Enlarged portfolio'
     },
@@ -208,6 +260,10 @@ export const translations: Record<Locale, Translations> = {
       mainNavigation: 'Pagrindinis meniu',
       sections: {
         home: 'Pagrindinis',
+        weddings: 'Renginiai',
+        street: 'Gatvė',
+        prints: 'Nuotraukos',
+        articles: 'Straipsniai',
         portfolio: 'Portfolio',
         gear: 'Parduotuvė',
         contact: 'Kontaktai'
@@ -221,10 +277,40 @@ export const translations: Record<Locale, Translations> = {
       aboutTitle: 'Apie analogue.lt',
       aboutDescription: 'Fiksuoju gyvenimo istorijas juostoje, kurios jaučiasi tarsi žiūrėtum senelių fotoalbumą — amžinas, šiltas ir išties jūsų.'
     },
+    weddings: {
+      eyebrow: 'Specialūs momentai',
+      title: 'Vestuvės ir renginiai',
+      description: 'Laikinai sustabdyti vestuvių ir renginių akimirkos',
+      openImage: 'Atidaryti {title}',
+      enlargedAlt: 'Padidintas vestuvinė nuotrauka'
+    },
+    street: {
+      eyebrow: 'Miesto istorijos',
+      title: 'Gatvės fotografija',
+      description: 'Gyvenimas, kaip jis skleidiasi ant gatvių',
+      openImage: 'Atidaryti {title}',
+      enlargedAlt: 'Padidinta gatvės nuotrauka'
+    },
+    prints: {
+      eyebrow: 'Fizinis menas',
+      title: 'Nuotraukos',
+      description: 'Rankomis gaminti analoginiai spaudai kolekcininkams',
+      openImage: 'Atidaryti {title}',
+      enlargedAlt: 'Padidinta nuotrauka',
+      contactForPrints: 'Sužinoti daugiau apie nuotaukas'
+    },
+    articles: {
+      eyebrow: 'Žinios',
+      title: 'Straipsniai',
+      description: 'Mintys apie filmą fotografiją ir analoginį procesą',
+      readMore: 'Skaityti toliau',
+      openImage: 'Atidaryti {title}',
+      enlargedAlt: 'Padidinta straipsnio nuotrauka'
+    },
     portfolio: {
       eyebrow: 'Atrinkti darbai',
       title: 'Portfolio',
-      description: 'nedidelė mano kadrų ekspozicija',
+      description: 'Mano ankstesnių darbų kolekcija',
       openImage: 'Atidaryti {title}',
       enlargedAlt: 'Padidintas portfolio'
     },
