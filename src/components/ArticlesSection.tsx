@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import { articles } from '../data/content'
+import { ImageLightbox } from './ImageLightbox'
 import { TypewriterText } from './TypewriterText'
 import type { ArticleTranslations } from '../i18n'
 
@@ -17,8 +18,54 @@ type ArticlesSectionProps = {
 
 export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }: ArticlesSectionProps) {
   const [selectedArticle, setSelectedArticle] = useState<ArticleItem | null>(null)
+  const [activeImage, setActiveImage] = useState<string | null>(null)
+  const [zoomed, setZoomed] = useState(false)
   const [descriptionComplete, setDescriptionComplete] = useState(false)
   const isReducedMotion = reduceMotion ?? false
+  const lastTapRef = useRef<number>(0)
+
+  const articleImages = selectedArticle ? [selectedArticle.image, ...(selectedArticle.moreImages ?? [])] : []
+  const activeImageIndex = activeImage && selectedArticle ? articleImages.findIndex((src) => src === activeImage) : -1
+
+  const openImageFullscreen = (image: string) => {
+    setActiveImage(image)
+    setZoomed(false)
+  }
+
+  const closeImageFullscreen = () => {
+    setActiveImage(null)
+    setZoomed(false)
+  }
+
+  const toggleImageZoom = () => {
+    setZoomed((prev) => !prev)
+  }
+
+  const handleImageTouchEnd = (event: TouchEvent<HTMLImageElement>) => {
+    const now = Date.now()
+    if (now - lastTapRef.current < 300) {
+      event.preventDefault()
+      setZoomed((prev) => !prev)
+      lastTapRef.current = 0
+    } else {
+      lastTapRef.current = now
+    }
+  }
+
+  const goToPreviousImage = () => {
+    if (activeImageIndex > 0) {
+      setActiveImage(articleImages[activeImageIndex - 1])
+      setZoomed(false)
+    }
+  }
+
+  const goToNextImage = () => {
+    if (activeImageIndex >= 0 && activeImageIndex < articleImages.length - 1) {
+      setActiveImage(articleImages[activeImageIndex + 1])
+      setZoomed(false)
+    }
+  }
+
   const reducedFadeIn: MotionVariants = isReducedMotion
     ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.6 } } }
     : fadeInUp
@@ -62,10 +109,30 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
 
   useEffect(() => {
     if (!selectedArticle) {
+      setActiveImage(null)
+      setZoomed(false)
       return undefined
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (activeImage) {
+        if (e.key === 'Escape') {
+          setActiveImage(null)
+        }
+
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault()
+          goToPreviousImage()
+        }
+
+        if (e.key === 'ArrowRight') {
+          e.preventDefault()
+          goToNextImage()
+        }
+
+        return
+      }
+
       if (e.key === 'Escape') {
         setSelectedArticle(null)
       }
@@ -73,7 +140,7 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedArticle])
+  }, [selectedArticle, activeImage, activeImageIndex, articleImages])
 
   useEffect(() => {
     setDescriptionComplete(false)
@@ -197,15 +264,20 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
 
                 <div className="space-y-6 px-6 py-6 max-h-[calc(100vh-12rem)] overflow-y-auto overflow-x-hidden min-w-0">
                   <div className="space-y-4">
-                    <div className="relative aspect-[5/4] overflow-hidden rounded-3xl bg-stone-100">
-                      <img
-                        src={selectedArticle.image}
-                        alt={t.enlargedAlt ?? selectedArticle.title}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
+                    <button
+                    type="button"
+                    onClick={() => openImageFullscreen(selectedArticle.image)}
+                    aria-label={t.openImage?.replace('{title}', selectedArticle.title) ?? `Open ${selectedArticle.title}`}
+                    className="relative aspect-[5/4] overflow-hidden rounded-3xl bg-stone-100 focus:outline-none"
+                  >
+                    <img
+                      src={selectedArticle.image}
+                      alt={t.enlargedAlt ?? selectedArticle.title}
+                      className="cursor-zoom-in w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </button>
                   </div>
 
                   <article className="space-y-8 text-stone-600 leading-relaxed">
@@ -225,15 +297,20 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                         <div key={index} className="space-y-6">
                           <p>{paragraph}</p>
                           {selectedArticle.moreImages?.[index] ? (
-                            <div className="relative overflow-hidden rounded-3xl bg-stone-100">
+                            <button
+                              type="button"
+                              onClick={() => openImageFullscreen(selectedArticle.moreImages[index])}
+                              aria-label={t.openImage?.replace('{title}', selectedArticle.title) ?? `Open ${selectedArticle.title}`}
+                              className="relative overflow-hidden rounded-3xl bg-stone-100 w-full text-left focus:outline-none"
+                            >
                               <img
                                 src={selectedArticle.moreImages[index]}
                                 alt={`${selectedArticle.title} image ${index + 1}`}
-                                className="w-full h-full object-cover"
+                                className="cursor-zoom-in w-full h-full object-cover"
                                 loading="lazy"
                                 decoding="async"
                               />
-                            </div>
+                            </button>
                           ) : null}
                         </div>
                       ))}
@@ -241,15 +318,21 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                       {selectedArticle.moreImages && selectedArticle.moreImages.length > selectedArticle.body.length ? (
                         <div className="grid gap-4 md:grid-cols-2">
                           {selectedArticle.moreImages.slice(selectedArticle.body.length).map((src, index) => (
-                            <div key={index} className="relative overflow-hidden rounded-3xl bg-stone-100">
+                            <button
+                              type="button"
+                              key={index}
+                              onClick={() => openImageFullscreen(src)}
+                              aria-label={t.openImage?.replace('{title}', selectedArticle.title) ?? `Open ${selectedArticle.title}`}
+                              className="relative overflow-hidden rounded-3xl bg-stone-100 w-full text-left focus:outline-none"
+                            >
                               <img
                                 src={src}
                                 alt={`${selectedArticle.title} extra image ${selectedArticle.body.length + index + 1}`}
-                                className="w-full h-full object-cover"
+                                className="cursor-zoom-in w-full h-full object-cover"
                                 loading="lazy"
                                 decoding="async"
                               />
-                            </div>
+                            </button>
                           ))}
                         </div>
                       ) : null}
@@ -259,6 +342,19 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
               </motion.div>
             </div>
           </motion.div>
+        )}
+        {activeImage && (
+          <ImageLightbox
+            image={activeImage}
+            alt={t.enlargedAlt ?? selectedArticle?.title ?? ''}
+            zoomed={zoomed}
+            reduceMotion={isReducedMotion}
+            onClose={closeImageFullscreen}
+            onToggleZoom={toggleImageZoom}
+            onTouchEnd={handleImageTouchEnd}
+            onPrev={goToPreviousImage}
+            onNext={goToNextImage}
+          />
         )}
       </AnimatePresence>
     </section>
