@@ -165,22 +165,22 @@ export const articles: Article[] = [
     ],
     date: '2024-01-05',
     category: 'Workflow',
-    image: new URL('../../images/articles/backlog/backlog (1).jpg', import.meta.url).href,
+    image: new URL('../../images/articles/backlog/backlog (1).webp', import.meta.url).href,
     moreImages: [
-      new URL('../../images/articles/backlog/backlog (2).jpg', import.meta.url).href,
-      new URL('../../images/articles/backlog/backlog (3).jpg', import.meta.url).href,
-      new URL('../../images/articles/backlog/backlog (4).jpg', import.meta.url).href,
-      new URL('../../images/articles/backlog/backlog (5).jpg', import.meta.url).href,
-      new URL('../../images/articles/backlog/backlog (6).jpg', import.meta.url).href,
-      new URL('../../images/articles/backlog/backlog (7).jpg', import.meta.url).href,
-      new URL('../../images/articles/backlog/backlog (8).jpg', import.meta.url).href,
-      new URL('../../images/articles/backlog/backlog (9).jpg', import.meta.url).href,
-      new URL('../../images/articles/backlog/backlog (10).jpg', import.meta.url).href,
-      new URL('../../images/articles/backlog/backlog (11).jpg', import.meta.url).href,
-      new URL('../../images/articles/backlog/backlog (12).jpg', import.meta.url).href,
-      new URL('../../images/articles/backlog/backlog (13).jpg', import.meta.url).href,
-      new URL('../../images/articles/backlog/backlog (14).jpg', import.meta.url).href,
-      new URL('../../images/articles/backlog/backlog (15).jpg', import.meta.url).href
+      new URL('../../images/articles/backlog/backlog (2).webp', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (3).webp', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (4).webp', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (5).webp', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (6).webp', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (7).webp', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (8).webp', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (9).webp', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (10).webp', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (11).webp', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (12).webp', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (13).webp', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (14).webp', import.meta.url).href,
+      new URL('../../images/articles/backlog/backlog (15).webp', import.meta.url).href
     ]
   }
 ]
