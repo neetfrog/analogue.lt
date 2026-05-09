@@ -363,9 +363,9 @@ export const translations: Record<Locale, Translations> = {
       }
     },
     contact: {
-      eyebrow: 'Patinka, ką matote?',
-      title: 'Rezervuok arba parašyk žinutę',
-      description: 'Parašyk el. paštu, kad paklaustum apie laisvą laiką arba tiesiog pasisveikintum',
+      eyebrow: 'Patinka, ką matai?',
+      title: 'Parašyk man :)',
+      description: 'Nori paklausti apie laisvą laiką renginio fotografijai, printus, daiktus shope arba tiesiog pasisveikinti? Spausk mygtuką apačioje',
       fields: {
         name: { label: 'Jūsų vardas', placeholder: 'Jonė & Jonas' },
         email: { label: 'El. paštas', placeholder: 'hello@example.com' },
