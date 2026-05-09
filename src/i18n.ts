@@ -122,7 +122,7 @@ export type Translations = {
 
 const buildTranslations = (values: Translations): Translations => values
 
-export const translations: Record<'en' | 'lt', Translations> = {
+export const translations: Record<Locale, Translations> = {
   en: buildTranslations({
     nav: {
       mainNavigation: 'Main navigation',
@@ -246,131 +246,6 @@ export const translations: Record<'en' | 'lt', Translations> = {
       inquirySent: 'Inquiry Sent!',
       instagram: 'Or message me on Instagram',
       crafted: 'crafted with care by myself'
-    }
-  }),
-  lt: buildTranslations({
-    nav: {
-      mainNavigation: 'Pagrindinis meniu',
-      sections: {
-        home: 'Pagrindinis',
-        weddings: 'Renginiai',
-        street: 'Gatvė',
-        prints: 'Printai',
-        articles: 'Tekstai',
-        portfolio: 'Portfolio',
-        gear: 'Shopas',
-        contact: 'Kontaktai'
-      }
-    },
-    home: {
-      tagline: 'Autentiška. Amžina. Nepavaldu laikui.',
-      description: 'Jūsų prisiminimai nusipelno ko nors daugiau nei skaitmeninis filtras.',
-      location: 'Vilnius, Lietuva',
-      locationAlt: 'Vilnius',
-      aboutTitle: 'Apie analogue.lt',
-      aboutDescription: 'Fiksuoju gyvenimo istorijas juostoje, kurios jaučiasi tarsi žiūrėtum senelių fotoalbumą — amžinas, šiltas ir išties jūsų.'
-    },
-    weddings: {
-      eyebrow: 'Specialūs momentai',
-      title: 'Vestuvės ir renginiai',
-      description: 'Sustabdyti momentai kurie nebepasikartos',
-      openImage: 'Atidaryti {title}',
-      enlargedAlt: 'Padidintas vestuvinė nuotrauka'
-    },
-    street: {
-      eyebrow: 'Miesto istorijos',
-      title: 'Gatvės fotografija',
-      description: 'Gyvenimas, kuris atsiskleidžia išėjus iš namų',
-      openImage: 'Atidaryti {title}',
-      enlargedAlt: 'Padidinta gatvės nuotrauka'
-    },
-    prints: {
-      eyebrow: 'Gauk tikrą daiktą',
-      title: 'Printai',
-      description: 'Popierius tiesiog smagiau nei ekranas',
-      openImage: 'Atidaryti {title}',
-      enlargedAlt: 'Padidinta nuotrauka',
-      contactForPrints: 'Sudomino? Parašyk!'
-    },
-    articles: {
-      eyebrow: 'mėgsti skaityti?',
-      title: 'Tekstai',
-      description: 'mano paties analoginis Substackas',
-      readMore: 'Skaityti toliau',
-      openImage: 'Atidaryti {title}',
-      enlargedAlt: 'Padidinta straipsnio nuotrauka'
-    },
-    portfolio: {
-      eyebrow: 'Atrinkti darbai',
-      title: 'Portfolio',
-      description: 'Mano ankstesnių darbų kolekcija',
-      openImage: 'Atidaryti {title}',
-      enlargedAlt: 'Padidintas portfolio'
-    },
-    gear: {
-      eyebrow: 'reikia fotoaparato?',
-      title: 'Shop it',
-      description: 'Numylėta įranga ieškanti naujų namų',
-      categories: {
-        All: 'Visi',
-        cameras: 'Fotoaparatai',
-        lenses: 'Objektyvai',
-        accessories: 'Priedai'
-      },
-      soldLabel: 'Parduota',
-      detailsButton: 'Daugiau',
-      openDetails: 'Atidaryti {name} informaciją',
-      copyLink: 'Kopijuoti nuorodą į {name}',
-      linkCopied: 'Nuoroda nukopijuota',
-      close: 'Uždaryti',
-      aboutItem: 'Apie šį daiktą',
-      techSpecs: 'Techninės savybės',
-      vinted: 'Atidaryti Vinted skelbimą',
-      wiki: 'Atidaryti Wikipedia straipsnį',
-      askAbout: 'Paklausti apie šį daiktą',
-      filterBy: 'Filtruoti pagal {manufacturer}',
-      sortByLabel: 'Rūšiuoti pagal',
-      sortOrderLabel: 'Eiliškumas',
-      sortFields: {
-        name: 'Pavadinimas',
-        price: 'Kaina'
-      },
-      sortOrders: {
-        asc: 'Didėjančiai',
-        desc: 'Mažėjančiai'
-      },
-      specs: {
-        focalLength: 'Fokusavimo nuotolis',
-        aperture: 'Diafragma',
-        mount: 'Maitinimo jungtis',
-        filmType: 'Juostos tipas',
-        format: 'Formatas',
-        focus: 'Fokusas',
-        condition: 'Būsena',
-        type: 'Tipas',
-        opticalDesign: 'Optinė konstrukcija',
-        optics: 'Optika',
-        ultraWide: 'Tipas',
-        classicOptics: 'Optika',
-        lens: 'Objektyvas'
-      }
-    },
-    contact: {
-      eyebrow: 'Patinka, ką matai?',
-      title: 'Parašyk man :)',
-      description: 'Nori paklausti apie laisvą laiką renginio fotografijai, printus, daiktus shope arba tiesiog pasisveikinti? Spausk mygtuką apačioje',
-      fields: {
-        name: { label: 'Jūsų vardas', placeholder: 'Jonė & Jonas' },
-        email: { label: 'El. paštas', placeholder: 'hello@example.com' },
-        date: { label: 'Pageidaujama data', optionalText: 'Palikite tuščią, jei pirmiausia norite tiesiog parašyti.' },
-        location: { label: 'Vieta', placeholder: 'Vilnius, LT' },
-        message: { label: 'Paprašykite apie savo viziją', placeholder: 'Jūsų istorija, stilius, viskas, ką norite, kad žinočiau...' }
-      },
-      optional: 'neprivaloma',
-      sendInquiry: 'Siųsti užklausą',
-      inquirySent: 'Užklausa išsiųsta!',
-      instagram: 'Mano Instagramo feedas',
-      crafted: 'sukurta su meile'
     }
   })
 }
