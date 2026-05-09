@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, type TouchEvent, type ReactNode } from 'react'
+import { useState, useRef, useEffect, type TouchEvent, type ReactNode, type CSSProperties } from 'react'
 import { motion, type Variants } from 'framer-motion'
 import { ImageLightbox } from './ImageLightbox'
 import { TypewriterText } from './TypewriterText'
@@ -68,6 +68,16 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
   }
 
   const [shuffledImages] = useState(() => shuffleArray(images))
+  const [imageAnimationStyles] = useState<Record<number, CSSProperties>>(() =>
+    images.reduce((acc, item, index) => {
+      acc[item.id] = {
+        animationDelay: `${-Math.random() * 18}s`,
+        '--ken-burns-duration': `${19 + Math.random() * 5}s`,
+        '--ken-burns-offset': `${index % 3}`
+      } as CSSProperties & { [key: string]: string }
+      return acc
+    }, {} as Record<number, CSSProperties>)
+  )
 
   const activeIndex = activeImage ? shuffledImages.findIndex((item) => item.image === activeImage) : -1
 
@@ -244,11 +254,7 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
                   loading="lazy"
                   decoding="async"
                   className="ken-burns absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
-                  style={{
-                    animationDelay: `${-Math.random() * 18}s`,
-                    '--ken-burns-duration': `${19 + Math.random() * 5}s`,
-                    '--ken-burns-offset': `${i % 3}`,
-                  } as React.CSSProperties & { [key: string]: string }}
+                  style={imageAnimationStyles[item.id]}
                 />
               </motion.button>
             ))}

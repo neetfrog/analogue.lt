@@ -61,7 +61,7 @@
 
   body[data-lightbox-open='true'] .ken-burns,
   body[data-lightbox-open='true'] .group:hover .ken-burns {
-    animation: none !important;
+    animation-play-state: paused !important;
   }
 
   .dark {
