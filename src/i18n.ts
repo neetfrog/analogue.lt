@@ -155,7 +155,7 @@ export const translations: Record<Locale, Translations> = {
     weddings: {
       eyebrow: 'Special Moments',
       title: 'Weddings & Events',
-      description: 'Capturing timeless moments for couples and celebrations',
+      description: 'Capturing once in a lifetime moments that will never happen again',
       openImage: 'Open {title}',
       enlargedAlt: 'Enlarged wedding photo'
     },
@@ -167,9 +167,9 @@ export const translations: Record<Locale, Translations> = {
       enlargedAlt: 'Enlarged street photograph'
     },
     prints: {
-      eyebrow: 'Physical Art',
+      eyebrow: 'grab the real thing',
       title: 'Prints',
-      description: 'Handcrafted analog prints available for collectors',
+      description: 'Paper is just more fun than screen',
       openImage: 'Open {title}',
       enlargedAlt: 'Enlarged print',
       contactForPrints: 'Inquire About Prints'
@@ -190,9 +190,9 @@ export const translations: Record<Locale, Translations> = {
       enlargedAlt: 'Enlarged portfolio'
     },
     gear: {
-      eyebrow: 'For Sale',
+      eyebrow: 'Need a new camera?',
       title: 'Shop',
-      description: 'Well-loved equipment looking for new homes',
+      description: 'Beloved equipment looking for a new home',
       categories: {
         All: 'All',
         cameras: 'Cameras',
@@ -262,10 +262,10 @@ export const translations: Record<Locale, Translations> = {
         home: 'Pagrindinis',
         weddings: 'Renginiai',
         street: 'Gatvė',
-        prints: 'Nuotraukos',
+        prints: 'Printai',
         articles: 'Straipsniai',
         portfolio: 'Portfolio',
-        gear: 'Parduotuvė',
+        gear: 'Shopas',
         contact: 'Kontaktai'
       }
     },
@@ -280,29 +280,29 @@ export const translations: Record<Locale, Translations> = {
     weddings: {
       eyebrow: 'Specialūs momentai',
       title: 'Vestuvės ir renginiai',
-      description: 'Laikinai sustabdyti vestuvių ir renginių akimirkos',
+      description: 'Sustabdyti momentai kurie nebepasikartos',
       openImage: 'Atidaryti {title}',
       enlargedAlt: 'Padidintas vestuvinė nuotrauka'
     },
     street: {
       eyebrow: 'Miesto istorijos',
       title: 'Gatvės fotografija',
-      description: 'Gyvenimas, kaip jis skleidiasi ant gatvių',
+      description: 'Gyvenimas, kuris atsiskleidžia išėjus iš namų',
       openImage: 'Atidaryti {title}',
       enlargedAlt: 'Padidinta gatvės nuotrauka'
     },
     prints: {
-      eyebrow: 'Fizinis menas',
-      title: 'Nuotraukos',
-      description: 'Rankomis gaminti analoginiai spaudai kolekcininkams',
+      eyebrow: 'Gauk tikrą daiktą',
+      title: 'Printai',
+      description: 'Popierius tiesiog smagiau nei ekranas',
       openImage: 'Atidaryti {title}',
       enlargedAlt: 'Padidinta nuotrauka',
-      contactForPrints: 'Sužinoti daugiau apie nuotaukas'
+      contactForPrints: 'Sudomino? Parašyk!'
     },
     articles: {
-      eyebrow: 'Žinios',
+      eyebrow: 'šiek tiek teksto',
       title: 'Straipsniai',
-      description: 'Mintys apie filmą fotografiją ir analoginį procesą',
+      description: 'mano paties analoginis Substackas',
       readMore: 'Skaityti toliau',
       openImage: 'Atidaryti {title}',
       enlargedAlt: 'Padidinta straipsnio nuotrauka'
@@ -315,9 +315,9 @@ export const translations: Record<Locale, Translations> = {
       enlargedAlt: 'Padidintas portfolio'
     },
     gear: {
-      eyebrow: 'Parduodama',
-      title: 'Foto įranga',
-      description: 'Mylima įranga ieško naujų namų',
+      eyebrow: 'reikia fotoaparato?',
+      title: 'Shop it',
+      description: 'Numylėta įranga ieškanti naujų namų',
       categories: {
         All: 'Visi',
         cameras: 'Fotoaparatai',
