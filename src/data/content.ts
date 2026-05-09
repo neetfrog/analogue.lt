@@ -177,11 +177,11 @@ export const articles: Article[] = [
   {
     id: 1,
     title: 'Going Wide - Shooting with KMZ Horizont',
-    excerpt: 'A hands-on look at shooting panoramic film with the iconic KMZ Horizont, from mastering its distinctive viewfinder to framing wide landscapes and cityscapes. Discover the practical workflow and creative possibilities that make this Soviet-era camera a favorite for bold analog storytelling.',
+    excerpt: 'So the Horizont is basically this wild Soviet panoramic camera that warps your entire perspective on framing. The viewfinder is strange, the learning curve is real, but once it clicks you start seeing streets and landscapes in this weird cinematic way that normal cameras just do not capture.',
     body: [
       'The Horizont’s curved panorama format turns otherwise ordinary streets and fields into cinematic frames. Learning how to load the camera, estimate distance, and compose across its wide sweep is part of the appeal.',
-      'Once you understand the parallax and the slow, deliberate pace of the Horizont, you begin to see the world differently: long horizons, layered skies, and the tension between foreground detail and distant light.',
-      'Shooting with this camera is a reminder that great analog work often comes from embracing limitation, trusting the process, and enjoying the unexpected edges that film brings.'
+      'Once you get past the parallax weirdness and accept how slow and deliberate this camera forces you to be, you start seeing the world differently. Layered skies, that tension between what is close and what is far away, horizons that just seem to go on forever. It breaks you out of standard framing.',
+      'Shooting with this thing is honestly a masterclass in embracing constraints. You are not trying to make the perfect shot - you are trusting the camera, the process, the weird analog accidents that happen. Those unexpected edges, the vignetting, the quirks - that is where the character lives.'
     ],
     date: '2024-01-15',
     category: 'Equipment',
@@ -191,10 +191,10 @@ export const articles: Article[] = [
   {
     id: 2,
     title: 'Remembering the Winter - Snowboarding in Vilnius',
-    excerpt: 'A reflective story of snowboarding days around Vilnius, capturing winter light, empty slopes, and the quiet mood of the city in cold weather. Shot on Canon 5D Mark III with a 105mm f/2.5 Nikkor-P, these images pair a digital warmth with the feeling of moving through early mornings, powder turns, and the glow of urban frost.',
+    excerpt: 'Went snowboarding in Vilnius during winter and it just hits different. Shot everything on a Canon 5D Mark III with a 105mm f/2.5 Nikkor-P. Early mornings, powder runs, that cold wet air hitting your face, streetlights bouncing off fresh snow. The way winter light transforms a city is honestly something else.',
     body: [
-      'Winter in Vilnius feels especially quiet when you slow down for details — the city softens under snow, and ordinary corners take on a wistful stillness.',
-      'On the slopes and in the parks, I looked for moments where motion met silence: the line of a board track, breath fogging in the air, and the glow of streetlamps against fresh powder.',
+      'Vilnius gets this stupid quiet energy when winter actually shows up and you take a moment to really look. The whole city turns soft under the snow and random streets start looking kinda cinematic. There is something about cold light and fresh powder that just breaks everything down into pure texture.',
+      'Spent most of my time hunting for those moments where you are still but moving at the same time. Board carving through powder, breath freezing in the air, sodium lamps reflecting off pristine snow. Less about the adrenaline rush and more about that weird space between movement and stillness.',
       'These photographs are less about action than memory, preserving the way cold light changed the city’s textures and made even small journeys feel cinematic.'
     ],
     date: '2024-01-10',
@@ -205,11 +205,11 @@ export const articles: Article[] = [
   {
     id: 3,
     title: 'Picking Through Your Backlog - Tips Not to Get You Overwhelmed',
-    excerpt: 'Practical advice for film shooters and creatives on organizing old rolls, revisiting unfinished projects, and staying inspired without feeling buried. Learn a calmer approach to your archive so you can turn backlog into meaningful work rather than a source of stress.',
+    excerpt: 'Your backlog probably sucks and that is fine. The trick is not trying to process everything at once like some kind of archive robot. Split it up, give yourself permission to ignore stuff, and maybe the good shots will speak for themselves without making you feel like you are drowning.',
     body: [
       'Climbing back into your backlog doesn’t need to be overwhelming; it can be a way of rediscovering work you already made and finding new stories there.',
-      'I recommend separating the archive into manageable batches, revisiting projects with fresh eyes, and letting the images themselves tell you which ones deserve a second pass.',
-      'A more patient approach means the most meaningful frames can become the start of new sessions instead of another task on a never-ending list.'
+      'So break it down into smaller chunks. Work through maybe ten rolls at a time instead of your entire archive. Let the images tell you which ones are worth your time. Some rolls are garbage, some have a few keepers, and maybe one in twenty actually has something that makes you stop and think. That is the workflow.',
+      'The real shift is being patient with it. Stop treating your backlog like another task on an impossible to-do list. The most meaningful frames from old sessions can become the starting point for something new, not just another item checked off. Backlog processing can actually lead somewhere if you let it breathe.'
     ],
     date: '2024-01-05',
     category: 'Workflow',
