@@ -51,30 +51,6 @@ export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onTog
       </button>
 
       <div className="relative max-h-[90vh] max-w-full overflow-visible rounded-3xl bg-black">
-        <button
-          type="button"
-          className="absolute left-[-3rem] top-1/2 z-0 -translate-y-1/2 rounded-full bg-black/40 p-3 text-white transition hover:bg-black/60"
-          onClick={(event) => {
-            event.stopPropagation()
-            onPrev()
-          }}
-          aria-label="Previous image"
-        >
-          <span className="text-2xl">‹</span>
-        </button>
-
-        <button
-          type="button"
-          className="absolute right-[-3rem] top-1/2 z-0 -translate-y-1/2 rounded-full bg-black/40 p-3 text-white transition hover:bg-black/60"
-          onClick={(event) => {
-            event.stopPropagation()
-            onNext()
-          }}
-          aria-label="Next image"
-        >
-          <span className="text-2xl">›</span>
-        </button>
-
         <AnimatePresence mode="wait">
           <motion.img
             key={image}
