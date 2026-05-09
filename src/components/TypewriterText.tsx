@@ -48,13 +48,12 @@ export function TypewriterText({
   }, [text, reduceMotion, delay, speed])
 
   return (
-    <span className={`typewriter-text ${className}`}>
-      {visibleText}
-      <span
-        aria-hidden="true"
-        className={`typewriter-cursor ${isTyping ? 'typing' : ''}`}
-      >
-        |
+    <span className={`typewriter-text-wrapper ${className}`}>
+      <span aria-hidden="true" className="typewriter-measure">
+        {text}
+      </span>
+      <span className="typewriter-text">
+        {visibleText}
       </span>
     </span>
   )
