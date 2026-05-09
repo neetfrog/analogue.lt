@@ -26,6 +26,25 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
 
   const articleImages = selectedArticle ? [selectedArticle.image, ...(selectedArticle.moreImages ?? [])] : []
   const activeImageIndex = activeImage && selectedArticle ? articleImages.findIndex((src) => src === activeImage) : -1
+  const isHorizontArticle = selectedArticle?.id === 1
+
+  const getHorizontWrapperClass = (src: string) => {
+    if (!isHorizontArticle) return ''
+    const normalized = src.replace(/%20/g, ' ')
+    if (/horizont \((6|7)\)\.(jpg|jpeg|png|webp)$/i.test(normalized)) {
+      return 'w-full aspect-[3/4]'
+    }
+    return 'w-full aspect-[16/9]'
+  }
+
+  const getHorizontImageClass = (src: string) => {
+    if (!isHorizontArticle) return 'w-full h-full object-cover'
+    const normalized = src.replace(/%20/g, ' ')
+    if (/horizont \((6|7)\)\.(jpg|jpeg|png|webp)$/i.test(normalized)) {
+      return 'w-full h-full object-cover'
+    }
+    return 'w-full h-full object-cover'
+  }
 
   const openImageFullscreen = (image: string) => {
     setActiveImage(image)
@@ -268,12 +287,12 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                     type="button"
                     onClick={() => openImageFullscreen(selectedArticle.image)}
                     aria-label={t.openImage?.replace('{title}', selectedArticle.title) ?? `Open ${selectedArticle.title}`}
-                    className="relative aspect-[5/4] overflow-hidden rounded-3xl bg-stone-100 focus:outline-none"
+                    className={`relative overflow-hidden rounded-3xl bg-stone-100 focus:outline-none ${getHorizontWrapperClass(selectedArticle.image) || 'w-full aspect-[5/4]'}`}
                   >
                     <img
                       src={selectedArticle.image}
                       alt={t.enlargedAlt ?? selectedArticle.title}
-                      className="cursor-zoom-in w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                      className={`cursor-zoom-in transition-transform duration-300 hover:scale-105 ${getHorizontImageClass(selectedArticle.image)}`}
                       loading="lazy"
                       decoding="async"
                     />
@@ -301,12 +320,12 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                               type="button"
                               onClick={() => openImageFullscreen(selectedArticle.moreImages[index])}
                               aria-label={t.openImage?.replace('{title}', selectedArticle.title) ?? `Open ${selectedArticle.title}`}
-                              className="relative overflow-hidden rounded-3xl bg-stone-100 w-full text-left focus:outline-none"
+                              className={`relative overflow-hidden rounded-3xl bg-stone-100 text-left focus:outline-none ${getHorizontWrapperClass(selectedArticle.moreImages[index]) || 'w-full aspect-[5/4]'}`}
                             >
                               <img
                                 src={selectedArticle.moreImages[index]}
                                 alt={`${selectedArticle.title} image ${index + 1}`}
-                                className="cursor-zoom-in w-full h-full object-cover"
+                                className={`cursor-zoom-in transition-transform duration-300 hover:scale-105 ${getHorizontImageClass(selectedArticle.moreImages[index])}`}
                                 loading="lazy"
                                 decoding="async"
                               />
@@ -323,12 +342,12 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                               key={index}
                               onClick={() => openImageFullscreen(src)}
                               aria-label={t.openImage?.replace('{title}', selectedArticle.title) ?? `Open ${selectedArticle.title}`}
-                              className="relative overflow-hidden rounded-3xl bg-stone-100 w-full text-left focus:outline-none"
+                              className={`relative overflow-hidden rounded-3xl bg-stone-100 text-left focus:outline-none ${getHorizontWrapperClass(src) || 'w-full aspect-[5/4]'}`}
                             >
                               <img
                                 src={src}
                                 alt={`${selectedArticle.title} extra image ${selectedArticle.body.length + index + 1}`}
-                                className="cursor-zoom-in w-full h-full object-cover"
+                                className={`cursor-zoom-in transition-transform duration-300 hover:scale-105 ${getHorizontImageClass(src)}`}
                                 loading="lazy"
                                 decoding="async"
                               />

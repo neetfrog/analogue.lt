@@ -99,6 +99,12 @@ const sortImageModules = (modules: Record<string, string>) =>
     .map(([, image]) => image)
 
 const horizontImages = sortImageModules(horizontImageModules)
+// Swap the Horizont article images 5 and 7 so they appear in the requested order.
+if (horizontImages.length > 6) {
+  const temp = horizontImages[4]
+  horizontImages[4] = horizontImages[6]
+  horizontImages[6] = temp
+}
 const snowboardingImages = sortImageModules(snowboardingImageModules)
 
 export const printsImages: EventImage[] = Object.entries(printsImageModules)
