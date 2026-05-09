@@ -188,11 +188,23 @@ const articleThumbnailModules = import.meta.glob('../../images/articles/**/thumb
 
 const articleThumbnailMap = buildThumbnailMap(articleThumbnailModules, 'images/articles')
 
+const getArticleRelativePath = (imageUrl: string) => {
+  try {
+    const pathname = normalizePath(new URL(imageUrl).pathname)
+    const relative = pathname.split('/images/articles/').pop()
+    return relative ? normalizePath(relative) : pathname
+  } catch {
+    return imageUrl
+  }
+}
+
 export const getImageThumbnail = (imageUrl: string) => {
   try {
-    const pathname = new URL(imageUrl).pathname
+    const pathname = normalizePath(new URL(imageUrl).pathname)
     const filename = getFilename(pathname)
-    return articleThumbnailMap[getThumbName(filename)]
+    const baseKey = getThumbName(filename)
+    const relativeKey = getThumbName(getArticleRelativePath(imageUrl))
+    return articleThumbnailMap[relativeKey] ?? articleThumbnailMap[baseKey]
   } catch {
     return undefined
   }
