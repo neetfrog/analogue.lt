@@ -27,7 +27,7 @@ export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onTog
       y: 0,
       transition: { duration: isReducedMotion ? 0.18 : 0.25 }
     })
-  }, [controls, zoomed, isReducedMotion])
+  }, [controls, image, zoomed, isReducedMotion])
 
   return (
     <motion.div
