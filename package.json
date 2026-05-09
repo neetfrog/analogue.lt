@@ -6,12 +6,13 @@
   "scripts": {
     "dev": "vite",
     "serve": "node server/index.js",
-    "build": "vite build",
+    "build": "npm run create-thumbnails && vite build",
     "preview": "vite preview",
     "trim-article-frames": "node scripts/trim-frames.js",
     "convert-articles-to-webp": "node scripts/convert-articles-to-webp.js",
     "convert-prints-to-webp": "node scripts/convert-articles-to-webp.js images/prints",
-    "create-thumbnails": "node scripts/create-thumbnails.js"
+    "create-thumbnails": "node scripts/create-thumbnails.js",
+    "watch-thumbnails": "node scripts/create-thumbnails.js --watch"
   },
   "dependencies": {
     "clsx": "2.1.1",
@@ -33,6 +34,7 @@
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "5.1.1",
+    "chokidar": "^5.0.0",
     "sharp": "^0.34.5",
     "tailwindcss": "4.1.17",
     "typescript": "5.9.3",

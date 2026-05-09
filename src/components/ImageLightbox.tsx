@@ -1,5 +1,6 @@
+import { useEffect } from 'react'
 import type { TouchEvent } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useAnimationControls } from 'framer-motion'
 import { X } from 'lucide-react'
 
 type ImageLightboxProps = {
@@ -16,6 +17,18 @@ type ImageLightboxProps = {
 
 export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onToggleZoom, onTouchEnd, onPrev, onNext }: ImageLightboxProps) {
   const isReducedMotion = reduceMotion ?? false
+  const controls = useAnimationControls()
+
+  useEffect(() => {
+    controls.start({
+      opacity: 1,
+      scale: zoomed ? 1.8 : 1,
+      x: 0,
+      y: 0,
+      transition: { duration: isReducedMotion ? 0.18 : 0.25 }
+    })
+  }, [controls, zoomed, isReducedMotion])
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -69,10 +82,9 @@ export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onTog
             alt={alt}
             loading="eager"
             decoding="async"
-            initial={{ opacity: 0, scale: 1 }}
-            animate={{ opacity: 1, scale: zoomed ? 1.8 : 1, x: 0, y: 0 }}
+            initial={{ opacity: 0, scale: 1, x: 0, y: 0 }}
+            animate={controls}
             exit={{ opacity: 0 }}
-            transition={{ duration: isReducedMotion ? 0.18 : 0.25 }}
             drag={zoomed}
             dragMomentum={false}
             dragElastic={0.3}
