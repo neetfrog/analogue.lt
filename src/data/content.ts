@@ -35,7 +35,7 @@ type EventImage = {
   image: string
 }
 
-const portfolioImageModules = import.meta.glob('../../images/portfolio/*.{jpg,jpeg,png,webp}', {
+const portfolioImageModules = import.meta.glob('../../images/events/*.{jpg,jpeg,png,webp}', {
   eager: true,
   query: '?url',
   import: 'default'

@@ -251,7 +251,7 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
                 <img
                   src={item.image}
                   alt={item.title}
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
                   className="ken-burns absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
                   style={imageAnimationStyles[item.id]}

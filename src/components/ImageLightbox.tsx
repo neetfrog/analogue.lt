@@ -67,7 +67,7 @@ export function ImageLightbox({ image, alt, zoomed, reduceMotion, onClose, onTog
             key={image}
             src={image}
             alt={alt}
-            loading="lazy"
+            loading="eager"
             decoding="async"
             initial={{ opacity: 0, scale: 1 }}
             animate={{ opacity: 1, scale: zoomed ? 1.8 : 1, x: 0, y: 0 }}
