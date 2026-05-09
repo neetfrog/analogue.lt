@@ -205,7 +205,7 @@ export const articles: Article[] = [
   {
     id: 3,
     title: 'Picking Through Your Backlog - Tips Not to Get You Overwhelmed',
-    excerpt: 'Your backlog probably sucks and that is fine. The trick is not trying to process everything at once like some kind of archive robot. Split it up, give yourself permission to ignore stuff, and maybe the good shots will speak for themselves without making you feel like you are drowning.',
+    excerpt: 'Backlogs grow fast, especially when mixing film and digital - thousands of shots pile up before you know it. The key is breaking it down instead of trying to process everything at once. Split by themes, dates, or sessions, then filter through layers: all images, okay ones, good ones, best ones.',
     body: [
       'Climbing back into your backlog doesn’t need to be overwhelming; it can be a way of rediscovering work you already made and finding new stories there.',
       'So break it down into smaller chunks. Work through maybe ten rolls at a time instead of your entire archive. Let the images tell you which ones are worth your time. Some rolls are garbage, some have a few keepers, and maybe one in twenty actually has something that makes you stop and think. That is the workflow.',

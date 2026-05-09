@@ -162,7 +162,7 @@ export const translations: Record<Locale, Translations> = {
     street: {
       eyebrow: 'Urban Stories',
       title: 'Street Photography',
-      description: 'Life as it unfolds',
+      description: 'Life as it unfolds when you leave your house',
       openImage: 'Open {title}',
       enlargedAlt: 'Enlarged street photograph'
     },

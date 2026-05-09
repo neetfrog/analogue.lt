@@ -249,6 +249,7 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
       <AnimatePresence>
         {selectedArticle && (
           <motion.div
+            key={`article-modal-${selectedArticle.id}`}
             className="fixed inset-0 z-50 overflow-hidden bg-black/60 p-3 sm:p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

@@ -19,7 +19,7 @@ const fadeInUp: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
 }
 
-const sectionIds = ['home', 'weddings', 'street', 'prints', 'shop', 'contact'] as const
+const sectionIds = ['home', 'weddings', 'street', 'prints', 'articles', 'shop', 'contact'] as const
 
 type SectionId = (typeof sectionIds)[number]
 
