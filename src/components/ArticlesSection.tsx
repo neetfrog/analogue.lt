@@ -103,12 +103,7 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
             </motion.p>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: descriptionComplete ? 1 : 0 }}
-            transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.1 : 0 }}
-            className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
-          >
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {articles.map((article, i) => (
               <motion.article
                 key={article.id}
@@ -122,12 +117,18 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                   type="button"
                   onClick={() => setSelectedArticle(article)}
                   aria-label={t.openImage?.replace('{title}', article.title) ?? `Open ${article.title}`}
-                  className="relative aspect-[4/5] overflow-hidden bg-stone-200 focus:outline-none"
+                  className="relative aspect-[4/5] w-full overflow-hidden bg-stone-200 focus:outline-none"
                 >
                   <img
                     src={article.image}
                     alt={article.title}
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                    className="ken-burns absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    style={{
+                      '--ken-burns-duration': `${18 + (i % 3) * 2}s`,
+                      '--ken-burns-offset': `${i % 3}`
+                    } as React.CSSProperties}
                   />
 
                   <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-300" />
@@ -135,14 +136,6 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
 
                 {/* Article content */}
                 <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-xs uppercase tracking-widest text-amber-600 font-medium">
-                      {article.category}
-                    </span>
-                    <span className="text-xs text-stone-400">•</span>
-                    <span className="text-xs text-stone-500">{formatDate(article.date)}</span>
-                  </div>
-
                   <h3 className="text-lg md:text-xl font-semibold text-stone-900 mb-3 line-clamp-2 group-hover:text-amber-600 transition-colors">
                     {article.title}
                   </h3>
@@ -162,7 +155,7 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                 </div>
               </motion.article>
             ))}
-          </motion.div>
+          </div>
         </motion.div>
       </div>
 

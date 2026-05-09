@@ -255,7 +255,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
     } else {
       const url = new URL(window.location.href)
       const hash = url.hash.replace('#', '')
-      const sectionIds = ['home', 'portfolio', 'shop', 'contact']
+      const sectionIds = ['home', 'shop', 'contact']
 
       if (hash && !sectionIds.includes(hash)) {
         url.hash = 'shop'

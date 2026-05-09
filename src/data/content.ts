@@ -105,7 +105,7 @@ export const articles: Article[] = [
   {
     id: 1,
     title: 'The Art of Film Photography',
-    excerpt: 'Exploring the timeless beauty of analog film and why photographers continue to choose it in the digital age.',
+    excerpt: 'Exploring the timeless beauty of analog film, this piece dives into the tactile process, the colors and grain, and the way film photography invites a slower, more deliberate approach to picture-making. It also considers why modern creators still reach for film for its emotional texture and storytelling power.',
     date: '2024-01-15',
     category: 'Photography',
     image: new URL('../../images/articles/articles (1).jpg', import.meta.url).href
@@ -113,7 +113,7 @@ export const articles: Article[] = [
   {
     id: 2,
     title: 'Shooting with Soviet Cameras',
-    excerpt: 'A deep dive into vintage Soviet cameras, their unique characteristics, and why collectors love them.',
+    excerpt: 'A deep dive into vintage Soviet cameras and their remarkable engineering, exploring how rugged design and distinctive optics continue to influence creators today. The article also covers practical tips for shooting film with these classics and why they remain treasured by collectors and photographers alike.',
     date: '2024-01-10',
     category: 'Equipment',
     image: new URL('../../images/articles/articles (2).jpg', import.meta.url).href
@@ -121,7 +121,7 @@ export const articles: Article[] = [
   {
     id: 3,
     title: 'Wedding Photography Philosophy',
-    excerpt: 'How to capture authentic moments that tell the story of your special day through the lens of film.',
+    excerpt: 'How to capture authentic moments that tell the story of your special day through the lens of film, balancing emotion, atmosphere, and light. This article shares a film-first philosophy for wedding photography, from framing intimate gestures to preserving the atmosphere of a day that deserves to be remembered beautifully.',
     date: '2024-01-05',
     category: 'Weddings',
     image: new URL('../../images/articles/articles (3).jpg', import.meta.url).href

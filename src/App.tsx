@@ -7,7 +7,6 @@ import { WeddingsSection } from './components/WeddingsSection'
 const StreetPhotographySection = lazy(() => import('./components/StreetPhotographySection').then((module) => ({ default: module.StreetPhotographySection })))
 const PrintsSection = lazy(() => import('./components/PrintsSection').then((module) => ({ default: module.PrintsSection })))
 const ArticlesSection = lazy(() => import('./components/ArticlesSection').then((module) => ({ default: module.ArticlesSection })))
-const PortfolioSection = lazy(() => import('./components/PortfolioSection').then((module) => ({ default: module.PortfolioSection })))
 const GearSection = lazy(() => import('./components/GearSection').then((module) => ({ default: module.GearSection })))
 const ContactSection = lazy(() => import('./components/ContactSection').then((module) => ({ default: module.ContactSection })))
 import { slugify } from './utils/slugify'
@@ -105,15 +104,6 @@ function App() {
       render: () => (
         <Suspense fallback={sectionFallback}>
           <ArticlesSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} t={t.articles} />
-        </Suspense>
-      )
-    },
-    {
-      id: 'portfolio',
-      label: t.nav.sections.portfolio,
-      render: () => (
-        <Suspense fallback={sectionFallback}>
-          <PortfolioSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} t={t.portfolio} />
         </Suspense>
       )
     },
