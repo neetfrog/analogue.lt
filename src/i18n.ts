@@ -143,7 +143,7 @@ export const translations: Record<Locale, Translations> = {
       location: 'Based in Vilnius, Lithuania',
       locationAlt: 'Vilnius',
       aboutTitle: 'About analogue.lt',
-      aboutDescription: 'I preserve life stories on film, creating images that feel like flipping through your grandparents\' photo album — timeless, warm, and deeply yours.'
+      aboutDescription: 'I preserve life stories on film, creating images that feel like flipping through your grandparents\' photo album.'
     },
     weddings: {
       eyebrow: 'Special Moments',
