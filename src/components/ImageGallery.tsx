@@ -71,24 +71,10 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
 
   const [shuffledImages] = useState(() => shuffleArray(images))
   const [layoutClassMap, setLayoutClassMap] = useState<Record<number, string>>(() =>
-    images.reduce((acc, _item, index) => {
-      const itemLayouts = [
-        'aspect-[4/5]',
-        'aspect-square',
-        'aspect-[5/4]',
-        'aspect-[5/3]',
-        'aspect-[3/4]',
-        'aspect-[4/3]'
-      ]
-      acc[_item.id] = itemLayouts[index % itemLayouts.length]
+    images.reduce((acc, _item) => {
+      acc[_item.id] = ''
       return acc
     }, {} as Record<number, string>)
-  )
-  const [wideImageMap, setWideImageMap] = useState<Record<number, boolean>>(() =>
-    images.reduce((acc, item) => {
-      acc[item.id] = false
-      return acc
-    }, {} as Record<number, boolean>)
   )
   const [imageAnimationStyles] = useState<Record<number, CSSProperties>>(() =>
     images.reduce((acc, item, index) => {
@@ -122,33 +108,19 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
     const ratio = target.naturalWidth / target.naturalHeight
 
     let nextLayoutClass = layoutClassMap[item.id]
-    let nextIsWide = wideImageMap[item.id]
 
     if (ratio >= 2.0) {
-      nextLayoutClass = 'aspect-[21/9] col-span-2 md:col-span-2 lg:col-span-2'
-      nextIsWide = true
-    } else if (ratio >= 1.5) {
-      nextLayoutClass = 'aspect-[5/3]'
-      nextIsWide = false
-    } else if (ratio <= 0.65) {
-      nextLayoutClass = 'aspect-[3/4]'
-      nextIsWide = false
+      nextLayoutClass = 'col-span-2 aspect-[21/9]'
+    } else if (ratio <= 0.75) {
+      nextLayoutClass = 'row-span-2 aspect-[3/4]'
     } else {
       nextLayoutClass = 'aspect-[4/3]'
-      nextIsWide = false
     }
 
     if (nextLayoutClass !== layoutClassMap[item.id]) {
       setLayoutClassMap((prev) => ({
         ...prev,
         [item.id]: nextLayoutClass
-      }))
-    }
-
-    if (nextIsWide !== wideImageMap[item.id]) {
-      setWideImageMap((prev) => ({
-        ...prev,
-        [item.id]: nextIsWide
       }))
     }
   }
@@ -237,32 +209,30 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
           initial={{ opacity: 0 }}
           animate={{ opacity: descriptionComplete ? 1 : 0 }}
           transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.1 : 0 }}
-          className="grid gap-4 auto-rows-min"
+          className="grid grid-cols-2 gap-4 grid-flow-row-dense md:grid-flow-row auto-rows-min"
         >
-          <div className="grid grid-cols-2 gap-4 grid-flow-row-dense">
-            {shuffledImages.map((item, i) => (
-              <motion.button
-                type="button"
-                key={item.id}
-                onClick={() => handleImageOpen(item.image)}
-                aria-label={t.openImage.replace('{title}', item.title)}
-                initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05, duration: isReducedMotion ? 0.25 : 0.35 }}
-                className={`group relative w-full overflow-hidden rounded-3xl bg-stone-200 ${layoutClassMap[item.id]} cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400`}
-              >
-                <img
-                  src={item.thumbnail ?? item.image}
-                  alt={item.title}
-                  loading="lazy"
-                  decoding="async"
-                  onLoad={(event) => handleImageLoad(event, item)}
-                  className={`ken-burns absolute inset-0 w-full h-full transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:translate-x-1 ${wideImageMap[item.id] ? 'object-contain bg-stone-950/5' : 'object-cover'}`}
-                  style={imageAnimationStyles[item.id]}
-                />
-              </motion.button>
-            ))}
-          </div>
+          {shuffledImages.map((item, i) => (
+            <motion.button
+              type="button"
+              key={item.id}
+              onClick={() => handleImageOpen(item.image)}
+              aria-label={t.openImage.replace('{title}', item.title)}
+              initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05, duration: isReducedMotion ? 0.25 : 0.35 }}
+              className={`group relative overflow-hidden rounded-3xl bg-stone-200 ${layoutClassMap[item.id]} cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400`}
+            >
+              <img
+                src={item.thumbnail ?? item.image}
+                alt={item.title}
+                loading="lazy"
+                decoding="async"
+                onLoad={(event) => handleImageLoad(event, item)}
+                className="ken-burns absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:translate-x-1"
+                style={imageAnimationStyles[item.id]}
+              />
+            </motion.button>
+          ))}
         </motion.div>
         </motion.div>
 
