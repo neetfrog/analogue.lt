@@ -112,7 +112,7 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
     if (ratio >= 2.0) {
       nextLayoutClass = 'col-span-2 aspect-[21/9]'
     } else if (ratio <= 0.75) {
-      nextLayoutClass = 'row-span-2 aspect-[3/4]'
+      nextLayoutClass = 'row-span-2 aspect-[9/16]'
     } else {
       nextLayoutClass = 'aspect-[4/3]'
     }
@@ -209,7 +209,7 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
           initial={{ opacity: 0 }}
           animate={{ opacity: descriptionComplete ? 1 : 0 }}
           transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.1 : 0 }}
-          className="grid grid-cols-2 gap-4 grid-flow-row-dense md:grid-flow-row auto-rows-min"
+          className="grid grid-cols-2 gap-4 grid-flow-row-dense md:grid-flow-row auto-rows-min items-center"
         >
           {shuffledImages.map((item, i) => (
             <motion.button
