@@ -1002,7 +1002,7 @@ export const gearItems = [
   },
   {
     id: 46,
-    name: 'Mir [1959]',
+    name: 'Mir',
     price: '€30',
     condition: 'Good',
     category: 'cameras',
@@ -1020,7 +1020,7 @@ export const gearItems = [
   },
   {
     id: 47,
-    name: 'Aires Viscount [1959] 45mm f/1.9',
+    name: 'Aires Viscount 45mm f/1.9',
     price: '€40',
     condition: 'Good',
     category: 'cameras',
@@ -1038,7 +1038,7 @@ export const gearItems = [
   },
   {
     id: 48,
-    name: 'Zarya [1959]',
+    name: 'Zarya',
     price: '€20',
     condition: 'Good',
     category: 'cameras',
@@ -1056,7 +1056,7 @@ export const gearItems = [
   },
   {
     id: 49,
-    name: 'Zenit-122 [1990] & Helios 44M-4 58mm f/2',
+    name: 'Zenit-122 + Helios 44M-4 58mm f/2',
     price: '€70',
     condition: 'Very good',
     category: 'cameras',
@@ -1074,7 +1074,7 @@ export const gearItems = [
   },
   {
     id: 50,
-    name: 'Zorki-1 [c. 1950]',
+    name: 'Zorki-1',
     price: '€27',
     condition: 'Satisfactory',
     category: 'cameras',
