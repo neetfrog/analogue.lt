@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type PointerEvent, type TouchEvent } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import { X, Check, Link2, Camera, Aperture, Grid, Package, DollarSign, ChevronUp } from 'lucide-react'
 import type { GearItem } from '../data/content'
@@ -188,6 +188,8 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
   const [descriptionComplete, setDescriptionComplete] = useState(false)
   const [hasAppliedInitialGear, setHasAppliedInitialGear] = useState(false)
   const imageWrapperRef = useRef<HTMLDivElement | null>(null)
+  const imageRef = useRef<HTMLImageElement | null>(null)
+  const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0, top: 0, bottom: 0 })
   const tagScrollRef = useRef<HTMLDivElement | null>(null)
   const isTagDraggingRef = useRef(false)
   const dragStartXRef = useRef(0)
@@ -290,6 +292,36 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
       lastTapRef.current = now
     }
   }
+
+  useLayoutEffect(() => {
+    const updateDragConstraints = () => {
+      const wrapper = imageWrapperRef.current
+      const imageEl = imageRef.current
+      if (!wrapper || !imageEl) {
+        setDragConstraints({ left: 0, right: 0, top: 0, bottom: 0 })
+        return
+      }
+
+      const targetScale = zoomLevel === 2 ? 2.8 : zoomLevel === 1 ? 1.8 : 1
+      const wrapperWidth = wrapper.clientWidth
+      const wrapperHeight = wrapper.clientHeight
+      const imageWidth = imageEl.clientWidth
+      const imageHeight = imageEl.clientHeight
+      const overflowX = Math.max(0, imageWidth * targetScale - wrapperWidth)
+      const overflowY = Math.max(0, imageHeight * targetScale - wrapperHeight)
+
+      setDragConstraints({
+        left: -overflowX / 2,
+        right: overflowX / 2,
+        top: -overflowY / 2,
+        bottom: overflowY / 2
+      })
+    }
+
+    updateDragConstraints()
+    window.addEventListener('resize', updateDragConstraints)
+    return () => window.removeEventListener('resize', updateDragConstraints)
+  }, [zoomLevel, activeImage])
 
   const handleTagPointerDown = (event: PointerEvent<HTMLDivElement>) => {
     event.preventDefault()
@@ -701,6 +733,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                   <div className="space-y-4 min-w-0">
                     <div ref={imageWrapperRef} className="relative aspect-square overflow-hidden rounded-3xl bg-stone-100">
                       <motion.img
+                        ref={imageRef}
                         src={activeImage || selectedGear.image}
                         alt={selectedGear.name}
                         initial={false}
@@ -709,7 +742,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                         drag={zoomLevel > 0}
                         dragMomentum={false}
                         dragElastic={0.3}
-                        dragConstraints={{ left: -220, right: 220, top: -220, bottom: 220 }}
+                        dragConstraints={dragConstraints}
                         className="w-full h-full object-contain"
                         style={{ transformOrigin: 'center center' }}
                         loading="lazy"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { TouchEvent } from 'react'
 import { AnimatePresence, motion, useAnimationControls } from 'framer-motion'
 import { X } from 'lucide-react'
@@ -22,6 +22,9 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
   const [isPinching, setIsPinching] = useState(false)
   const scaleLevels = [1, 1.8, 2.8] as const
   const currentScale = scaleLevels[zoomLevel] ?? 1
+  const imageWrapperRef = useRef<HTMLDivElement | null>(null)
+  const imageRef = useRef<HTMLImageElement | null>(null)
+  const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0, top: 0, bottom: 0 })
 
   const getPinchDistance = (
     firstTouch: { clientX: number; clientY: number },
@@ -42,6 +45,36 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
       transition: { duration: isReducedMotion ? 0.18 : 0.25 }
     })
   }, [controls, currentScale, image, isReducedMotion, isPinching, pinchScale])
+
+  useLayoutEffect(() => {
+    const updateDragConstraints = () => {
+      const wrapper = imageWrapperRef.current
+      const imageEl = imageRef.current
+      if (!wrapper || !imageEl) {
+        setDragConstraints({ left: 0, right: 0, top: 0, bottom: 0 })
+        return
+      }
+
+      const targetScale = isPinching ? pinchScale : currentScale
+      const wrapperWidth = wrapper.clientWidth
+      const wrapperHeight = wrapper.clientHeight
+      const imageWidth = imageEl.clientWidth
+      const imageHeight = imageEl.clientHeight
+      const overflowX = Math.max(0, imageWidth * targetScale - wrapperWidth)
+      const overflowY = Math.max(0, imageHeight * targetScale - wrapperHeight)
+
+      setDragConstraints({
+        left: -overflowX / 2,
+        right: overflowX / 2,
+        top: -overflowY / 2,
+        bottom: overflowY / 2
+      })
+    }
+
+    updateDragConstraints()
+    window.addEventListener('resize', updateDragConstraints)
+    return () => window.removeEventListener('resize', updateDragConstraints)
+  }, [currentScale, isPinching, pinchScale, image])
 
   const handleTouchStart = (event: TouchEvent<HTMLImageElement>) => {
     if (event.touches.length === 2) {
@@ -107,10 +140,11 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
         <X size={20} />
       </button>
 
-      <div className="relative max-h-[90vh] max-w-full overflow-visible rounded-3xl bg-black">
+      <div ref={imageWrapperRef} className="relative max-h-[90vh] max-w-full overflow-visible rounded-3xl bg-black">
         <AnimatePresence mode="wait">
           <motion.img
             key={image}
+            ref={imageRef}
             src={image}
             alt={alt}
             loading="eager"
@@ -121,7 +155,7 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
             drag={zoomLevel > 0}
             dragMomentum={false}
             dragElastic={0.3}
-            dragConstraints={{ left: -220, right: 220, top: -220, bottom: 220 }}
+            dragConstraints={dragConstraints}
             className="relative z-10 max-h-[90vh] w-full rounded-3xl object-contain shadow-2xl bg-black"
             style={{ transformOrigin: 'center center', touchAction: 'none' }}
             onClick={(event) => event.stopPropagation()}
