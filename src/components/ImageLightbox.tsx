@@ -20,12 +20,12 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
   const [pinchInitialDistance, setPinchInitialDistance] = useState<number | null>(null)
   const [pinchScale, setPinchScale] = useState(1)
   const [isPinching, setIsPinching] = useState(false)
+  const [zoomOffset, setZoomOffset] = useState({ x: 0, y: 0 })
   const scaleLevels = [1, 1.8, 2.8] as const
   const currentScale = scaleLevels[zoomLevel] ?? 1
   const imageWrapperRef = useRef<HTMLDivElement | null>(null)
   const imageRef = useRef<HTMLImageElement | null>(null)
   const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0, top: 0, bottom: 0 })
-  const [transformOrigin, setTransformOrigin] = useState('center center')
   const lastTapRef = useRef<number>(0)
 
   const getPinchDistance = (
@@ -39,14 +39,17 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
 
   useEffect(() => {
     const targetScale = isPinching ? pinchScale : currentScale
+    const targetX = isPinching ? 0 : zoomOffset.x
+    const targetY = isPinching ? 0 : zoomOffset.y
+
     controls.start({
       opacity: 1,
       scale: targetScale,
-      x: 0,
-      y: 0,
+      x: targetX,
+      y: targetY,
       transition: { duration: isReducedMotion ? 0.18 : 0.25 }
     })
-  }, [controls, currentScale, image, isReducedMotion, isPinching, pinchScale])
+  }, [controls, currentScale, image, isReducedMotion, isPinching, pinchScale, zoomOffset])
 
   useLayoutEffect(() => {
     const updateDragConstraints = () => {
@@ -97,21 +100,30 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
     setPinchScale(scale)
   }
 
-  const getTransformOrigin = (clientX: number, clientY: number) => {
+  const getZoomOffset = (clientX: number, clientY: number, oldScale: number, newScale: number) => {
     const imageEl = imageRef.current
-    if (!imageEl) {
-      return 'center center'
+    if (!imageEl || oldScale === 0) {
+      return { x: 0, y: 0 }
     }
 
     const rect = imageEl.getBoundingClientRect()
     const x = Math.max(0, Math.min(clientX - rect.left, rect.width))
     const y = Math.max(0, Math.min(clientY - rect.top, rect.height))
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+    const factor = newScale / oldScale - 1
 
-    return `${(x / rect.width) * 100}% ${(y / rect.height) * 100}%`
+    return {
+      x: -factor * (x - centerX),
+      y: -factor * (y - centerY)
+    }
   }
 
   const zoomAtPoint = (clientX: number, clientY: number) => {
-    setTransformOrigin(getTransformOrigin(clientX, clientY))
+    const nextZoomLevel = (zoomLevel + 1) % 3
+    const nextScale = scaleLevels[nextZoomLevel] ?? 1
+    const offset = nextZoomLevel === 0 ? { x: 0, y: 0 } : getZoomOffset(clientX, clientY, currentScale, nextScale)
+    setZoomOffset(offset)
     onToggleZoom()
   }
 
@@ -127,6 +139,7 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
       setIsPinching(false)
       setPinchInitialDistance(null)
       setPinchScale(1)
+      setZoomOffset({ x: 0, y: 0 })
       controls.start({
         scale: scaleLevels[targetLevel],
         x: 0,
@@ -154,7 +167,7 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
 
   useEffect(() => {
     if (zoomLevel === 0) {
-      setTransformOrigin('center center')
+      setZoomOffset({ x: 0, y: 0 })
     }
   }, [zoomLevel])
 
@@ -196,7 +209,7 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
             dragElastic={0.3}
             dragConstraints={dragConstraints}
             className="relative z-10 max-h-[90vh] w-full rounded-3xl object-contain shadow-2xl bg-black"
-            style={{ transformOrigin, touchAction: 'none' }}
+            style={{ transformOrigin: 'center center', touchAction: 'none' }}
             onClick={(event) => event.stopPropagation()}
             onDoubleClick={(event) => {
               event.stopPropagation()
