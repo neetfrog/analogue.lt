@@ -25,6 +25,8 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
   const imageWrapperRef = useRef<HTMLDivElement | null>(null)
   const imageRef = useRef<HTMLImageElement | null>(null)
   const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0, top: 0, bottom: 0 })
+  const [transformOrigin, setTransformOrigin] = useState('center center')
+  const lastTapRef = useRef<number>(0)
 
   const getPinchDistance = (
     firstTouch: { clientX: number; clientY: number },
@@ -95,6 +97,24 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
     setPinchScale(scale)
   }
 
+  const getTransformOrigin = (clientX: number, clientY: number) => {
+    const imageEl = imageRef.current
+    if (!imageEl) {
+      return 'center center'
+    }
+
+    const rect = imageEl.getBoundingClientRect()
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width))
+    const y = Math.max(0, Math.min(clientY - rect.top, rect.height))
+
+    return `${(x / rect.width) * 100}% ${(y / rect.height) * 100}%`
+  }
+
+  const zoomAtPoint = (clientX: number, clientY: number) => {
+    setTransformOrigin(getTransformOrigin(clientX, clientY))
+    onToggleZoom()
+  }
+
   const handleTouchEnd = (event: TouchEvent<HTMLImageElement>) => {
     if (isPinching) {
       const finalScale = pinchScale
@@ -116,8 +136,27 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
       return
     }
 
+    const touch = event.changedTouches[0] || event.touches[0]
+    if (touch) {
+      const now = Date.now()
+      if (now - lastTapRef.current < 300) {
+        event.preventDefault()
+        lastTapRef.current = 0
+        zoomAtPoint(touch.clientX, touch.clientY)
+        return
+      }
+
+      lastTapRef.current = now
+    }
+
     onTouchEnd(event)
   }
+
+  useEffect(() => {
+    if (zoomLevel === 0) {
+      setTransformOrigin('center center')
+    }
+  }, [zoomLevel])
 
   return (
     <motion.div
@@ -157,11 +196,11 @@ export function ImageLightbox({ image, alt, zoomLevel, reduceMotion, onClose, on
             dragElastic={0.3}
             dragConstraints={dragConstraints}
             className="relative z-10 max-h-[90vh] w-full rounded-3xl object-contain shadow-2xl bg-black"
-            style={{ transformOrigin: 'center center', touchAction: 'none' }}
+            style={{ transformOrigin, touchAction: 'none' }}
             onClick={(event) => event.stopPropagation()}
             onDoubleClick={(event) => {
               event.stopPropagation()
-              onToggleZoom()
+              zoomAtPoint(event.clientX, event.clientY)
             }}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
