@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, type TouchEvent, type CSSProperties } from 'react'
+import { useState, useRef, useEffect, type TouchEvent, type SyntheticEvent, type CSSProperties } from 'react'
 import { motion, type Variants } from 'framer-motion'
 import { ImageLightbox } from './ImageLightbox'
 import { TypewriterText } from './TypewriterText'
@@ -70,6 +70,26 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
   }
 
   const [shuffledImages] = useState(() => shuffleArray(images))
+  const [layoutClassMap, setLayoutClassMap] = useState<Record<number, string>>(() =>
+    images.reduce((acc, _item, index) => {
+      const itemLayouts = [
+        'aspect-[4/5]',
+        'aspect-square',
+        'aspect-[5/4]',
+        'aspect-[5/3]',
+        'aspect-[3/4]',
+        'aspect-[4/3]'
+      ]
+      acc[_item.id] = itemLayouts[index % itemLayouts.length]
+      return acc
+    }, {} as Record<number, string>)
+  )
+  const [wideImageMap, setWideImageMap] = useState<Record<number, boolean>>(() =>
+    images.reduce((acc, item) => {
+      acc[item.id] = false
+      return acc
+    }, {} as Record<number, boolean>)
+  )
   const [imageAnimationStyles] = useState<Record<number, CSSProperties>>(() =>
     images.reduce((acc, item, index) => {
       acc[item.id] = {
@@ -97,21 +117,40 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
     }
   }
 
-  const itemLayouts = [
-    'aspect-[4/5]',
-    'aspect-square',
-    'aspect-[5/4]',
-    'aspect-[5/3]',
-    'aspect-[3/4]',
-    'aspect-[4/3]'
-  ]
+  const handleImageLoad = (event: SyntheticEvent<HTMLImageElement>, item: ImageItem) => {
+    const target = event.currentTarget
+    const ratio = target.naturalWidth / target.naturalHeight
 
-  const handleImageLoad = () => {
-    // Preserve the initially assigned aspect ratio to avoid layout shifts when images load.
-  }
+    let nextLayoutClass = layoutClassMap[item.id]
+    let nextIsWide = wideImageMap[item.id]
 
-  const getLayoutClass = (_item: ImageItem, index: number) => {
-    return itemLayouts[index % itemLayouts.length]
+    if (ratio >= 2.0) {
+      nextLayoutClass = 'aspect-[21/9] col-span-2 md:col-span-2 lg:col-span-2'
+      nextIsWide = true
+    } else if (ratio >= 1.5) {
+      nextLayoutClass = 'aspect-[5/3]'
+      nextIsWide = false
+    } else if (ratio <= 0.65) {
+      nextLayoutClass = 'aspect-[3/4]'
+      nextIsWide = false
+    } else {
+      nextLayoutClass = 'aspect-[4/3]'
+      nextIsWide = false
+    }
+
+    if (nextLayoutClass !== layoutClassMap[item.id]) {
+      setLayoutClassMap((prev) => ({
+        ...prev,
+        [item.id]: nextLayoutClass
+      }))
+    }
+
+    if (nextIsWide !== wideImageMap[item.id]) {
+      setWideImageMap((prev) => ({
+        ...prev,
+        [item.id]: nextIsWide
+      }))
+    }
   }
 
   useEffect(() => {
@@ -200,7 +239,7 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
           transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.1 : 0 }}
           className="grid gap-4 auto-rows-min"
         >
-          <div className="columns-2 md:columns-3 lg:columns-4 space-y-1" style={{ columnGap: '0.6rem' }}>
+          <div className="grid grid-cols-2 gap-4 grid-flow-row-dense">
             {shuffledImages.map((item, i) => (
               <motion.button
                 type="button"
@@ -210,7 +249,7 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
                 initial={isReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05, duration: isReducedMotion ? 0.25 : 0.35 }}
-                className={`group relative inline-block w-full overflow-hidden rounded-3xl bg-stone-200 ${getLayoutClass(item, i)} cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400 break-inside-avoid`}
+                className={`group relative w-full overflow-hidden rounded-3xl bg-stone-200 ${layoutClassMap[item.id]} cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400`}
               >
                 <img
                   src={item.thumbnail ?? item.image}
@@ -218,7 +257,7 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
                   loading="lazy"
                   decoding="async"
                   onLoad={(event) => handleImageLoad(event, item)}
-                  className="ken-burns absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:translate-x-1"
+                  className={`ken-burns absolute inset-0 w-full h-full transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:translate-x-1 ${wideImageMap[item.id] ? 'object-contain bg-stone-950/5' : 'object-cover'}`}
                   style={imageAnimationStyles[item.id]}
                 />
               </motion.button>
