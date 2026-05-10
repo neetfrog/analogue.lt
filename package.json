@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "serve": "node server/index.js",
-    "build": "npm run create-thumbnails -- --force && vite build",
+    "build": "npm run create-thumbnails && vite build",
     "preview": "vite preview",
     "trim-article-frames": "node scripts/trim-frames.js",
     "convert-articles-to-webp": "node scripts/convert-articles-to-webp.js",

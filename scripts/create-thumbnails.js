@@ -94,7 +94,7 @@ async function watchDirs(targetDirs) {
 
   watcher.on('add', async (filePath) => {
     console.log(`New image detected: ${filePath}`)
-    const result = await processFile(filePath)
+    const result = await processFile(filePath, true)
     if (result && !result.skipped) console.log(`Created thumbnail: ${result.outputPath}`)
   })
 
