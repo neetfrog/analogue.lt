@@ -12,6 +12,7 @@ const allowedExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp'])
 const thumbDirName = 'thumbs'
 const thumbExt = '.webp'
 const maxSize = 900
+const panoMaxWidth = 1600
 const quality = 80
 const effort = 6
 
@@ -60,8 +61,15 @@ async function createThumbnail(filePath, { skipIfExists = false } = {}) {
       }
     }
 
-    await sharp(filePath)
-      .resize({ width: maxSize, height: maxSize, fit: 'inside', withoutEnlargement: true })
+    const image = sharp(filePath)
+    const metadata = await image.metadata()
+    const ratio = metadata.width && metadata.height ? metadata.width / metadata.height : 1
+    const resizeOptions = ratio >= 2.0
+      ? { width: panoMaxWidth, withoutEnlargement: true }
+      : { width: maxSize, height: maxSize, fit: 'inside', withoutEnlargement: true }
+
+    await image
+      .resize(resizeOptions)
       .webp({ quality, effort })
       .toFile(outputPath)
     return { outputPath, skipped: false }
@@ -114,8 +122,9 @@ async function watchDirs(targetDirs) {
 async function main() {
   const args = process.argv.slice(2)
   const watch = args.includes('--watch') || args.includes('watch')
-  const targets = args.filter((arg) => arg !== '--watch' && arg !== 'watch').length
-    ? args.filter((arg) => arg !== '--watch' && arg !== 'watch').map((dir) => path.resolve(dir))
+  const force = args.includes('--force') || args.includes('overwrite')
+  const targets = args.filter((arg) => arg !== '--watch' && arg !== 'watch' && arg !== '--force' && arg !== 'force' && arg !== 'overwrite').length
+    ? args.filter((arg) => arg !== '--watch' && arg !== 'watch' && arg !== '--force' && arg !== 'force' && arg !== 'overwrite').map((dir) => path.resolve(dir))
     : defaultDirs
 
   for (const targetDir of targets) {
@@ -146,7 +155,7 @@ async function main() {
 
     const created = []
     for (const file of files) {
-      const result = await processFile(file, true)
+      const result = await processFile(file, !force)
       if (result) {
         if (result.skipped) {
           console.log(`Skipped existing thumbnail: ${result.outputPath}`)
