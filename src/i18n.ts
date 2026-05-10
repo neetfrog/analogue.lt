@@ -170,7 +170,7 @@ export const translations: Record<Locale, Translations> = {
     articles: {
       eyebrow: 'Enjoy reading?',
       title: 'Texts',
-      description: 'my own analogue substack',
+      description: 'My own analogue Substack',
       readMore: 'Read More',
       openImage: 'Open {title}',
       enlargedAlt: 'Enlarged article image'

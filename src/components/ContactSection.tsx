@@ -89,13 +89,13 @@ export function ContactSection({
           transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.2 : 0 }}
           className="flex flex-col items-center gap-6"
         >
-          <div className="flex items-center gap-2 text-stone-400 text-sm mt-4">
-            <Heart size={16} />
+          <div className="group flex items-center gap-2 text-stone-400 text-sm mt-4">
+            <Heart size={16} fill="currentColor" className="transition-colors text-stone-400 group-hover:text-red-500" />
             <a
               href="https://nefas.tv"
               target="_blank"
               rel="noreferrer"
-              className="transition text-stone-400 hover:text-stone-900"
+              className="transition text-stone-400"
             >
               {t.crafted}
             </a>
