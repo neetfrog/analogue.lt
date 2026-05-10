@@ -3,6 +3,7 @@ import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import { articles, getImageThumbnail } from '../data/content'
 import { ImageLightbox } from './ImageLightbox'
 import { TypewriterText } from './TypewriterText'
+import { useScrollLock } from '../hooks/useScrollLock'
 import type { ArticleTranslations } from '../i18n'
 
 type ArticleItem = (typeof articles)[number]
@@ -26,25 +27,14 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
 
   const articleImages = selectedArticle ? [selectedArticle.image, ...(selectedArticle.moreImages ?? [])] : []
   const activeImageIndex = activeImage && selectedArticle ? articleImages.findIndex((src) => src === activeImage) : -1
-  const isHorizontArticle = selectedArticle?.id === 1
 
-  const getHorizontWrapperClass = (src: string) => {
-    if (!isHorizontArticle) return ''
-    const normalized = src.replace(/%20/g, ' ')
-    if (/horizont \((6|7)\)\.(jpg|jpeg|png|webp)$/i.test(normalized)) {
-      return 'w-full aspect-[3/4]'
-    }
+  const getArticleWrapperClass = () => {
+    if (selectedArticle?.layout === 'portrait') return 'w-full aspect-[3/4]'
+    if (selectedArticle?.layout === 'wide') return 'w-full aspect-[21/9]'
     return 'w-full aspect-[16/9]'
   }
 
-  const getHorizontImageClass = (src: string) => {
-    if (!isHorizontArticle) return 'w-full h-full object-cover'
-    const normalized = src.replace(/%20/g, ' ')
-    if (/horizont \((6|7)\)\.(jpg|jpeg|png|webp)$/i.test(normalized)) {
-      return 'w-full h-full object-cover'
-    }
-    return 'w-full h-full object-cover'
-  }
+  const getArticleImageClass = () => 'w-full h-full object-cover'
 
   const openImageFullscreen = (image: string) => {
     setActiveImage(image)
@@ -97,34 +87,7 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
   }
 
-  useEffect(() => {
-    const originalBodyOverflow = document.body.style.overflow
-    const originalHtmlOverflow = document.documentElement.style.overflow
-    const originalBodyOverscrollBehavior = document.body.style.overscrollBehavior
-    const originalHtmlOverscrollBehavior = document.documentElement.style.overscrollBehavior
-
-    if (selectedArticle) {
-      document.body.dataset.lightboxOpen = 'true'
-      document.body.style.overflow = 'hidden'
-      document.documentElement.style.overflow = 'hidden'
-      document.body.style.overscrollBehavior = 'none'
-      document.documentElement.style.overscrollBehavior = 'none'
-    } else {
-      delete document.body.dataset.lightboxOpen
-      document.body.style.overflow = originalBodyOverflow
-      document.documentElement.style.overflow = originalHtmlOverflow
-      document.body.style.overscrollBehavior = originalBodyOverscrollBehavior
-      document.documentElement.style.overscrollBehavior = originalHtmlOverscrollBehavior
-    }
-
-    return () => {
-      delete document.body.dataset.lightboxOpen
-      document.body.style.overflow = originalBodyOverflow
-      document.documentElement.style.overflow = originalHtmlOverflow
-      document.body.style.overscrollBehavior = originalBodyOverscrollBehavior
-      document.documentElement.style.overscrollBehavior = originalHtmlOverscrollBehavior
-    }
-  }, [selectedArticle])
+  useScrollLock(Boolean(selectedArticle))
 
   useEffect(() => {
     if (!selectedArticle) {
@@ -288,12 +251,12 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                     type="button"
                     onClick={() => openImageFullscreen(selectedArticle.image)}
                     aria-label={t.openImage?.replace('{title}', selectedArticle.title) ?? `Open ${selectedArticle.title}`}
-                    className={`relative overflow-hidden rounded-3xl bg-stone-100 focus:outline-none ${getHorizontWrapperClass(selectedArticle.image) || 'w-full aspect-[5/4]'}`}
+                    className={`relative overflow-hidden rounded-3xl bg-stone-100 focus:outline-none ${getArticleWrapperClass()}`}
                   >
                     <img
                       src={selectedArticle.image}
                       alt={t.enlargedAlt ?? selectedArticle.title}
-                      className={`cursor-zoom-in transition-transform duration-300 hover:scale-105 ${getHorizontImageClass(selectedArticle.image)}`}
+                      className={`cursor-zoom-in transition-transform duration-300 hover:scale-105 ${getArticleImageClass()}`}
                       loading="lazy"
                       decoding="async"
                     />
@@ -321,12 +284,12 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                               type="button"
                               onClick={() => openImageFullscreen(selectedArticle.moreImages[index])}
                               aria-label={t.openImage?.replace('{title}', selectedArticle.title) ?? `Open ${selectedArticle.title}`}
-                              className={`relative overflow-hidden rounded-3xl bg-stone-100 text-left focus:outline-none ${getHorizontWrapperClass(selectedArticle.moreImages[index]) || 'w-full aspect-[5/4]'}`}
+                              className={`relative overflow-hidden rounded-3xl bg-stone-100 text-left focus:outline-none ${getArticleWrapperClass()}`}
                             >
                               <img
                                 src={getImageThumbnail(selectedArticle.moreImages[index]) ?? selectedArticle.moreImages[index]}
                                 alt={`${selectedArticle.title} image ${index + 1}`}
-                                className={`cursor-zoom-in transition-transform duration-300 hover:scale-105 ${getHorizontImageClass(selectedArticle.moreImages[index])}`}
+                                className={`cursor-zoom-in transition-transform duration-300 hover:scale-105 ${getArticleImageClass()}`}
                                 loading="lazy"
                                 decoding="async"
                               />
@@ -343,12 +306,12 @@ export function ArticlesSection({ fadeInUp, staggerContainer, reduceMotion, t }:
                               key={index}
                               onClick={() => openImageFullscreen(src)}
                               aria-label={t.openImage?.replace('{title}', selectedArticle.title) ?? `Open ${selectedArticle.title}`}
-                              className={`relative overflow-hidden rounded-3xl bg-stone-100 text-left focus:outline-none ${getHorizontWrapperClass(src) || 'w-full aspect-[5/4]'}`}
+                              className={`relative overflow-hidden rounded-3xl bg-stone-100 text-left focus:outline-none ${getArticleWrapperClass()}`}
                             >
                               <img
                                 src={getImageThumbnail(src) ?? src}
                                 alt={`${selectedArticle.title} extra image ${selectedArticle.body.length + index + 1}`}
-                                className={`cursor-zoom-in transition-transform duration-300 hover:scale-105 ${getHorizontImageClass(src)}`}
+                                className={`cursor-zoom-in transition-transform duration-300 hover:scale-105 ${getArticleImageClass()}`}
                                 loading="lazy"
                                 decoding="async"
                               />

@@ -6,6 +6,9 @@ type AdminSectionProps = {
   onSaveItems: (items: GearItem[]) => Promise<void>
 }
 
+const inputClass = 'rounded-3xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-200'
+const labelClass = 'flex flex-col gap-2 text-sm font-medium text-stone-700'
+
 const parseList = (value: string) =>
   value
     .split(/\r?\n/)
@@ -141,60 +144,35 @@ export function AdminSection({ items, onSaveItems }: AdminSectionProps) {
               </div>
 
               <div className="mt-6 grid gap-4 xl:grid-cols-2">
-                <label className="flex flex-col gap-2 text-sm font-medium text-stone-700">
-                  Name
-                  <input
-                    value={item.name}
-                    onChange={(event) => updateItem(item.id, 'name', event.target.value)}
-                    className="rounded-3xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-200"
-                  />
-                </label>
-
-                <label className="flex flex-col gap-2 text-sm font-medium text-stone-700">
-                  Price
-                  <input
-                    value={item.price}
-                    onChange={(event) => updateItem(item.id, 'price', event.target.value)}
-                    className="rounded-3xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-200"
-                  />
-                </label>
-
-                <label className="flex flex-col gap-2 text-sm font-medium text-stone-700">
-                  Condition
-                  <input
-                    value={item.condition}
-                    onChange={(event) => updateItem(item.id, 'condition', event.target.value)}
-                    className="rounded-3xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-200"
-                  />
-                </label>
-
-                <label className="flex flex-col gap-2 text-sm font-medium text-stone-700">
-                  Category
-                  <input
-                    value={item.category}
-                    onChange={(event) => updateItem(item.id, 'category', event.target.value)}
-                    className="rounded-3xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-200"
-                  />
-                </label>
-
-                <label className="flex flex-col gap-2 text-sm font-medium text-stone-700">
-                  Manufacturer
-                  <input
-                    value={item.manufacturer}
-                    onChange={(event) => updateItem(item.id, 'manufacturer', event.target.value)}
-                    className="rounded-3xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-200"
-                  />
-                </label>
-
-                <label className="flex flex-col gap-2 text-sm font-medium text-stone-700">
-                  Sold
-                  <input
-                    type="checkbox"
-                    checked={item.sold}
-                    onChange={(event) => updateItem(item.id, 'sold', event.target.checked)}
-                    className="h-5 w-5 rounded border-stone-300 text-amber-600 focus:ring-amber-400"
-                  />
-                </label>
+                {(
+                  [
+                    { label: 'Name', field: 'name' as const, type: 'text' as const },
+                    { label: 'Price', field: 'price' as const, type: 'text' as const },
+                    { label: 'Condition', field: 'condition' as const, type: 'text' as const },
+                    { label: 'Category', field: 'category' as const, type: 'text' as const },
+                    { label: 'Manufacturer', field: 'manufacturer' as const, type: 'text' as const },
+                    { label: 'Sold', field: 'sold' as const, type: 'checkbox' as const }
+                  ] as const
+                ).map(({ label, field, type }) => (
+                  <label key={field} className={labelClass}>
+                    {label}
+                    {type === 'checkbox' ? (
+                      <input
+                        type="checkbox"
+                        checked={Boolean(item[field])}
+                        onChange={(event) => updateItem(item.id, field, event.target.checked as GearItem[typeof field])}
+                        className="h-5 w-5 rounded border-stone-300 text-amber-600 focus:ring-amber-400"
+                      />
+                    ) : (
+                      <input
+                        type={type}
+                        value={String(item[field] ?? '')}
+                        onChange={(event) => updateItem(item.id, field, event.target.value as GearItem[typeof field])}
+                        className={inputClass}
+                      />
+                    )}
+                  </label>
+                ))}
               </div>
 
               <div className="mt-6 grid gap-4">

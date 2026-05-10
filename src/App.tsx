@@ -2,6 +2,7 @@
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { Moon, Sun } from 'lucide-react'
 import { gearItems, type GearItem } from './data/content'
+import { sectionIds, sectionHashAliases, type SectionId } from './data/sections'
 import { HomeSection } from './components/HomeSection'
 import { WeddingsSection } from './components/WeddingsSection'
 import { StreetPhotographySection } from './components/StreetPhotographySection'
@@ -19,9 +20,7 @@ const fadeInUp: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
 }
 
-const sectionIds = ['home', 'weddings', 'street', 'prints', 'articles', 'shop', 'contact'] as const
-
-type SectionId = (typeof sectionIds)[number]
+const normalizeSectionHash = (hash: string) => (sectionHashAliases[hash] ?? hash) as SectionId
 
 const getInitialHashState = () => {
   if (typeof window === 'undefined') {
@@ -29,8 +28,8 @@ const getInitialHashState = () => {
   }
 
   const hash = window.location.hash.replace('#', '')
-  const normalizedHash = hash === 'gear' ? 'shop' : hash
-  const sectionIndex = sectionIds.indexOf(normalizedHash as SectionId)
+  const normalizedHash = normalizeSectionHash(hash)
+  const sectionIndex = sectionIds.indexOf(normalizedHash)
 
   if (sectionIndex !== -1) {
     return { activeSection: sectionIndex, initialGearId: null }
@@ -58,7 +57,7 @@ const staggerContainer: Variants = {
 }
 
 type SectionItem = {
-  id: string
+  id: SectionId
   label: string
   render: () => ReactNode
 }
@@ -98,15 +97,19 @@ function App() {
     <div className="w-full min-h-screen pt-24" />
   )
 
+  const LazySection = ({ children }: { children: ReactNode }) => (
+    <Suspense fallback={sectionFallback}>{children}</Suspense>
+  )
+
   const sectionItems = useMemo<SectionItem[]>(() => [
     { id: 'home', label: t.nav.sections.home, render: () => <HomeSection t={t.home} /> },
     {
       id: 'weddings',
       label: t.nav.sections.weddings,
       render: () => (
-        <Suspense fallback={sectionFallback}>
+        <LazySection>
           <WeddingsSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} t={t.weddings} />
-        </Suspense>
+        </LazySection>
       )
     },
     {
@@ -120,25 +123,25 @@ function App() {
       id: 'prints',
       label: t.nav.sections.prints,
       render: () => (
-        <Suspense fallback={sectionFallback}>
+        <LazySection>
           <PrintsSection t={t.prints} />
-        </Suspense>
+        </LazySection>
       )
     },
     {
       id: 'articles',
       label: t.nav.sections.articles,
       render: () => (
-        <Suspense fallback={sectionFallback}>
+        <LazySection>
           <ArticlesSection fadeInUp={fadeInUp} staggerContainer={staggerContainer} t={t.articles} />
-        </Suspense>
+        </LazySection>
       )
     },
     {
       id: 'shop',
       label: t.nav.sections.gear,
       render: () => (
-        <Suspense fallback={sectionFallback}>
+        <LazySection>
           <GearSection
             items={gearItemsState}
             fadeInUp={fadeInUp}
@@ -152,20 +155,20 @@ function App() {
               }
             }}
           />
-        </Suspense>
+        </LazySection>
       )
     },
     {
       id: 'contact',
       label: t.nav.sections.contact,
       render: () => (
-        <Suspense fallback={sectionFallback}>
+        <LazySection>
           <ContactSection
             fadeInUp={fadeInUp}
             instagramActive={instagramActive}
             t={t.contact}
           />
-        </Suspense>
+        </LazySection>
       )
     }
   ], [t, gearItemsState, initialGearId, instagramActive])
@@ -256,7 +259,7 @@ function App() {
   useEffect(() => {
     const applyHash = () => {
       const hash = window.location.hash.replace('#', '')
-      const normalizedHash = hash === 'gear' ? 'shop' : hash
+      const normalizedHash = normalizeSectionHash(hash)
       const sectionIndex = sectionIndexById.get(normalizedHash)
       if (typeof sectionIndex === 'number') {
         setActiveSection(sectionIndex)

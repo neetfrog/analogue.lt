@@ -1,12 +1,13 @@
-export const sections = [
-  { id: 'home', label: 'Home' },
-  { id: 'weddings', label: 'Events' },
-  { id: 'street', label: 'Streets' },
-  { id: 'prints', label: 'Prints' },
-  { id: 'articles', label: 'Texts' },
-  { id: 'gear', label: 'Shop' },
-  { id: 'contact', label: 'Contact' }
-]
+import { getImageThumbnail, horizontImages, snowboardingImages } from './image-collections'
+export {
+  eventImages,
+  streetPhotographyImages,
+  printsImages,
+  homeSlides,
+  getImageThumbnail,
+  horizontImages,
+  snowboardingImages
+} from './image-collections'
 
 export type GearItem = {
   id: number
@@ -28,146 +29,6 @@ export type GearItem = {
   multipleItems?: boolean
 }
 
-type EventImage = {
-  id: number
-  title: string
-  location: string
-  image: string
-  thumbnail?: string
-}
-
-const normalizePath = (value: string) => value.replace(/\\/g, '/')
-const getFilename = (path: string) => {
-  try {
-    return normalizePath(decodeURIComponent(path)).split('/').pop() ?? ''
-  } catch {
-    return normalizePath(path).split('/').pop() ?? ''
-  }
-}
-const getBaseName = (filename: string) => filename.replace(/\.[^/.]+$/, '')
-const getThumbName = (filename: string) => getBaseName(filename).replace(/-thumb$/, '')
-const stripThumbSegment = (relativePath: string) =>
-  normalizePath(relativePath)
-    .split('/')
-    .filter((segment) => segment !== 'thumbs')
-    .join('/')
-
-const buildThumbnailMap = (modules: Record<string, string>, rootDir: string) =>
-  Object.entries(modules).reduce<Record<string, string>>((acc, [path, image]) => {
-    const normalized = normalizePath(path)
-    const relative = normalized.split(`${rootDir}/`).pop() ?? normalized
-    const key = getThumbName(stripThumbSegment(relative))
-    acc[key] = image
-    return acc
-  }, {})
-
-const eventImageModules = import.meta.glob('../../images/events/**/*.{jpg,jpeg,png,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default'
-}) as Record<string, string>
-
-const eventThumbnailModules = import.meta.glob('../../images/events/**/thumbs/*.{jpg,jpeg,png,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default'
-}) as Record<string, string>
-
-const eventThumbnailMap = buildThumbnailMap(eventThumbnailModules, 'images/events')
-
-export const eventImages: EventImage[] = Object.entries(eventImageModules)
-  .filter(([path]) => !normalizePath(path).includes('/thumbs/'))
-  .map(([path, image], index) => {
-    const filename = getFilename(path)
-    const title = getBaseName(filename).replace(/[-_]+/g, ' ').trim()
-    const basename = getBaseName(stripThumbSegment(normalizePath(path).split('images/events/').pop() ?? filename))
-    return {
-      id: index + 1,
-      title: title.charAt(0).toUpperCase() + title.slice(1),
-      location: 'Events',
-      image,
-      thumbnail: eventThumbnailMap[basename]
-    }
-  })
-  .sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }))
-
-const streetImageModules = import.meta.glob('../../images/street/**/*.{jpg,jpeg,png,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default'
-}) as Record<string, string>
-
-const streetThumbnailModules = import.meta.glob('../../images/street/**/thumbs/*.{jpg,jpeg,png,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default'
-}) as Record<string, string>
-
-const streetThumbnailMap = buildThumbnailMap(streetThumbnailModules, 'images/street')
-
-export const streetPhotographyImages: EventImage[] = Object.entries(streetImageModules)
-  .filter(([path]) => !normalizePath(path).includes('/thumbs/'))
-  .map(([path, image], index) => {
-    const filename = getFilename(path) || `street-${index + 1}`
-    const title = getBaseName(filename).replace(/[-_]+/g, ' ').trim()
-    const basename = getBaseName(stripThumbSegment(normalizePath(path).split('images/street/').pop() ?? filename))
-    return {
-      id: index + 1,
-      title: title.charAt(0).toUpperCase() + title.slice(1),
-      location: 'Street',
-      image,
-      thumbnail: streetThumbnailMap[basename]
-    }
-  })
-  .sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }))
-
-const printsImageModules = import.meta.glob('../../images/prints/*.{jpg,jpeg,png,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default'
-}) as Record<string, string>
-
-const horizontImageModules = import.meta.glob('../../images/articles/horizont/*.{jpg,jpeg,png,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default'
-}) as Record<string, string>
-
-const snowboardingImageModules = import.meta.glob('../../images/articles/snowboarding/*.{jpg,jpeg,png,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default'
-}) as Record<string, string>
-
-const sortImageModules = (modules: Record<string, string>) =>
-  Object.entries(modules)
-    .sort(([pathA], [pathB]) =>
-      pathA.localeCompare(pathB, undefined, { numeric: true, sensitivity: 'base' })
-    )
-    .map(([, image]) => image)
-
-const horizontImages = sortImageModules(horizontImageModules)
-// Swap the Horizont article images 5 and 7 so they appear in the requested order.
-if (horizontImages.length > 6) {
-  const temp = horizontImages[4]
-  horizontImages[4] = horizontImages[6]
-  horizontImages[6] = temp
-}
-const snowboardingImages = sortImageModules(snowboardingImageModules)
-
-export const printsImages: EventImage[] = Object.entries(printsImageModules)
-  .map(([path, image], index) => {
-    const filename = path.split('/').pop() ?? `print-${index + 1}`
-    const title = filename.replace(/\.[^/.]+$/, '').replace(/[-_]+/g, ' ').trim()
-    return {
-      id: index + 1,
-      title: title.charAt(0).toUpperCase() + title.slice(1),
-      location: 'Prints',
-      image
-    }
-  })
-  .sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }))
-
 type Article = {
   id: number
   title: string
@@ -178,36 +39,7 @@ type Article = {
   image: string
   thumbnail?: string
   moreImages?: string[]
-}
-
-const articleThumbnailModules = import.meta.glob('../../images/articles/**/thumbs/*.{jpg,jpeg,png,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default'
-}) as Record<string, string>
-
-const articleThumbnailMap = buildThumbnailMap(articleThumbnailModules, 'images/articles')
-
-const getArticleRelativePath = (imageUrl: string) => {
-  try {
-    const pathname = normalizePath(new URL(imageUrl).pathname)
-    const relative = pathname.split('/images/articles/').pop()
-    return relative ? normalizePath(relative) : pathname
-  } catch {
-    return imageUrl
-  }
-}
-
-export const getImageThumbnail = (imageUrl: string) => {
-  try {
-    const pathname = normalizePath(new URL(imageUrl).pathname)
-    const filename = getFilename(pathname)
-    const baseKey = getThumbName(filename)
-    const relativeKey = getThumbName(getArticleRelativePath(imageUrl))
-    return articleThumbnailMap[relativeKey] ?? articleThumbnailMap[baseKey]
-  } catch {
-    return undefined
-  }
+  layout?: 'portrait' | 'landscape' | 'wide'
 }
 
 export const articles: Article[] = [
@@ -222,6 +54,7 @@ export const articles: Article[] = [
     ],
     date: '2024-01-15',
     category: 'Equipment',
+    layout: 'wide',
     image: horizontImages[0],
     thumbnail: getImageThumbnail(horizontImages[0]),
     moreImages: horizontImages.slice(1)
@@ -272,23 +105,6 @@ export const articles: Article[] = [
     ]
   }
 ]
-
-const slideshowImageModules = import.meta.glob('../../images/slideshow/*.{jpg,jpeg,png,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default'
-}) as Record<string, string>
-
-export const homeSlides = Object.entries(slideshowImageModules)
-  .map(([path, src]) => {
-    const filename = path.split('/').pop() ?? 'slideshow'
-    const label = filename.replace(/\.[^/.]+$/, '').replace(/[-_]+/g, ' ').trim()
-    const alt = label
-      .replace(/\b\w/g, (char) => char.toUpperCase())
-      .replace(/\s+/g, ' ')
-    return { src, alt }
-  })
-  .sort((a, b) => a.alt.localeCompare(b.alt, undefined, { numeric: true, sensitivity: 'base' }))
 
 export const instagramAccount = 'nefas.jpg'
 

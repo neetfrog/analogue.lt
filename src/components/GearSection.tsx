@@ -4,6 +4,9 @@ import { X, Check, Link2, Camera, Aperture, Grid, Package, DollarSign, ChevronUp
 import type { GearItem } from '../data/content'
 import { TypewriterText } from './TypewriterText'
 import { slugify } from '../utils/slugify'
+import { useScrollLock } from '../hooks/useScrollLock'
+import { useEscapeKey } from '../hooks/useEscapeKey'
+import { categories, manufacturerLogoMap } from '../data/gear-config'
 import type { GearTranslations } from '../i18n'
 
 type MotionVariants = Variants
@@ -15,24 +18,6 @@ type GearSectionProps = {
   reduceMotion?: boolean
   initialGearId?: string | null
   t: GearTranslations
-}
-
-const manufacturerLogoMap: Record<string, { src: string; alt: string }> = {
-  Agfa: { src: new URL('../../images/logos/manufacturers/agfa.png', import.meta.url).href, alt: 'Agfa' },
-  Canon: { src: new URL('../../images/logos/manufacturers/canon.png', import.meta.url).href, alt: 'Canon' },
-  Exakta: { src: new URL('../../images/logos/manufacturers/exakta.png', import.meta.url).href, alt: 'Exakta' },
-  FED: { src: new URL('../../images/logos/manufacturers/fed.png', import.meta.url).href, alt: 'FED' },
-  GOMZ: { src: new URL('../../images/logos/manufacturers/gomz.png', import.meta.url).href, alt: 'GOMZ' },
-  KMZ: { src: new URL('../../images/logos/manufacturers/kmz.png', import.meta.url).href, alt: 'KMZ' },
-  Aires: { src: new URL('../../images/logos/manufacturers/aires.png', import.meta.url).href, alt: 'Aires' },
-  Lomo: { src: new URL('../../images/logos/manufacturers/lomo.png', import.meta.url).href, alt: 'Lomo' },
-  Arsenal: { src: new URL('../../images/logos/manufacturers/arsenal.png', import.meta.url).href, alt: 'Arsenal' },
-  ZOMZ: { src: new URL('../../images/logos/manufacturers/zomz.png', import.meta.url).href, alt: 'ZOMZ' },
-  Pentacon: { src: new URL('../../images/logos/manufacturers/pentacon.png', import.meta.url).href, alt: 'Pentacon' },
-  Vivitar: { src: new URL('../../images/logos/manufacturers/vivitar.png', import.meta.url).href, alt: 'Vivitar' },
-  Yashica: { src: new URL('../../images/logos/manufacturers/yashica.png', import.meta.url).href, alt: 'Yashica' },
-  'Zeiss Ikon': { src: new URL('../../images/logos/manufacturers/zeissIkon.png', import.meta.url).href, alt: 'Zeiss Ikon' },
-  'Zeiss Jena': { src: new URL('../../images/logos/manufacturers/zeissJena.png', import.meta.url).href, alt: 'Zeiss Jena' }
 }
 
 const formatPrice = (value: string | number) => {
@@ -57,13 +42,6 @@ const formatPrice = (value: string | number) => {
 
   return value
 }
-
-const categories = [
-  { value: 'All', icon: Grid },
-  { value: 'cameras', icon: Camera },
-  { value: 'lenses', icon: Aperture },
-  { value: 'accessories', icon: Package }
-]
 
 type SpecRule = {
   test: RegExp | ((value: string) => boolean)
@@ -215,34 +193,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
     }
   }, [selectedGear])
 
-  useEffect(() => {
-    const originalBodyOverflow = document.body.style.overflow
-    const originalHtmlOverflow = document.documentElement.style.overflow
-    const originalBodyOverscrollBehavior = document.body.style.overscrollBehavior
-    const originalHtmlOverscrollBehavior = document.documentElement.style.overscrollBehavior
-
-    if (selectedGear) {
-      document.body.dataset.lightboxOpen = 'true'
-      document.body.style.overflow = 'hidden'
-      document.documentElement.style.overflow = 'hidden'
-      document.body.style.overscrollBehavior = 'none'
-      document.documentElement.style.overscrollBehavior = 'none'
-    } else {
-      delete document.body.dataset.lightboxOpen
-      document.body.style.overflow = originalBodyOverflow
-      document.documentElement.style.overflow = originalHtmlOverflow
-      document.body.style.overscrollBehavior = originalBodyOverscrollBehavior
-      document.documentElement.style.overscrollBehavior = originalHtmlOverscrollBehavior
-    }
-
-    return () => {
-      delete document.body.dataset.lightboxOpen
-      document.body.style.overflow = originalBodyOverflow
-      document.documentElement.style.overflow = originalHtmlOverflow
-      document.body.style.overscrollBehavior = originalBodyOverscrollBehavior
-      document.documentElement.style.overscrollBehavior = originalHtmlOverscrollBehavior
-    }
-  }, [selectedGear])
+  useScrollLock(Boolean(selectedGear))
 
   useEffect(() => {
     if (!selectedGear && document.activeElement instanceof HTMLElement && document.activeElement !== document.body) {
@@ -422,20 +373,7 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
     [selectedGear]
   )
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && selectedGear) {
-        setSelectedGear(null)
-      }
-    }
-
-    if (selectedGear) {
-      window.addEventListener('keydown', handleKeyDown)
-      return () => window.removeEventListener('keydown', handleKeyDown)
-    }
-
-    return undefined
-  }, [selectedGear])
+  useEscapeKey(Boolean(selectedGear), () => setSelectedGear(null))
 
   return (
     <section className="w-full min-h-screen flex flex-col px-6 md:px-12 lg:px-24 pt-16 pb-16 relative">
