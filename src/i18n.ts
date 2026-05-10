@@ -245,7 +245,7 @@ export const translations: Record<Locale, Translations> = {
       sendInquiry: 'Send Inquiry',
       inquirySent: 'Inquiry Sent!',
       instagram: 'Or DM me on Instagram',
-      crafted: 'crafted with care by myself'
+      crafted: 'crafted with love'
     }
   })
 }
