@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent, type TouchEvent } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ChangeEvent, type PointerEvent, type TouchEvent } from 'react'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import { X, Check, Link2, Camera, Aperture, Grid, Package, DollarSign, ChevronUp } from 'lucide-react'
 import type { GearItem } from '../data/content'
@@ -147,6 +147,7 @@ type SortOrder = 'asc' | 'desc'
 export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, initialGearId, t }: GearSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedManufacturer, setSelectedManufacturer] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
   const [sortField, setSortField] = useState<SortField>('name')
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc')
   const [selectedGear, setSelectedGear] = useState<GearItem | null>(null)
@@ -353,17 +354,31 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
     [items]
   )
 
-  const filteredGearItems = useMemo(
-    () =>
-      items
-        .filter(
-          (item) =>
-            (selectedCategory === 'All' || item.category === selectedCategory.toLowerCase()) &&
-            (!selectedManufacturer || item.manufacturer === selectedManufacturer)
-        )
-        .sort(compareGearItems),
-    [items, selectedCategory, selectedManufacturer, sortField, sortOrder]
-  )
+  const filteredGearItems = useMemo(() => {
+    const normalizedQuery = searchQuery.trim().toLowerCase()
+
+    return items
+      .filter((item) => {
+        const categoryMatch = selectedCategory === 'All' || item.category === selectedCategory.toLowerCase()
+        const manufacturerMatch = !selectedManufacturer || item.manufacturer === selectedManufacturer
+
+        const searchMatch =
+          normalizedQuery.length === 0 ||
+          [
+            item.name,
+            item.manufacturer,
+            item.category,
+            item.details,
+            ...(item.tags ?? [])
+          ]
+            .join(' ')
+            .toLowerCase()
+            .includes(normalizedQuery)
+
+        return categoryMatch && manufacturerMatch && searchMatch
+      })
+      .sort(compareGearItems)
+  }, [items, selectedCategory, selectedManufacturer, searchQuery, sortField, sortOrder])
 
   const selectedImages = useMemo(
     () =>
@@ -451,6 +466,24 @@ export function GearSection({ items, fadeInUp, staggerContainer, reduceMotion, i
                 </button>
               )
             })}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: descriptionComplete ? 1 : 0 }}
+            transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.15 : 0 }}
+            className="mb-8"
+          >
+            <label className="relative w-full max-w-md mx-auto">
+              <span className="sr-only">Search gear</span>
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setSearchQuery(event.target.value)}
+                placeholder={t.searchPlaceholder}
+                className="w-full rounded-3xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm text-stone-800 outline-none transition focus:border-amber-400 focus:ring-2 focus:ring-amber-200"
+              />
+            </label>
           </motion.div>
 
           <motion.div

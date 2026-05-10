@@ -49,6 +49,7 @@ export type GearTranslations = {
   wiki: string
   askAbout: string
   filterBy: string
+  searchPlaceholder: string
   sortByLabel: string
   sortOrderLabel: string
   sortFields: {
@@ -204,6 +205,7 @@ export const translations: Record<Locale, Translations> = {
       wiki: 'Wikipedia',
       askAbout: 'Ask about this item',
       filterBy: 'Filter by {manufacturer}',
+      searchPlaceholder: 'Search gear, manufacturer, tags…',
       sortByLabel: 'Sort by',
       sortOrderLabel: 'Order',
       sortFields: {

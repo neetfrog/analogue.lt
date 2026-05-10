@@ -177,48 +177,6 @@ function App() {
 
   const navSectionItems = sectionItems
 
-  const unlockAdmin = async () => {
-    if (!adminEnabled) {
-      setAdminError('Admin access is not configured')
-      return
-    }
-
-    try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ password: adminPasswordInput })
-      })
-
-      if (!response.ok) {
-        const data = await response.json()
-        setAdminError(data?.message ?? 'Login failed')
-        return
-      }
-
-      setAdminUnlocked(true)
-      setAdminError(null)
-      setAdminPasswordInput('')
-      const adminIndex = sectionIndexById.get(ADMIN_ROUTE)
-      if (typeof adminIndex === 'number') {
-        setActiveSection(adminIndex)
-      }
-    } catch {
-      setAdminError('Unable to reach authentication server')
-    }
-  }
-
-  const lockAdmin = async () => {
-    await fetch('/api/auth/logout', {
-      method: 'POST',
-      credentials: 'include'
-    })
-    setAdminUnlocked(false)
-  }
-
   useEffect(() => {
     if (typeof window === 'undefined') {
       return
