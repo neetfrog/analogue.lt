@@ -11,8 +11,8 @@ const defaultDirs = [
 const allowedExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp'])
 const thumbDirName = 'thumbs'
 const thumbExt = '.webp'
-const maxSize = 900
-const panoMaxWidth = 1600
+const maxSize = 1200
+const panoMaxWidth = 2000
 const quality = 80
 const effort = 6
 
