@@ -62,11 +62,11 @@ export const articles: Article[] = [
   {
     id: 2,
     title: 'Remembering the Winter: Snowboarding in Vilnius',
-    excerpt: 'I\'m not a snowboarder myself but I do love shooting it. I was shooting friends from the Hate Hard crew. The city felt quiet and cinematic under winter snow, and the story here is more about those moments of movement and stillness than riding the slopes.',
+    excerpt: 'Not a rider here, just the guy with the camera following the Hate Hard crew around a snow-covered city. These are from three different sessions in different spots, and yeah, the tricks were kind of bangers — I was just trying to catch the action and the city vibe.',
     body: [
-      'Vilnius gets this stupid quiet energy when winter actually shows up and you take a moment to really look. The whole city turns soft under the snow and random streets start looking kinda cinematic. There is something about cold light and fresh powder that just breaks everything down into pure texture.',
-      'Spent most of my time hunting for those moments where you are still but moving at the same time. Board carving through powder, breath freezing in the air, the crew finding lines in a city that had slowed down. Less about the adrenaline rush and more about that weird space between movement and stillness.',
-      'These photographs are less about action than memory, preserving the way cold light changed the city’s textures and made even small journeys feel cinematic.'
+      'In winter, the snow changes the way Vilnius looks. The batch is made from three separate sessions at different spots, so there’s a mix of places and lighting rather than one single day.',
+      'I was mostly trying to catch the action without making it feel staged. The crew found lines through city corners, carved through powder, and landed a few solid tricks in places that didn’t exactly feel like a park. Those were the shots that stood out.',
+      'This is more about the shoot itself than some polished story. The photos are honest takes from the sessions: street riding, cold weather, and some clean tricks in a city that just happened to have snow.'
     ],
     date: '2024-01-10',
     category: 'Photography',
