@@ -36,8 +36,8 @@ export function WeddingsSection({ fadeInUp, staggerContainer, reduceMotion, t }:
           href="#contact"
           className="inline-flex flex-col items-center justify-center rounded-full border border-amber-400 bg-amber-400 px-6 py-3 text-sm font-semibold !text-stone-900 shadow-sm transition duration-200 hover:bg-amber-500"
         >
-          <span>Vibing with what you see?</span>
-          <span>Book or send a message</span>
+          <span>Your type of vibes?</span>
+          <span>Go to the contacts page</span>
         </a>
       </motion.div>
     </section>

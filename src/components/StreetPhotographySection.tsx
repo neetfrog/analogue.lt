@@ -36,7 +36,7 @@ export function StreetPhotographySection({ fadeInUp, staggerContainer, reduceMot
           href="#prints"
           className="inline-flex items-center justify-center rounded-full border border-amber-400 bg-amber-400 px-6 py-3 text-sm font-semibold !text-stone-900 shadow-sm transition duration-200 hover:bg-amber-500"
         >
-          Enjoying this? There's prints available!
+          Imagine seeing this on your wall? There's prints available!
         </a>
       </motion.div>
     </section>

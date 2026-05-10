@@ -232,8 +232,8 @@ export const translations: Record<Locale, Translations> = {
     },
     contact: {
       eyebrow: 'Vibing with what you see?',
-      title: 'Book or send a message',
-      description: 'Send an email to inquire about availability or just say hello',
+      title: 'Book a date or ask a question',
+      description: 'drop me an email',
       fields: {
         name: { label: 'Your Name', placeholder: 'Jane & John' },
         email: { label: 'Email', placeholder: 'hello@example.com' },
@@ -244,7 +244,7 @@ export const translations: Record<Locale, Translations> = {
       optional: 'optional',
       sendInquiry: 'Send Inquiry',
       inquirySent: 'Inquiry Sent!',
-      instagram: 'Or message me on Instagram',
+      instagram: 'Or DM me on Instagram',
       crafted: 'crafted with care by myself'
     }
   })
