@@ -1,14 +1,15 @@
-export const sectionIds = ['home', 'weddings', 'street', 'prints', 'articles', 'shop', 'contact'] as const
+export const sectionIds = ['home', 'events', 'street', 'prints', 'articles', 'shop', 'contact'] as const
 
 export type SectionId = (typeof sectionIds)[number]
 
 export const sectionHashAliases: Record<string, SectionId> = {
-  gear: 'shop'
+  gear: 'shop',
+  weddings: 'events'
 }
 
 export const sectionLabelKeys = {
   home: 'home',
-  weddings: 'weddings',
+  events: 'weddings',
   street: 'street',
   prints: 'prints',
   articles: 'articles',

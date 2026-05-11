@@ -104,7 +104,7 @@ function App() {
   const sectionItems = useMemo<SectionItem[]>(() => [
     { id: 'home', label: t.nav.sections.home, render: () => <HomeSection t={t.home} /> },
     {
-      id: 'weddings',
+      id: 'events',
       label: t.nav.sections.weddings,
       render: () => (
         <LazySection>

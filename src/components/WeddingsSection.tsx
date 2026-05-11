@@ -16,7 +16,7 @@ type WeddingsSectionProps = {
 export function WeddingsSection({ fadeInUp, staggerContainer, reduceMotion, t }: WeddingsSectionProps) {
   return (
     <section className="w-full min-h-screen flex flex-col items-start px-4 md:px-6 lg:px-8 pt-16 pb-16 relative">
-      <div className="max-w-none mx-auto w-full">
+      <div className="mx-auto w-full max-w-[min(92vw,72rem)]">
         <ImageGallery
           images={eventImages}
           fadeInUp={fadeInUp}

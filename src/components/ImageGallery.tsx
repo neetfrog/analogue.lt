@@ -209,7 +209,7 @@ export function ImageGallery({ images, fadeInUp, staggerContainer, reduceMotion,
           initial={{ opacity: 0 }}
           animate={{ opacity: descriptionComplete ? 1 : 0 }}
           transition={{ duration: isReducedMotion ? 0.6 : 0.8, delay: descriptionComplete ? 0.1 : 0 }}
-          className="grid grid-cols-2 gap-4 grid-flow-row-dense md:grid-flow-row auto-rows-min items-center"
+          className="mx-auto grid w-full max-w-[min(92vw,72rem)] grid-cols-2 gap-4 grid-flow-row-dense md:grid-flow-row auto-rows-min items-center"
         >
           {shuffledImages.map((item, i) => (
             <motion.button
