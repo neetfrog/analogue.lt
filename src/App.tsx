@@ -221,6 +221,9 @@ function App() {
       const sectionIndex = sectionIndexById.get(normalizedHash)
       if (typeof sectionIndex === 'number') {
         setActiveSection(sectionIndex)
+        if (normalizedHash === 'shop') {
+          setInitialGearId(null)
+        }
         return
       }
 
@@ -341,6 +344,9 @@ function App() {
     setActiveSection(index)
     const sectionId = sectionItems[index]?.id
     if (sectionId) {
+      if (sectionId === 'shop') {
+        setInitialGearId(null)
+      }
       window.history.pushState(null, '', `#${sectionId}`)
     }
   }
